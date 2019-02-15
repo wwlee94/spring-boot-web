@@ -16,8 +16,6 @@
 
     <title>Clean Blog - Start Bootstrap Theme</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-
     <!-- Bootstrap core CSS-->
     <link href="/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
 
@@ -35,7 +33,7 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
     <div class="container">
-        <a class="navbar-brand" href="index.html">Start Bootstrap</a>
+        <a class="navbar-brand" href="/index.html">Start Bootstrap</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             Menu
             <i class="fas fa-bars"></i>
@@ -43,13 +41,13 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html">Home</a>
+                    <a class="nav-link" href="/index.html">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="about.html">About</a>
+                    <a class="nav-link" href="/about.html">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="post.html">Sample Post</a>
+                    <a class="nav-link" href="/post.html">Sample Post</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/board/list">Board</a>
@@ -78,17 +76,18 @@
 <div class="container">
     <h2>Board</h2>
     <div class="page-header">
-        <h3>
+        <h4>
             No.<span id="board_bno">${board.bno}</span>
-            &nbsp;&nbsp; 게시글 제목 : ${board.title}</h3>
+            &nbsp;&nbsp; 게시글 제목 : ${board.title}
+        </h4>
     </div>
     <div class="panel panel-default">
         <div class="panel-heading">
-                ${board.userName}
-                &nbsp;&nbsp;<span class="glyphicon glyphicon-thumbs-up"></span>
-                    <span id="post_likecount">
-                        ${board.likeCount}
-                    </span>
+            ${board.userName}
+            &nbsp;&nbsp;<span class="glyphicon glyphicon-thumbs-up"></span>
+            <span id="post_likecount">
+                ${board.likeCount}
+            </span>
             <div class="pull-right">
                 <a href="#" id="post_like" data-like="${isLike}">좋아요</a>
             </div>

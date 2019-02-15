@@ -27,7 +27,7 @@ public class BoardController {
 
     //isLike 좋아요 유무
     private int isLike = 0;
-
+/*
     @RequestMapping("/index.html")
     public String index() {
         return "redirect:/index.html";
@@ -41,7 +41,7 @@ public class BoardController {
     @RequestMapping("/post.html")
     public String post() {
         return "redirect:/post.html";
-    }
+    }*/
 
     //list,GET 요청이 들어오면 보여주기
     @RequestMapping("/list")
