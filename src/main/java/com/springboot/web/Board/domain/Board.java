@@ -1,6 +1,4 @@
-package com.springboot.web.domain;
-
-import org.springframework.lang.Nullable;
+package com.springboot.web.Board.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

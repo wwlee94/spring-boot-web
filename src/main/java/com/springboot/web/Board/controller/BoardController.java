@@ -1,9 +1,9 @@
-package com.springboot.web.controller;
+package com.springboot.web.Board.controller;
 
-import com.springboot.web.domain.Board;
-import com.springboot.web.domain.Likes;
-import com.springboot.web.repository.BoardRepository;
-import com.springboot.web.repository.LikesRepository;
+import com.springboot.web.Board.domain.Board;
+import com.springboot.web.Board.domain.Likes;
+import com.springboot.web.Board.repository.BoardRepository;
+import com.springboot.web.Board.repository.LikesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -1,6 +1,6 @@
-package com.springboot.web.repository;
+package com.springboot.web.Board.repository;
 
-import com.springboot.web.domain.Likes;
+import com.springboot.web.Board.domain.Likes;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

@@ -1,4 +1,4 @@
-package com.springboot.web.domain;
+package com.springboot.web.Board.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
