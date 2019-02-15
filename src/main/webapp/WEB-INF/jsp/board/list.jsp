@@ -11,7 +11,7 @@
     <title>Clean Blog - Start Bootstrap Theme</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
 
     <!-- Custom fonts for this template -->
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -27,7 +27,7 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
     <div class="container">
-        <a class="navbar-brand" href="index.html">Start Bootstrap</a>
+        <a class="navbar-brand" href="/index.html">Start Bootstrap</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             Menu
             <i class="fas fa-bars"></i>
@@ -35,13 +35,13 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html">Home</a>
+                    <a class="nav-link" href="/index.html">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="about.html">About</a>
+                    <a class="nav-link" href="/about.html">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="post.html">Sample Post</a>
+                    <a class="nav-link" href="/post.html">Sample Post</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/board/list">Board</a>
@@ -66,46 +66,46 @@
     </div>
 </header>
 
-    <!-- Main Content -->
-    <div class="container">
-        <h2>Board</h2>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>번호</th>
-                    <th>글 제목</th>
-                    <th>ID</th>
-                    <th>수정 / 삭제</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- boardList는 DomainController에서 보내준 변수임 -->
-                <c:forEach var="board" items="${boardList}">
-                    <tr>
-                        <td>${board.bno}</td>
-                        <td><a href="/board/read/${board.bno}">${board.title}</a></td>
-                        <td>${board.userName}</td>
-                        <td>
-                            <div class="btn-group">
-                                <button name="modify" value="${board.bno}"
-                                        class="btn btn-sm btn-warning btn-padding">수정</button>
-                                <button name="delete" value="${board.bno}"
-                                        class="btn btn-sm btn-danger btn-padding">삭제</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <input type="hidden" id="us${board.bno}" value="${board.userName}">
-                    <input type="hidden" id="ti${board.bno}" value="${board.title}">
-                    <input type="hidden" id="co${board.bno}" value="${board.contents}">
-                    <input type="hidden" id="li${board.bno}" value="${board.likeCount}">
-                </c:forEach>
-            </tbody>
-        </table>
+<!-- Main Content -->
+<div class="container">
+    <h2>Board</h2>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>번호</th>
+            <th>글 제목</th>
+            <th>ID</th>
+            <th>수정 / 삭제</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- boardList는 DomainController에서 보내준 변수임 -->
+        <c:forEach var="board" items="${boardList}">
+            <tr>
+                <td>${board.bno}</td>
+                <td><a href="/board/read/${board.bno}">${board.title}</a></td>
+                <td>${board.userName}</td>
+                <td>
+                    <div class="btn-group">
+                        <button name="modify" value="${board.bno}"
+                                class="btn btn-sm btn-warning btn-padding">수정</button>
+                        <button name="delete" value="${board.bno}"
+                                class="btn btn-sm btn-danger btn-padding">삭제</button>
+                    </div>
+                </td>
+            </tr>
+            <input type="hidden" id="us${board.bno}" value="${board.userName}">
+            <input type="hidden" id="ti${board.bno}" value="${board.title}">
+            <input type="hidden" id="co${board.bno}" value="${board.contents}">
+            <input type="hidden" id="li${board.bno}" value="${board.likeCount}">
+        </c:forEach>
+        </tbody>
+    </table>
 
-        <jsp:include page="../include/modal.jsp"/>
-        <button id="createBtn" class="btn btn-info btn-xs"
-                data-toggle="modal">새 글 쓰기</button>
-    </div>
+    <jsp:include page="../include/modal.jsp"/>
+    <button id="createBtn" class="btn btn-info btn-xs"
+            data-toggle="modal">새 글 쓰기</button>
+</div>
 
 <!-- Footer -->
 <footer>
