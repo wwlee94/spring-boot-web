@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <html>
 <head>
@@ -27,7 +28,7 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
     <div class="container">
-        <a class="navbar-brand" href="/index.html">Start Bootstrap</a>
+        <a class="navbar-brand" href="/">Start Bootstrap</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             Menu
             <i class="fas fa-bars"></i>
@@ -35,7 +36,7 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/index.html">Home</a>
+                    <a class="nav-link" href="/">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/about.html">About</a>
@@ -52,7 +53,7 @@
 </nav>
 
 <!-- Page Header -->
-<header class="masthead" style="background-image: url('/img/home-bg.jpg')">
+<header class="masthead" style="background-image: url('/img/home-bg.jpg'); background-size: cover">
     <div class="overlay"></div>
     <div class="container">
         <div class="row">
@@ -68,13 +69,17 @@
 
 <!-- Main Content -->
 <div class="container">
-    <h2>Board</h2>
-    <table class="table table-bordered">
+    <div class="page-header">
+        <h2>Board</h2>
+    </div>
+    <table class="table table-hover">
         <thead>
         <tr>
-            <th>번호</th>
-            <th>글 제목</th>
-            <th>ID</th>
+            <th>No.</th>
+            <th><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;글 제목</th>
+            <th><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;아이디</th>
+            <th><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;&nbsp;좋아요</th>
+            <th><span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;작성일</th>
             <th>수정 / 삭제</th>
         </tr>
         </thead>
@@ -85,16 +90,17 @@
                 <td>${board.bno}</td>
                 <td><a href="/board/read/${board.bno}">${board.title}</a></td>
                 <td>${board.userName}</td>
+                <td>${board.likeCount}</td>
+                <td>${board.timeDifference}</td>
                 <td>
                     <div class="btn-group">
-                        <button name="modify" value="${board.bno}"
+                        <button style="font-size: small" name="modify" value="${board.bno}"
                                 class="btn btn-sm btn-warning btn-padding">수정</button>
-                        <button name="delete" value="${board.bno}"
+                        <button style="font-size: small" name="delete" value="${board.bno}"
                                 class="btn btn-sm btn-danger btn-padding">삭제</button>
                     </div>
                 </td>
             </tr>
-            <input type="hidden" id="us${board.bno}" value="${board.userName}">
             <input type="hidden" id="ti${board.bno}" value="${board.title}">
             <input type="hidden" id="co${board.bno}" value="${board.contents}">
             <input type="hidden" id="li${board.bno}" value="${board.likeCount}">
@@ -105,6 +111,8 @@
     <jsp:include page="../include/modal.jsp"/>
     <button id="createBtn" class="btn btn-info btn-xs"
             data-toggle="modal">새 글 쓰기</button>
+
+    <hr/>
 </div>
 
 <!-- Footer -->

@@ -1,10 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <%
-    pageContext.setAttribute("rn","\n");
-    pageContext.setAttribute("br","<br>");
+    pageContext.setAttribute("rn", "\n");
+    pageContext.setAttribute("br", "<br>");
 %>
 
 <html>
@@ -21,8 +21,10 @@
 
     <!-- Custom fonts for this template -->
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet'
+          type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+          rel='stylesheet' type='text/css'>
 
     <!-- Custom styles for this template -->
     <link href="/css/clean-blog.css" rel="stylesheet">
@@ -33,15 +35,17 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
     <div class="container">
-        <a class="navbar-brand" href="/index.html">Start Bootstrap</a>
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <a class="navbar-brand" href="/">Start Bootstrap</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+                aria-label="Toggle navigation">
             Menu
             <i class="fas fa-bars"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/index.html">Home</a>
+                    <a class="nav-link" href="/">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/about.html">About</a>
@@ -74,12 +78,13 @@
 
 <!-- Main Content -->
 <div class="container">
-    <h2>Board</h2>
     <div class="page-header">
-        <h4>
+        <h2>Board</h2>
+        <h5>
             No.<span id="board_bno">${board.bno}</span>
-            &nbsp;&nbsp; 게시글 제목 : ${board.title}
-        </h4>
+            &nbsp;&nbsp;
+            <span class="h-normal">게시글 제목 : ${board.title}</span>
+        </h5>
     </div>
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -88,8 +93,9 @@
             <span id="post_likecount">
                 ${board.likeCount}
             </span>
-            <div class="pull-right">
-                <a href="#" id="post_like" data-like="${isLike}">좋아요</a>
+            <div style="font-size: medium" class="pull-right">
+                ${board.timeDifference} &nbsp;&nbsp;
+                <a href="#" onclick="return false" id="post_like" data-like="${isLike}"></a>
             </div>
         </div>
         <!-- DB는 엔터를 줄바꿈으로 인식X 따로 처리 -->
@@ -97,6 +103,49 @@
             ${fn:replace(board.contents,rn,br)}
         </div>
     </div>
+
+    <!-- 게시글에 따른 댓글 목록 출력 -->
+    <c:forEach var="reply" items="${boardReplyList}">
+        <h5>
+            Re_${reply.rno}
+        </h5>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                    ${reply.userName}
+                &nbsp;&nbsp;<span class="glyphicon glyphicon-thumbs-up"></span>
+                <span id="reply_likecount">
+                        ${reply.likeCount}
+                </span>
+                <div style="font-size: medium" class="pull-right">
+                        ${reply.timeDifference} &nbsp;&nbsp;
+                    <a href="#" onclick="return false" id="reply_like" data-like="0">좋아요</a>
+                </div>
+            </div>
+            <!-- DB는 엔터를 줄바꿈으로 인식X 따로 처리 -->
+            <div id="contents" class="panel-body">
+                    ${fn:replace(reply.contents,rn,br)}
+            </div>
+        </div>
+    </c:forEach>
+
+    <!-- 댓글 작성란 -->
+    <hr/>
+    <h5>
+        <span class="glyphicon glyphicon-tags"></span>
+        &nbsp;댓글 쓰기
+    </h5>
+    <!-- 댓글 작성란 -->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            ${board.userName}
+        </div>
+        <div class="panel-body">
+            <input type="text" class="form-control" id="reply_input" placeholder="댓글을 작성해주세요.">
+        </div>
+    </div>
+    <!-- 댓글 쓰기 버튼 -->
+    <button id="replyBtn" class="btn btn-info btn-xs right-button">댓글 저장</button>
+    <hr/>
 </div>
 
 <!-- Footer -->

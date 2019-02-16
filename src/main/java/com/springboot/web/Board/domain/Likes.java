@@ -12,10 +12,11 @@ public class Likes {
     @GeneratedValue
     private int id;
 
-    @Column(length = 20, nullable = false, unique = true)
-    private int userId;
+    //unique = true -> userId + boardId로 유일하도록
+    @Column(length = 20, nullable = false)
+    private String userId;
 
-    @Column(length = 20, nullable = false, unique = true)
+    @Column(length = 20, nullable = false)
     private int boardId;
 
     public int getId() {
@@ -26,11 +27,11 @@ public class Likes {
         this.id = id;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

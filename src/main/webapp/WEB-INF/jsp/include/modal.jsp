@@ -13,10 +13,6 @@
             <div class="modal-body">
                 <table class="table">
                     <tr>
-                        <td>사용자명</td>
-                        <td><input class="form-control" id="userName" type="text"></td>
-                    </tr>
-                    <tr>
                         <td>게시글 제목</td>
                         <td><textarea class="form-control" id="title" rows="1"></textarea></td>
                     </tr>

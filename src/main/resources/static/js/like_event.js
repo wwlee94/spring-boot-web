@@ -17,9 +17,13 @@ $(document).ready(function () {
     var isLike = element.dataset.like;
     if(isLike==='1'){
         element.text = "좋아요 취소";
+    }else{
+        element.text= "좋아요";
     }
 
-    //post_like를 클릭했을 때
+    //==========================================================
+    //post_like 클릭했을 때
+    //==========================================================
     $("#post_like").click(function () {
 
         if(isLike==='0') {
@@ -46,7 +50,7 @@ $(document).ready(function () {
         var data={
             "likeCount" : likeCount,
             "isLike" : isLike
-        }
+        };
 
         $.ajax({
             url:url,
@@ -55,6 +59,34 @@ $(document).ready(function () {
             //complete:function () {location.reload();}
         });
 
-    });//post_like
+    });
 
+    //==========================================================
+    //reply 버튼 이벤트
+    //==========================================================
+    $("#replyBtn").click(function () {
+
+        //contents -> input reply의 댓글 내용
+        var contents = $("#reply_input").val();
+
+        if(contents==="" || contents==null){
+            alert("댓글 내용을 다시 입력해주세요.");
+        }
+        else {
+            bno=$("#board_bno").text();
+            type="GET";
+            url="/board/read/reply/"+bno;
+
+            var data = {
+                "contents": contents
+            };
+
+            $.ajax({
+                url: url,
+                type: type,
+                data: data,
+                complete:function () {location.reload();}
+            });
+        }
+    });
 });
