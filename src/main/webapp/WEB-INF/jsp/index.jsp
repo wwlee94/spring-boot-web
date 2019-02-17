@@ -63,12 +63,12 @@
                 </sec:authorize>
                 <sec:authorize access="isAuthenticated()">
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="dropdown"><a href="#" class="dropdown-toggle"
-                                                data-toggle="dropdown" role="button" aria-haspopup="true"
-                                                aria-expanded="false">회원 관리<span class="caret"></span></a>
+                        <li class="dropdown nav-item"><a style="text-decoration:none;" href="#" class="dropdown-toggle"
+                                                         data-toggle="dropdown" role="button" aria-haspopup="true"
+                                                         aria-expanded="false">회원 관리<span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="login">정보수정</a></li>
-                                <li><a href="logoutAction">로그아웃</a></li>
+                                <li><a style="color:black;text-decoration:none;" href="security/#"> 정보수정</a></li>
+                                <li><a style="color:black;text-decoration:none;" href="/logout"> 로그아웃</a></li>
                             </ul></li>
                     </ul>
                 </sec:authorize>
