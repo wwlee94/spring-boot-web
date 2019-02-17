@@ -62,6 +62,12 @@ public class ListController {
     //@PUTMapping
     @RequestMapping(value = "/list", method = RequestMethod.PUT)
     public void modify(Board board) {
+
+        board.setUserName("wwlee94");
+        //수정했으니 dateTime 현재 시간으로 갱신
+        CurrentTime currentTime = new CurrentTime();
+        String dateTime = currentTime.getStringCurrentTime();
+        board.setDateTime(dateTime);
         repository.save(board);
     }
 

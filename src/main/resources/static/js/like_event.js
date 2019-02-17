@@ -3,6 +3,7 @@ var type = '';
 var url = '';
 
 var bno = 0;
+var rno = 0;
 var likeCount = 0;
 
 var like = "좋아요";
@@ -88,5 +89,29 @@ $(document).ready(function () {
                 complete:function () {location.reload();}
             });
         }
+    });
+
+    //==========================================================
+    //reply Delete 버튼 이벤트
+    //==========================================================
+    $("button[name='delete']").click(function () {
+
+        rno=this.value;
+
+        $("#modal-title").text("댓글 삭제");
+        $("#infoDelete").modal();
+    });
+
+    //modalDelete 버튼 눌렀을 때
+    $("#modalDeleteButton").click(function () {
+
+        type="DELETE";
+        url="/board/read/reply/"+rno;
+
+        $.ajax({
+            url:url,
+            type:type,
+            complete:function () {location.reload();}
+        });
     });
 });

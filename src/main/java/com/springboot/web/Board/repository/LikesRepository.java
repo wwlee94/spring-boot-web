@@ -13,5 +13,5 @@ public interface LikesRepository extends JpaRepository<Likes,Integer> {
     Likes findAllByBoardIdAndUserId(@Param("boardId") int boardId,@Param("userId") String userId);
 
     @Transactional
-    int deleteByBoardIdAndUserId(int boardId,String userId);
+    int deleteLikesByBoardIdAndUserId(int boardId,String userId);
 }

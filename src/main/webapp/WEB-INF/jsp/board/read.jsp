@@ -106,9 +106,14 @@
 
     <!-- 게시글에 따른 댓글 목록 출력 -->
     <c:forEach var="reply" items="${boardReplyList}">
-        <h5>
+
+        <h6>
             Re_${reply.rno}
-        </h5>
+            <jsp:include page="../include/infoDelete.jsp"/>
+            <button type="button" name="delete" value="${reply.rno}"
+                    class="btn btn-info btn-sm glyphicon glyphicon-remove pull-right"></button>
+        </h6>
+
         <div class="panel panel-default">
             <div class="panel-heading">
                     ${reply.userName}

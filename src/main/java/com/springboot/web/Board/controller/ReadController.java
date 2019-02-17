@@ -90,7 +90,7 @@ public class ReadController {
         //좋아요 취소 버튼을 누르고 Controller에 요청 -> 삭제
         if(like.equals("0")){
             String userId = "wwlee94";
-            likesRepository.deleteByBoardIdAndUserId(bno,userId);
+            likesRepository.deleteLikesByBoardIdAndUserId(bno,userId);
             System.out.println(bno);
             System.out.println("likes delete");
         }
@@ -127,6 +127,13 @@ public class ReadController {
 
         replyRepository.save(boardReply);
 
+        return "board/read";
+    }
+
+    // read/reply,DELETE 요청이 들어오면 댓글 삭제 처리
+    @RequestMapping(value = "/read/reply/{rno}",method = RequestMethod.DELETE)
+    public String replyDelete(@PathVariable("rno") int rno){
+        replyRepository.deleteBoardReplyByRno(rno);
         return "board/read";
     }
 }

@@ -76,10 +76,10 @@
         <thead>
         <tr>
             <th>No.</th>
-            <th><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;글 제목</th>
-            <th><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;아이디</th>
-            <th><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;&nbsp;좋아요</th>
-            <th><span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;작성일</th>
+            <th><span class="glyphicon glyphicon-list"></span>&nbsp;글 제목</th>
+            <th><span class="glyphicon glyphicon-user"></span>&nbsp;아이디</th>
+            <th><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;좋아요</th>
+            <th><span class="glyphicon glyphicon-time"></span>&nbsp;작성일</th>
             <th>수정 / 삭제</th>
         </tr>
         </thead>
