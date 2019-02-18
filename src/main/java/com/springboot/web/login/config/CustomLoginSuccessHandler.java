@@ -1,5 +1,6 @@
-package com.springboot.web.login;
+package com.springboot.web.login.config;
 
+import com.springboot.web.login.SecurityMember;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 

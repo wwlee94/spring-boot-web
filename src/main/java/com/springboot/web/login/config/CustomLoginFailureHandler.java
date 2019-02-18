@@ -1,4 +1,4 @@
-package com.springboot.web.login;
+package com.springboot.web.login.config;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -8,6 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+
+/*
+실패하는 경우는 주로 실패 횟수에 따라 캡차를 걸거나 접속을 차단합니다.
+또한 보안이 중요한 서비스라면 지속적인 실패에 대해 이메일을 보내줍니다.
+ */
 public class CustomLoginFailureHandler implements AuthenticationFailureHandler {
 
     @Override

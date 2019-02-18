@@ -1,4 +1,4 @@
-package com.springboot.web.login;
+package com.springboot.web.login.domain;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
