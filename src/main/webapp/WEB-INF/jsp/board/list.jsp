@@ -96,6 +96,8 @@
                     <div class="btn-group">
                         <button style="font-size: small" name="modify" value="${board.bno}"
                                 class="btn btn-sm btn-warning btn-padding">수정</button>
+
+                        <jsp:include page="../include/infoDelete.jsp"/>
                         <button style="font-size: small" name="delete" value="${board.bno}"
                                 class="btn btn-sm btn-danger btn-padding">삭제</button>
                     </div>

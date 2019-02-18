@@ -123,7 +123,23 @@
                 </span>
                 <div style="font-size: medium" class="pull-right">
                         ${reply.timeDifference} &nbsp;&nbsp;
-                    <a href="#" onclick="return false" id="reply_like" data-like="0">좋아요</a>
+                           <c:set var="state" value="false"/>
+                            <c:forEach var="replyLikes" items="${replyLikesList}">
+                                <c:choose>
+                                    <c:when test="${reply.rno eq replyLikes.replyId}">
+                                        <c:set var="state" value="true"/>
+                                    </c:when>
+                                </c:choose>
+                            </c:forEach>
+
+                            <c:choose>
+                                <c:when test="${state eq true}">
+                                    <a href="#" onclick="return false" class="reply_like" name="${reply.rno}" data-likeCount="${reply.likeCount}" data-like="1">좋아요 취소</a>
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="#" onclick="return false" class="reply_like" name="${reply.rno}" data-likeCount="${reply.likeCount}" data-like="0">좋아요</a>
+                                </c:otherwise>
+                            </c:choose>
                 </div>
             </div>
             <!-- DB는 엔터를 줄바꿈으로 인식X 따로 처리 -->

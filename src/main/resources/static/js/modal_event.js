@@ -53,13 +53,10 @@ $(document).ready(function () {
     //삭제하기 버튼 눌렀을 때 ajax에 설정된 url로 요청 + type까지 요청
     $("button[name='delete']").click(function () {
         bno = this.value;
-        $.ajax({
-            url: '/board/list/' + bno,
-            type: 'DELETE',
-            complete: function () {
-                location.reload();
-            }
-        });
+
+        $("#modal-deleteTitle").text("게시글 삭제");
+        $("#infoDelete").modal();
+
     });
 
     //Modal의 Submit 버튼 클릭
@@ -92,6 +89,22 @@ $(document).ready(function () {
             data: data,
             //complete 되면 reload
             complete: function (data) {location.reload();}
+        });
+    });
+
+
+    //==========================================================
+    //게시판 Delete 버튼 이벤트
+    //==========================================================
+    //modalDelete 버튼 눌렀을 때
+    $("#modalDeleteButton").click(function () {
+
+        $.ajax({
+            url: '/board/list/' + bno,
+            type: 'DELETE',
+            complete: function () {
+                location.reload();
+            }
         });
     });
 });

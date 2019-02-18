@@ -12,7 +12,6 @@ public class Likes {
     @GeneratedValue
     private int id;
 
-    //unique = true -> userId + boardId로 유일하도록
     @Column(length = 20, nullable = false)
     private String userId;
 

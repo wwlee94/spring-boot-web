@@ -5,10 +5,13 @@ import com.springboot.web.Board.Date.TimeDifference;
 import com.springboot.web.Board.domain.Board;
 import com.springboot.web.Board.domain.BoardReply;
 import com.springboot.web.Board.domain.Likes;
+import com.springboot.web.Board.domain.ReplyLikes;
 import com.springboot.web.Board.repository.BoardReplyRepository;
 import com.springboot.web.Board.repository.BoardRepository;
 import com.springboot.web.Board.repository.LikesRepository;
+import com.springboot.web.Board.repository.ReplyLikesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +35,9 @@ public class ReadController {
     //reply
     @Autowired
     private BoardReplyRepository replyRepository;
+    //replyLikes
+    @Autowired
+    private ReplyLikesRepository replyLikesRepository;
 
     //isLike 좋아요 유무
     private int isLike = 0;
@@ -65,6 +71,14 @@ public class ReadController {
         List<BoardReply> boardReplyList = replyRepository.findAllByBnoAndUserName(bno,userId);
         timeDifference.getReplyTimeDifference(boardReplyList);
 
+        List<ReplyLikes> replyLikesList = replyLikesRepository.findAllByBoardIdAndUserId(bno,userId);
+        for(int i=0;i<replyLikesList.size();i++){
+            //가져와진 데이터들은 모두 좋아요가 눌러진 상태인 데이터
+            replyLikesList.get(i).setIsLike(1);
+            System.out.println("댓글 번호"+replyLikesList.get(i).getReplyId());
+            System.out.println("좋아요 세팅"+replyLikesList.get(i).getIsLike());
+        }
+
         //Model 객체를 파라미터로 받으면-> 데이터를 뷰에 넘길수 있음 or
         //ModelAndView -> 데이터와 뷰를 동시에 설정이 가능
         ModelAndView mv = new ModelAndView();
@@ -72,6 +86,7 @@ public class ReadController {
         mv.addObject("board", board);
         mv.addObject("isLike", isLike);
         mv.addObject("boardReplyList",boardReplyList);
+        mv.addObject("replyLikesList",replyLikesList);
         return mv;
     }
 
@@ -134,6 +149,39 @@ public class ReadController {
     @RequestMapping(value = "/read/reply/{rno}",method = RequestMethod.DELETE)
     public String replyDelete(@PathVariable("rno") int rno){
         replyRepository.deleteBoardReplyByRno(rno);
+        return "board/read";
+    }
+
+    // read/replyLike ,GET 요청이 들어오면 댓글 좋아요 추가,삭제 처리
+    @RequestMapping(value = "/read/replyLike/{rno}",method = RequestMethod.GET)
+    public String replyLikes(@PathVariable("rno") int rno
+            ,@Param("likeCount") int likeCount
+            ,@Param("isLike") String like){
+
+        //게시판 댓글에 해당되는 likeCount 수정
+        //임시 ID
+        String userId="wwlee94";
+        //rno로 댓글 객체 가져옴
+        BoardReply boardReply = replyRepository.findAllByRno(rno);
+        boardReply.setLikeCount(likeCount);
+        replyRepository.save(boardReply);
+
+        //좋아요 취소 버튼을 누르고 Controller에 요청 -> 삭제
+        if(like.equals("0")){
+            replyLikesRepository.deleteLikesByReplyIdAndUserId(rno,userId);
+            System.out.println(rno);
+            System.out.println("ReplyLikes delete");
+        }
+        //좋아요 버튼을 누르고 Controller에 요청 -> 추가
+        else{
+            ReplyLikes replyLikes = new ReplyLikes();
+            replyLikes.setId(0);
+            replyLikes.setBoardId(boardReply.getBno());
+            replyLikes.setReplyId(rno);
+            replyLikes.setUserId(userId);
+            replyLikesRepository.save(replyLikes);
+            System.out.println("ReplyLikes  insert");
+        }
         return "board/read";
     }
 }
