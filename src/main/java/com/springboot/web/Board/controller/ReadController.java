@@ -12,14 +12,12 @@ import com.springboot.web.Board.repository.LikesRepository;
 import com.springboot.web.Board.repository.ReplyLikesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/board/*")
@@ -185,4 +183,21 @@ public class ReadController {
         }
         return "board/read";
     }
+
+    //read/realTime -> list 화면의 실시간 시간변경
+    //GET으로 하면 안가져와짐 POST로만
+    //RequestParam -> 안가져와짐 // ->RequestBody OK
+    //int bno = Integer.valueOf(String.valueOf(list.get(i).bno)) 변수 가져다 쓰려면 이렇게해야 오류 안남
+    @RequestMapping(value = "/read/realTime", method = RequestMethod.POST)
+    @ResponseBody
+    public List<Map> readRealTime(@RequestBody Map<String, Object> map) throws ParseException {
+        List<Map> list = (List) map.get("list");
+
+        timeDifference.readRealTimeDifference(list);
+
+        //list 안의 값을 바꾸고 map을 넘겨줘도 바꿔서 넘겨짐
+        return list;
+    }
+
+
 }

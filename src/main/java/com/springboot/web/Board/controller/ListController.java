@@ -6,14 +6,14 @@ import com.springboot.web.Board.domain.Board;
 import com.springboot.web.Board.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/board/*")
@@ -26,16 +26,6 @@ public class ListController {
     //작성일 구해주는 객체
     private TimeDifference timeDifference = new TimeDifference();
 
-    int count = 0;
-
-    //Test
-    @RequestMapping(value = "/woowon",method = RequestMethod.GET)
-    @ResponseBody
-    public String woowon(){
-        count++;
-        return "woowon Good"+count;
-    }
-
     //list,GET 요청이 들어오면 보여주기
     @RequestMapping("/list")
     public ModelAndView list() throws ParseException {
@@ -44,7 +34,6 @@ public class ListController {
         //Board의 작성일자 구하는 메소드
         //객체 인스턴스라 반환값 안 받아도 적용됨
         timeDifference.getBoardListTimeDifference(boardList);
-        System.out.println(boardList.get(0).getTimeDifference());
 
         //Model 객체를 파라미터로 받으면-> 데이터를 뷰에 넘길수 있음 or
         //ModelAndView -> 데이터와 뷰를 동시에 설정이 가능
@@ -100,6 +89,21 @@ public class ListController {
     @RequestMapping(value = "/list/{bno}", method = RequestMethod.DELETE)
     public void delete(@PathVariable("bno") int bno) {
         repository.deleteById(bno);
+    }
+
+    //list/realTime -> list 화면의 실시간 시간변경
+    //GET으로 하면 안가져와짐 POST로만
+    //RequestParam -> 안가져와짐 // ->RequestBody OK
+    //int bno = Integer.valueOf(String.valueOf(list.get(i).bno)) 변수 가져다 쓰려면 이렇게해야 오류 안남
+    @RequestMapping(value = "/list/realTime", method = RequestMethod.POST)
+    @ResponseBody
+    public List<Map> listRealTime(@RequestBody Map<String, Object> map) throws ParseException {
+        List<Map> list = (List) map.get("boardList");
+
+        timeDifference.listRealTimeDifference(list);
+
+        //list 안의 값을 바꾸고 map을 넘겨줘도 바꿔서 넘겨짐
+        return list;
     }
 
 }

@@ -94,7 +94,7 @@
                 ${board.likeCount}
             </span>
             <div style="font-size: medium" class="pull-right">
-                ${board.timeDifference} &nbsp;&nbsp;
+                <span id="board_timeDiff">${board.timeDifference}</span> &nbsp;&nbsp;
                 <a href="#" onclick="return false" id="post_like" data-like="${isLike}"></a>
             </div>
         </div>
@@ -122,7 +122,8 @@
                         ${reply.likeCount}
                 </span>
                 <div style="font-size: medium" class="pull-right">
-                        ${reply.timeDifference} &nbsp;&nbsp;
+                    <span id="reply_timeDiff${reply.rno}">${reply.timeDifference}</span> &nbsp;&nbsp;
+
                     <c:set var="state" value="false"/>
                     <c:forEach var="replyLikes" items="${replyLikesList}">
                         <c:choose>
@@ -212,6 +213,63 @@
         </div>
     </div>
 </footer>
+<script type="text/javascript">
+    list = [];
+    board = {};
+    reply = {};
+    i = 0;
+
+    onload = function () {
+        realTime();
+    };
+    setInterval("realTime()", 1000);
+
+    function realTime() {
+        list = [];
+
+        //read의 게시글 정보
+        board.bno =${board.bno};
+        board.dateTime = "${board.dateTime}";
+        board.timeDifference = "";
+        list.push(board);
+
+        //read의 댓글 정보
+        <c:forEach var="reply" items="${boardReplyList}">
+        reply = {};
+        reply.rno = ${reply.rno};
+        reply.dateTime = "${reply.dateTime}";
+        reply.timeDifference = "";
+        list.push(reply);
+        </c:forEach>
+
+        var data = {
+            "list": list
+        };
+
+        //Json 형태로 데이터 전달
+        $.ajax({
+            url: "/board/read/realTime",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function (response) {
+                //성공시 controller로 부터 전달받은 data로 text 변경
+                for (i = 0; i < response.length; i++) {
+                    if (i == 0) {
+                        //i==0 -> 게시글 1개의 timeDiff이니 그냥 아이디 구분 없이 변경!
+                        var timeDifference = response[i].timeDifference;
+                        $("#board_timeDiff").text(timeDifference);
+                    } else {
+                        //i!=0 -> 댓글 여러개의 timeDiff 갱신
+                        var rno = response[i].rno;
+                        var timeDifference = response[i].timeDifference;
+                        $("#reply_timeDiff" + rno).text(timeDifference);
+                    }
+                }//for
+            }//ajax
+        });
+    }
+</script>
 
 <!-- Bootstrap core JavaScript -->
 <script src="/vendor/jquery/jquery.min.js"></script>
