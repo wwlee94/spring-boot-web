@@ -26,7 +26,7 @@ public class Board {
 
     //게시판 등록 시간
     @Column(nullable = false)
-    private  String dateTime;
+    private String dateTime;
 
     //좋아요 개수
     private int likeCount;

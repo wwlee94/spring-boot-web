@@ -11,7 +11,6 @@ import com.springboot.web.Board.repository.BoardRepository;
 import com.springboot.web.Board.repository.LikesRepository;
 import com.springboot.web.Board.repository.ReplyLikesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -68,15 +67,15 @@ public class ReadController {
         }
 
         //게시판 댓글 리스트를 구하는 과정
-        List<BoardReply> boardReplyList = replyRepository.findAllByBnoAndUserName(bno,userId);
+        List<BoardReply> boardReplyList = replyRepository.findAllByBnoAndUserName(bno, userId);
         timeDifference.getReplyTimeDifference(boardReplyList);
 
-        List<ReplyLikes> replyLikesList = replyLikesRepository.findAllByBoardIdAndUserId(bno,userId);
-        for(int i=0;i<replyLikesList.size();i++){
+        List<ReplyLikes> replyLikesList = replyLikesRepository.findAllByBoardIdAndUserId(bno, userId);
+        for (int i = 0; i < replyLikesList.size(); i++) {
             //가져와진 데이터들은 모두 좋아요가 눌러진 상태인 데이터
             replyLikesList.get(i).setIsLike(1);
-            System.out.println("댓글 번호"+replyLikesList.get(i).getReplyId());
-            System.out.println("좋아요 세팅"+replyLikesList.get(i).getIsLike());
+            System.out.println("댓글 번호" + replyLikesList.get(i).getReplyId());
+            System.out.println("좋아요 세팅" + replyLikesList.get(i).getIsLike());
         }
 
         //Model 객체를 파라미터로 받으면-> 데이터를 뷰에 넘길수 있음 or
@@ -85,8 +84,8 @@ public class ReadController {
         mv.setViewName("board/read");
         mv.addObject("board", board);
         mv.addObject("isLike", isLike);
-        mv.addObject("boardReplyList",boardReplyList);
-        mv.addObject("replyLikesList",replyLikesList);
+        mv.addObject("boardReplyList", boardReplyList);
+        mv.addObject("replyLikesList", replyLikesList);
         return mv;
     }
 
@@ -96,21 +95,21 @@ public class ReadController {
     @RequestMapping(value = "/read/like/{bno}", method = RequestMethod.GET)
     public String like(@PathVariable("bno") int bno
             , @RequestParam("likeCount") int likeCount
-            ,@RequestParam("isLike") String like) {
+            , @RequestParam("isLike") String isLike) {
 
         Board board = repository.findAllBybno(bno);
         board.setLikeCount(likeCount);
         repository.save(board);
 
         //좋아요 취소 버튼을 누르고 Controller에 요청 -> 삭제
-        if(like.equals("0")){
+        if (isLike.equals("0")) {
             String userId = "wwlee94";
-            likesRepository.deleteLikesByBoardIdAndUserId(bno,userId);
+            likesRepository.deleteLikesByBoardIdAndUserId(bno, userId);
             System.out.println(bno);
             System.out.println("likes delete");
         }
         //좋아요 버튼을 누르고 Controller에 요청 -> 추가
-        else{
+        else {
             //임시 ID
             String userId = "wwlee94";
             Likes likes = new Likes();
@@ -124,8 +123,8 @@ public class ReadController {
     }
 
     //read/reply,GET 요청이 들어오면 댓글 추가 처리
-    @RequestMapping(value = "/read/reply/{bno}",method = RequestMethod.GET)
-    public String reply(@PathVariable("bno") int bno,@RequestParam("contents") String contents){
+    @RequestMapping(value = "/read/reply/{bno}", method = RequestMethod.GET)
+    public String reply(@PathVariable("bno") int bno, @RequestParam("contents") String contents) {
 
         BoardReply boardReply = new BoardReply();
         boardReply.setRno(0); // GeneratedValue
@@ -146,34 +145,36 @@ public class ReadController {
     }
 
     // read/reply,DELETE 요청이 들어오면 댓글 삭제 처리
-    @RequestMapping(value = "/read/reply/{rno}",method = RequestMethod.DELETE)
-    public String replyDelete(@PathVariable("rno") int rno){
+    @RequestMapping(value = "/read/reply/{rno}", method = RequestMethod.DELETE)
+    public String replyDelete(@PathVariable("rno") int rno) {
         replyRepository.deleteBoardReplyByRno(rno);
         return "board/read";
     }
 
     // read/replyLike ,GET 요청이 들어오면 댓글 좋아요 추가,삭제 처리
-    @RequestMapping(value = "/read/replyLike/{rno}",method = RequestMethod.GET)
+    @RequestMapping(value = "/read/replyLike/{rno}", method = RequestMethod.GET)
     public String replyLikes(@PathVariable("rno") int rno
-            ,@Param("likeCount") int likeCount
-            ,@Param("isLike") String like){
+            , @RequestParam("likeCount") int likeCount
+            , @RequestParam("isLike") String isLike) {
 
         //게시판 댓글에 해당되는 likeCount 수정
         //임시 ID
-        String userId="wwlee94";
+        String userId = "wwlee94";
         //rno로 댓글 객체 가져옴
         BoardReply boardReply = replyRepository.findAllByRno(rno);
         boardReply.setLikeCount(likeCount);
         replyRepository.save(boardReply);
 
+        System.out.println("rno:" + rno + " likeCount : " + likeCount + " isLike : " + isLike);
+
         //좋아요 취소 버튼을 누르고 Controller에 요청 -> 삭제
-        if(like.equals("0")){
-            replyLikesRepository.deleteLikesByReplyIdAndUserId(rno,userId);
+        if (isLike.equals("0")) {
+            replyLikesRepository.deleteLikesByReplyIdAndUserId(rno, userId);
             System.out.println(rno);
             System.out.println("ReplyLikes delete");
         }
         //좋아요 버튼을 누르고 Controller에 요청 -> 추가
-        else{
+        else {
             ReplyLikes replyLikes = new ReplyLikes();
             replyLikes.setId(0);
             replyLikes.setBoardId(boardReply.getBno());

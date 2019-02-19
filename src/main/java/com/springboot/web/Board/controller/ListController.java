@@ -52,7 +52,7 @@ public class ListController {
         String date = currentTime.getStringCurrentTime();
         board.setDateTime(date);
         //email or nickname으로 변경하면 OK
-        String userName="wwlee94";
+        String userName = "wwlee94";
         board.setUserName(userName);
 
         repository.save(board);

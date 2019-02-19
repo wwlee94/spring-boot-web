@@ -67,10 +67,10 @@ $(document).ready(function () {
             url = '/board/list';
 
             data = {
-                "bno" : bno,
-                "title" : $("#title").val(),
-                "contents" : $("#contents").val(),
-                "likeCount" : 0
+                "bno": bno,
+                "title": $("#title").val(),
+                "contents": $("#contents").val(),
+                "likeCount": 0
             };
         } else if (action === 'modify') {
             url = '/board/list';
@@ -88,7 +88,9 @@ $(document).ready(function () {
             type: type,
             data: data,
             //complete 되면 reload
-            complete: function (data) {location.reload();}
+            complete: function (data) {
+                location.reload();
+            }
         });
     });
 

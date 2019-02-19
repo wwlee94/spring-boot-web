@@ -90,7 +90,7 @@
         <div class="panel-heading">
             ${board.userName}
             &nbsp;&nbsp;<span class="glyphicon glyphicon-thumbs-up"></span>
-            <span id="post_likecount">
+            <span id="post_likeCount">
                 ${board.likeCount}
             </span>
             <div style="font-size: medium" class="pull-right">
@@ -109,37 +109,44 @@
 
         <h6>
             Re_${reply.rno}
-            <jsp:include page="../include/infoDelete.jsp"/>
+            <jsp:include page="../include/modal/checkDelete.jsp"/>
             <button type="button" name="delete" value="${reply.rno}"
-                    class="btn btn-info btn-sm glyphicon glyphicon-remove pull-right"></button>
+                    class="btn btn-outline-danger btn-sm glyphicon glyphicon-remove pull-right"></button>
         </h6>
 
         <div class="panel panel-default">
             <div class="panel-heading">
                     ${reply.userName}
                 &nbsp;&nbsp;<span class="glyphicon glyphicon-thumbs-up"></span>
-                <span id="reply_likecount">
+                <span id="reply_likeCount">
                         ${reply.likeCount}
                 </span>
                 <div style="font-size: medium" class="pull-right">
                         ${reply.timeDifference} &nbsp;&nbsp;
-                           <c:set var="state" value="false"/>
-                            <c:forEach var="replyLikes" items="${replyLikesList}">
-                                <c:choose>
-                                    <c:when test="${reply.rno eq replyLikes.replyId}">
-                                        <c:set var="state" value="true"/>
-                                    </c:when>
-                                </c:choose>
-                            </c:forEach>
+                    <c:set var="state" value="false"/>
+                    <c:forEach var="replyLikes" items="${replyLikesList}">
+                        <c:choose>
+                            <c:when test="${reply.rno eq replyLikes.replyId}">
+                                <c:set var="state" value="true"/>
+                            </c:when>
+                        </c:choose>
+                    </c:forEach>
 
-                            <c:choose>
-                                <c:when test="${state eq true}">
-                                    <a href="#" onclick="return false" class="reply_like" name="${reply.rno}" data-likeCount="${reply.likeCount}" data-like="1">좋아요 취소</a>
-                                </c:when>
-                                <c:otherwise>
-                                    <a href="#" onclick="return false" class="reply_like" name="${reply.rno}" data-likeCount="${reply.likeCount}" data-like="0">좋아요</a>
-                                </c:otherwise>
-                            </c:choose>
+                    <!-- 위 forEach에서 댓글번호(rno) == 댓글 좋아요 목록의 댓글번호(replyId) 가 같은 게 있으면
+                    state = true -> data-like=1, 좋아요 취소
+                    state = false -> data-like=0, 좋아요
+                    의 형태로 보여준다
+                    -->
+                    <c:choose>
+                        <c:when test="${state eq true}">
+                            <a href="#" onclick="return false" class="reply_like" name="${reply.rno}" data-like="1">좋아요
+                                취소</a>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="#" onclick="return false" class="reply_like" name="${reply.rno}"
+                               data-like="0">좋아요</a>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
             <!-- DB는 엔터를 줄바꿈으로 인식X 따로 처리 -->

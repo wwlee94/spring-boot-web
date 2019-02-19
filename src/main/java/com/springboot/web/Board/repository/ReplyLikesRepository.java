@@ -1,6 +1,5 @@
 package com.springboot.web.Board.repository;
 
-import com.springboot.web.Board.domain.BoardReply;
 import com.springboot.web.Board.domain.ReplyLikes;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

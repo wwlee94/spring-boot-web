@@ -23,7 +23,7 @@ public class BoardReply {
 
     //댓글 등록 시간
     @Column(nullable = false)
-    private  String dateTime;
+    private String dateTime;
 
     //댓글 좋아요
     private int likeCount;

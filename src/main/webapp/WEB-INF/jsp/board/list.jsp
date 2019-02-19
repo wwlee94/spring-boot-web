@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
@@ -16,8 +16,10 @@
 
     <!-- Custom fonts for this template -->
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet'
+          type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+          rel='stylesheet' type='text/css'>
 
     <!-- Custom styles for this template -->
     <link href="/css/clean-blog.css" rel="stylesheet">
@@ -29,7 +31,9 @@
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
     <div class="container">
         <a class="navbar-brand" href="/">Start Bootstrap</a>
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+                aria-label="Toggle navigation">
             Menu
             <i class="fas fa-bars"></i>
         </button>
@@ -95,11 +99,13 @@
                 <td>
                     <div class="btn-group">
                         <button style="font-size: small" name="modify" value="${board.bno}"
-                                class="btn btn-sm btn-warning btn-padding">수정</button>
+                                class="btn btn-sm btn-warning btn-padding">수정
+                        </button>
 
-                        <jsp:include page="../include/infoDelete.jsp"/>
+                        <jsp:include page="../include/modal/checkDelete.jsp"/>
                         <button style="font-size: small" name="delete" value="${board.bno}"
-                                class="btn btn-sm btn-danger btn-padding">삭제</button>
+                                class="btn btn-sm btn-danger btn-padding">삭제
+                        </button>
                     </div>
                 </td>
             </tr>
@@ -110,9 +116,10 @@
         </tbody>
     </table>
 
-    <jsp:include page="../include/modal.jsp"/>
+    <jsp:include page="../include/modal/Posts.jsp"/>
     <button id="createBtn" class="btn btn-info btn-xs"
-            data-toggle="modal">새 글 쓰기</button>
+            data-toggle="modal">새 글 쓰기
+    </button>
 
     <hr/>
 </div>
