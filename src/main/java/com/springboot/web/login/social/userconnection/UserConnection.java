@@ -8,12 +8,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "user_connection")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class UserConnection {
+public class UserConnection implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

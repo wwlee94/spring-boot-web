@@ -19,7 +19,12 @@ public class FacebookUserDetails {
     }
 
     public String getImageUrl() {
-        return picture.data.url;
+
+        return "NULL";
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Getter

@@ -91,7 +91,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
     }
 
-    //인증 요청에 따른 리다이렉션을 위한 빈을 등록합니다
+    //스프링 부트 어플리케이션에서 올바른 순서로 호출할 수 있도록 필터를 연결해야하는데, OAuth2ClientContextFilter를 받아서
+    //Spring Security보다 낮은 순서로 필터를 등록하고, 이를 이용해 인증 요청의 예외에 의해 리다이렉션을 처리하는데 사용할 수 있다.
     @Bean
     public FilterRegistrationBean oauth2ClientFilterRegistration(OAuth2ClientContextFilter filter) {
         FilterRegistrationBean registration = new FilterRegistrationBean();
@@ -106,7 +107,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public ClientResources facebook() {
         return new ClientResources();
     }
-
     @Bean
     @ConfigurationProperties("google")
     public ClientResources google() {

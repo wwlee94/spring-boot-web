@@ -11,7 +11,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Clean Blog - Start Bootstrap Theme</title>
+    <title> Spring Online Judge </title>
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -31,7 +31,7 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
     <div class="container">
-        <a class="navbar-brand" href="index.html">Start Bootstrap</a>
+        <a class="navbar-brand" href="index.html">Spring Online Judge</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             Menu
             <i class="fas fa-bars"></i>
@@ -48,7 +48,7 @@
                     <a class="nav-link" href="post.html">Sample Post</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/board/list">Board</a>
+                    <a class="nav-link" href="/board/list">게시판</a>
                 </li>
                 <sec:authorize access="isAnonymous()">
                     <ul class="nav navbar-nav navbar-right">
@@ -77,6 +77,7 @@
     </div>
 </nav>
 
+
 <!-- Page Header -->
 <header class="masthead" style="background-image: url('img/home-bg.jpg')">
     <div class="overlay"></div>
@@ -84,8 +85,8 @@
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto">
                 <div class="site-heading">
-                    <h1>Clean Blog</h1>
-                    <span class="subheading">A Blog Theme by Start Bootstrap</span>
+                    <h1> ONLINE JUDGE ! </h1>
+                    <span class="subheading">프로그래밍 문제를 풀고 온라인으로 채점받을 수 있는 곳입니다.</span>
                 </div>
             </div>
         </div>

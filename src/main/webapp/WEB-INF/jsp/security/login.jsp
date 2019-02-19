@@ -1,14 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
          pageEncoding="EUC-KR"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="euc-kr" dir="ltr">
 
 <head>
-    <meta charset="euc-kr">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>코딩부스터</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title> Spring Online Judge </title>
+
+    <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/codingBooster.css">
+    <link href="/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+
+    <!-- Custom fonts for this template -->
+    <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link href="/css/clean-blog.css" rel="stylesheet">
+
     <style type="text/css">
         .panel-login {
             border-color: #ccc;
@@ -124,53 +140,63 @@
 </head>
 
 <body>
+<sec:authorize access="isAuthenticated()">
+    <script>location.href='/';</script>
+</sec:authorize>
 
-
-
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="index">코딩 부스터</a>
-        </div>
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="index">소개<span class="sr-only"></span></a></li>
-                <li><a href="instructor">강사진</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">강의<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="lecture?lectureName=C">C언어</a></li>
-                        <li><a href="lecture?lectureName=Java">Java</a></li>
-                        <li><a href="lecture?lectureName=Android">안드로이드</a></li>
-                    </ul>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <div class="container">
+        <a class="navbar-brand" href="/">Spring Online Judge</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            Menu
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
                 </li>
-                <li><a href="bbs">게시판</a></li>
-            </ul>
-            <form class="navbar-form navbar-left">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="내용을 입력하세요.">
-
-                </div>
-                <button type="submit" class="btn btn-default">검색</button>
-            </form>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">접속하기<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="loginForm">로그인</a></li>
-                        <li><a href="registerForm">회원가입</a></li>
-                    </ul>
+                <li class="nav-item">
+                    <a class="nav-link" href="about">About</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="post">Sample Post</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/board/list">게시판</a>
+                </li>
+                <sec:authorize access="isAnonymous()">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown nav-item"><a style="text-decoration:none;" href="#" class="dropdown-toggle"
+                                                         data-toggle="dropdown" role="button" aria-haspopup="true"
+                                                         aria-expanded="false">회원 관리<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a style="color:black;text-decoration:none;" href="/security/login"> 로그인</a></li>
+                                <li><a style="color:black;text-decoration:none;" href="/security/signUp"> 회원가입</a></li>
+                            </ul></li>
+                    </ul>
+                </sec:authorize>
             </ul>
         </div>
     </div>
 </nav>
+
+
+<!-- Page Header -->
+<header class="masthead" style="background-image: url('/img/home-bg.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <%--<div class="col-lg-8 col-md-10 mx-auto">--%>
+                <div class="site-heading" style="padding: 50px">
+                    <%--<h1> ONLINE JUDGE ! </h1>--%>
+                    <%--<span class="subheading">프로그래밍 문제를 풀고 온라인으로 채점받을 수 있는 곳입니다.</span>--%>
+                </div>
+            <%--</div>--%>
+        </div>
+    </div>
+</header>
 
 <div class="container">
     <div class="row">
@@ -248,6 +274,14 @@
                                     </div>
                                 </div>
                             </form>
+
+                            <div class="col-sm-6 col-sm-offset-3">
+                                <a href="/login/google">
+                                    <img class="btn-img" src="/img/btn_google.png"/>
+                                </a>
+                            </div>
+                            <br /><br />
+
                         </div>
                     </div>
                 </div>
@@ -290,8 +324,13 @@
     </div>
 </footer>
 
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script src="js/bootstrap.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script src="/vendor/jquery/jquery.min.js"></script>
+<script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Custom scripts for this template -->
+<script src="/js/clean-blog.min.js"></script>
+
 <script type="text/javascript">
     $(function() {
 
