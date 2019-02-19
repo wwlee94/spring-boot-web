@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.text.ParseException;
@@ -24,6 +25,16 @@ public class ListController {
 
     //작성일 구해주는 객체
     private TimeDifference timeDifference = new TimeDifference();
+
+    int count = 0;
+
+    //Test
+    @RequestMapping(value = "/woowon",method = RequestMethod.GET)
+    @ResponseBody
+    public String woowon(){
+        count++;
+        return "woowon Good"+count;
+    }
 
     //list,GET 요청이 들어오면 보여주기
     @RequestMapping("/list")
@@ -54,6 +65,8 @@ public class ListController {
         //email or nickname으로 변경하면 OK
         String userName = "wwlee94";
         board.setUserName(userName);
+        //좋아요 개수
+        board.setLikeCount(0);
 
         repository.save(board);
     }
@@ -63,11 +76,22 @@ public class ListController {
     @RequestMapping(value = "/list", method = RequestMethod.PUT)
     public void modify(Board board) {
 
-        board.setUserName("wwlee94");
+        //Board board -> bno,title,contents 넘어옴 나머지 설정해주어야함
+
+        //bno에 해당되는 board의 모든 정보 가져옴
+        Board getBoard = repository.findAllBybno(board.getBno());
+
+        board.setUserName(getBoard.getUserName());
+        board.setLikeCount(getBoard.getLikeCount());
+        board.setDateTime(getBoard.getDateTime());
+
+        /*
+        //TODO: 수정시간 컬럼을 따로 만든 후에 수정시간만 변경 -> 작성일은 그대로 적용
         //수정했으니 dateTime 현재 시간으로 갱신
         CurrentTime currentTime = new CurrentTime();
         String dateTime = currentTime.getStringCurrentTime();
         board.setDateTime(dateTime);
+        */
         repository.save(board);
     }
 

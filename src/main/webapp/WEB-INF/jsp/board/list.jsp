@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <html>
 <head>
@@ -74,7 +75,10 @@
 <!-- Main Content -->
 <div class="container">
     <div class="page-header">
-        <h2>Board</h2>
+        <h2>
+            Board
+            <span id="dpTime" class="pull-right"></span>
+        </h2>
     </div>
     <table class="table table-hover">
         <thead>
@@ -95,7 +99,7 @@
                 <td><a href="/board/read/${board.bno}">${board.title}</a></td>
                 <td>${board.userName}</td>
                 <td>${board.likeCount}</td>
-                <td>${board.timeDifference}</td>
+                <td id="board_diff${board.bno}" data-timestamp="${board.diff}">${board.timeDifference}</td>
                 <td>
                     <div class="btn-group">
                         <button style="font-size: small" name="modify" value="${board.bno}"
@@ -120,7 +124,6 @@
     <button id="createBtn" class="btn btn-info btn-xs"
             data-toggle="modal">새 글 쓰기
     </button>
-
     <hr/>
 </div>
 
@@ -160,6 +163,107 @@
         </div>
     </div>
 </footer>
+
+<!-- 실시간 시간 변화 출력 -->
+<!-- TODO: ajax는 언제 사용하는 것? 1초마다 값 가져와 바꾸는 경우엔 js로만으로도 가능하지만 다른 방법이 있나?
+새로고침을 안하고 부분적으로만 리로드해서 보여주려고 ajax쓰는것인디요..
+location.realod는 새로고침버튼 누른거랑 동일한 동작입니당..
+코드를 그렇게 바꾸시면 아무 의미가 없어요..
+자바스크립트 사용하셔서 수정하고싶은 부분을 들어내신 다음에
+비동기통신으로 받아온 새로운 값을 채워넣으셔야 하는뎅..
+<td>aaa</td> 원래 표시
+새로받은 값 bbb
+자바스크립트로 aaa 지우고 bbb 채워넣음
+<td>bbb</td> 이후 표시
+이런식으로..
+-->
+<script type="text/javascript">
+
+    var diff = 0;
+    count = 0;
+
+    onload = function() {
+        dpTime();
+    };
+    setInterval("dpTime()", 1000);
+
+    function dpTime() {
+        var now = new Date();
+        hours = now.getHours();
+        minutes = now.getMinutes();
+        seconds = now.getSeconds();
+        if (hours > 12) {
+            hours -= 12;
+            ampm = "오후 ";
+        } else {
+            ampm = "오전 ";
+        }
+        if (hours < 10) {
+            hours = "0" + hours;
+        }
+        if (minutes < 10) {
+            minutes = "0" + minutes;
+        }
+        if (seconds < 10) {
+            seconds = "0" + seconds;
+        }
+        document.getElementById("dpTime").innerHTML = ampm + hours + ":" + minutes + ":" + seconds;
+
+        refresh_diff();
+
+        $.ajax({
+            url:"/board/woowon",
+            type:"GET",
+            success:function (data) {
+                console.log(data);
+            }
+        })
+    }
+
+    function refresh_diff() {
+
+        <c:forEach var="board" items="${boardList}">
+
+        diff = ${board.diff};
+
+        diff = diff+(count * 1000);
+
+        seconds = Math.floor(diff / 1000 % 60);
+        minutes = Math.floor(diff / (60 * 1000) % 60);
+        hours = Math.floor(diff / (60 * 60 * 1000) % 24);
+        days = Math.floor(diff / (24 * 60 * 60 * 1000));
+
+        month = Math.floor(days / 30);
+        year = Math.floor(days / 365);
+
+        if (year <= 0) {
+            if (month <= 0) {
+                if (days <= 0) {
+                    if (hours <= 0) {
+                        if (minutes <= 0) {
+                            $("#board_diff${board.bno}").text(seconds + "초 전");
+                        } else {
+                            $("#board_diff${board.bno}").text(minutes + "분 "+seconds+"초 전");
+                        }
+                    } else {
+                        $("#board_diff${board.bno}").text(hours + "시간 "+minutes + "분 전");
+                    }
+                } else {
+                    $("#board_diff${board.bno}").text(days + "일 "+hours+"시간 전");
+                }
+            } else {
+                $("#board_diff${board.bno}").text(month + "개월 "+days%30 + "일 전");
+            }
+        } else {
+            //continue 덕에 위에 조건 성립하면 이 아래 코드는 실행 안함
+            $("#board_diff${board.bno}").text(year + "년 "+year%12 + "개월 전");
+        }
+
+        </c:forEach>
+        count = count+1 ;
+    }
+</script>
+
 
 <!-- Bootstrap core JavaScript -->
 <script src="/vendor/jquery/jquery.min.js"></script>

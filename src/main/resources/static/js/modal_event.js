@@ -3,10 +3,8 @@ var url = '';
 var type = '';
 var bno = 0;
 
-var userName = '';
 var title = '';
 var contents = '';
-var likeCount = 0;
 
 var data;
 
@@ -39,7 +37,6 @@ $(document).ready(function () {
         //ajax -> data로 db모든 정보 안담으면 초기화 되어버림
         title = $("#ti" + bno).val();
         contents = $("#co" + bno).val();
-        likeCount = $("#li" + bno).val();
 
         $("#modal-title").text("수정하기");
         $("#title").val(title);
@@ -69,8 +66,7 @@ $(document).ready(function () {
             data = {
                 "bno": bno,
                 "title": $("#title").val(),
-                "contents": $("#contents").val(),
-                "likeCount": 0
+                "contents": $("#contents").val()
             };
         } else if (action === 'modify') {
             url = '/board/list';
@@ -78,8 +74,7 @@ $(document).ready(function () {
             data = {
                 "bno": bno,
                 "title": $("#title").val(),
-                "contents": $("#contents").val(),
-                "likeCount": likeCount
+                "contents": $("#contents").val()
             };
         }
 

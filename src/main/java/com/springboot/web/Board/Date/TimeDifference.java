@@ -35,6 +35,8 @@ public class TimeDifference {
             Long diff = EndDate.getTime() - StartDate.getTime();
             System.out.println("차이: " + diff);
 
+            boardList.get(i).setDiff(diff);
+
             setClassify(diff);
 
             if (year <= 0) {
@@ -43,27 +45,22 @@ public class TimeDifference {
                         if (hours <= 0) {
                             if (minutes <= 0) {
                                 boardList.get(i).setTimeDifference(seconds + "초 전");
-                                continue;
                             } else {
-                                boardList.get(i).setTimeDifference(minutes + "분 전");
-                                continue;
+                                boardList.get(i).setTimeDifference(minutes + "분 "+seconds+"초 전");
                             }
                         } else {
-                            boardList.get(i).setTimeDifference(hours + "시간 전");
-                            continue;
+                            boardList.get(i).setTimeDifference(hours + "시간 "+minutes + "분 전");
                         }
                     } else {
-                        boardList.get(i).setTimeDifference(days + "일 전");
-                        continue;
+                        boardList.get(i).setTimeDifference(days + "일 "+hours + "시간 전");
                     }
+                } else {
+                    boardList.get(i).setTimeDifference(month + "개월 "+days%30 + "일 전");
                 }
-                boardList.get(i).setTimeDifference(month + "달 전");
-                continue;
+            } else {
+                //continue 덕에 위에 조건 성립하면 이 아래 코드는 실행 안함
+                boardList.get(i).setTimeDifference(year + "년 "+year%12 + "개월 전");
             }
-            //continue 덕에 위에 조건 성립하면 이 아래 코드는 실행 안함
-            boardList.get(i).setTimeDifference(year + "년 전");
-            continue;
-
         }//for
 
     }
@@ -80,6 +77,8 @@ public class TimeDifference {
         //밀리세컨즈 단위 시간 차
         Long diff = EndDate.getTime() - StartDate.getTime();
 
+        board.setDiff(diff);
+
         setClassify(diff);
 
         if (year <= 0) {
@@ -89,21 +88,21 @@ public class TimeDifference {
                         if (minutes <= 0) {
                             board.setTimeDifference(seconds + "초 전");
                         } else {
-                            board.setTimeDifference(minutes + "분 전");
+                            board.setTimeDifference(minutes + "분 "+seconds+"초 전");
                         }
                     } else {
-                        board.setTimeDifference(hours + "시간 전");
+                        board.setTimeDifference(hours + "시간 "+minutes + "분 전");
                     }
                 } else {
-                    board.setTimeDifference(days + "일 전");
+                    board.setTimeDifference(days + "일 "+hours + "시간 전");
                 }
             }//month <= 0
             else {
-                board.setTimeDifference(month + "달 전");
+                board.setTimeDifference(month + "개월 "+days%30 + "일 전");
             }
         }//year <= 0
         else {
-            board.setTimeDifference(year + "년 전");
+            board.setTimeDifference(year + "년 "+year%12 + "개월 전");
         }
     }//getBoardTimeDifference
 
@@ -128,27 +127,22 @@ public class TimeDifference {
                         if (hours <= 0) {
                             if (minutes <= 0) {
                                 replyList.get(i).setTimeDifference(seconds + "초 전");
-                                continue;
                             } else {
-                                replyList.get(i).setTimeDifference(minutes + "분 전");
-                                continue;
+                                replyList.get(i).setTimeDifference(minutes + "분 "+seconds+"초 전");
                             }
                         } else {
-                            replyList.get(i).setTimeDifference(hours + "시간 전");
-                            continue;
+                            replyList.get(i).setTimeDifference(hours + "시간 "+minutes + "분 전");
                         }
                     } else {
-                        replyList.get(i).setTimeDifference(days + "일 전");
-                        continue;
+                        replyList.get(i).setTimeDifference(days + "일 "+hours + "시간 전");
                     }
+                } else {
+                    replyList.get(i).setTimeDifference(month + "개월 "+days%30 + "일 전");
                 }
-                replyList.get(i).setTimeDifference(month + "달 전");
-                continue;
+            } else {
+                //continue 덕에 위에 조건 성립하면 이 아래 코드는 실행 안함
+                replyList.get(i).setTimeDifference(year + "년 "+year%12 + "개월 전");
             }
-            //continue 덕에 위에 조건 성립하면 이 아래 코드는 실행 안함
-            replyList.get(i).setTimeDifference(year + "년 전");
-            continue;
-
         }//for
 
     }//getReplyTimeDifference

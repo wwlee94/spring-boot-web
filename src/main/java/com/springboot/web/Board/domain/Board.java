@@ -36,6 +36,11 @@ public class Board {
     @Transient
     private String timeDifference;
 
+    //JPA 매핑 제외
+    //게시판 작성일 (몇 시간 전에 등록했는지) -> 현재시간 - 작성일
+    @Transient
+    private long diff;
+
     public int getBno() {
         return bno;
     }
@@ -90,5 +95,13 @@ public class Board {
 
     public void setTimeDifference(String timeDifference) {
         this.timeDifference = timeDifference;
+    }
+
+    public long getDiff() {
+        return diff;
+    }
+
+    public void setDiff(long diff) {
+        this.diff = diff;
     }
 }
