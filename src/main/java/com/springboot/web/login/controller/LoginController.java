@@ -19,6 +19,7 @@ public class LoginController {
     public String loginForm(HttpServletRequest req) {
         String referer = req.getHeader("Referer");
         req.getSession().setAttribute("prevPage", referer);
+
         return "security/login";
     }
 

@@ -1,26 +1,44 @@
 package com.springboot.web.Board.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Board {
 
+    //TODO: generatedValue가 다른 테이블과 겹쳐서 증가되는 것 방지하려면??
     @Id
     @GeneratedValue
+    //게시판 글 번호
     private int bno;
 
+    //게시판 작성자
+    @Column(length = 20, nullable = false)
     private String userName;
 
+    //게시판 글 제목
     @Column(length = 20, nullable = false)
     private String title;
 
+    //게시판 글 내용
     @Column(length = 100, nullable = false)
     private String contents;
 
+    //게시판 등록 시간
+    @Column(nullable = false)
+    private String dateTime;
+
+    //좋아요 개수
     private int likeCount;
+
+    //JPA 매핑 제외
+    //게시판 작성일 (몇 시간 전에 등록했는지)
+    @Transient
+    private String timeDifference;
+
+    //JPA 매핑 제외
+    //게시판 작성일 (몇 시간 전에 등록했는지) -> 현재시간 - 작성일
+    @Transient
+    private long diff;
 
     public int getBno() {
         return bno;
@@ -54,11 +72,35 @@ public class Board {
         this.contents = contents;
     }
 
+    public String getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
+    }
+
     public int getLikeCount() {
         return likeCount;
     }
 
     public void setLikeCount(int likeCount) {
         this.likeCount = likeCount;
+    }
+
+    public String getTimeDifference() {
+        return timeDifference;
+    }
+
+    public void setTimeDifference(String timeDifference) {
+        this.timeDifference = timeDifference;
+    }
+
+    public long getDiff() {
+        return diff;
+    }
+
+    public void setDiff(long diff) {
+        this.diff = diff;
     }
 }
