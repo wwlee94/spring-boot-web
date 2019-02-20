@@ -281,6 +281,11 @@
                                 </a>
                             </div>
                             <br /><br />
+                            <div class="col-sm-6 col-sm-offset-3">
+                                <a href="/login/facebook">
+                                    <img class="btn-img" style="height: 42px" src="/img/btn_facebook.png"/>
+                                </a>
+                            </div>
 
                         </div>
                     </div>
