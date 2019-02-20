@@ -1,10 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <%
-    pageContext.setAttribute("rn","\n");
-    pageContext.setAttribute("br","<br>");
+    pageContext.setAttribute("rn", "\n");
+    pageContext.setAttribute("br", "<br>");
 %>
 
 <html>
@@ -21,8 +21,10 @@
 
     <!-- Custom fonts for this template -->
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet'
+          type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+          rel='stylesheet' type='text/css'>
 
     <!-- Custom styles for this template -->
     <link href="/css/clean-blog.css" rel="stylesheet">
@@ -33,15 +35,17 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
     <div class="container">
-        <a class="navbar-brand" href="/index.html">Start Bootstrap</a>
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <a class="navbar-brand" href="/">Start Bootstrap</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+                aria-label="Toggle navigation">
             Menu
             <i class="fas fa-bars"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/index.html">Home</a>
+                    <a class="nav-link" href="/">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/about.html">About</a>
@@ -74,22 +78,24 @@
 
 <!-- Main Content -->
 <div class="container">
-    <h2>Board</h2>
     <div class="page-header">
-        <h4>
+        <h2>Board</h2>
+        <h5>
             No.<span id="board_bno">${board.bno}</span>
-            &nbsp;&nbsp; 게시글 제목 : ${board.title}
-        </h4>
+            &nbsp;&nbsp;
+            <span class="h-normal">게시글 제목 : ${board.title}</span>
+        </h5>
     </div>
     <div class="panel panel-default">
         <div class="panel-heading">
             ${board.userName}
             &nbsp;&nbsp;<span class="glyphicon glyphicon-thumbs-up"></span>
-            <span id="post_likecount">
+            <span id="post_likeCount">
                 ${board.likeCount}
             </span>
-            <div class="pull-right">
-                <a href="#" id="post_like" data-like="${isLike}">좋아요</a>
+            <div style="font-size: medium" class="pull-right">
+                <span id="board_timeDiff">${board.timeDifference}</span> &nbsp;&nbsp;
+                <a href="#" onclick="return false" id="post_like" data-like="${isLike}"></a>
             </div>
         </div>
         <!-- DB는 엔터를 줄바꿈으로 인식X 따로 처리 -->
@@ -97,6 +103,78 @@
             ${fn:replace(board.contents,rn,br)}
         </div>
     </div>
+
+    <!-- 게시글에 따른 댓글 목록 출력 -->
+    <c:forEach var="reply" items="${boardReplyList}">
+
+        <h6>
+            Re_${reply.rno}
+            <jsp:include page="../include/modal/checkDelete.jsp"/>
+            <button type="button" name="delete" value="${reply.rno}"
+                    class="btn btn-outline-danger btn-sm glyphicon glyphicon-remove pull-right"></button>
+        </h6>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                    ${reply.userName}
+                &nbsp;&nbsp;<span class="glyphicon glyphicon-thumbs-up"></span>
+                <span id="reply_likeCount">
+                        ${reply.likeCount}
+                </span>
+                <div style="font-size: medium" class="pull-right">
+                    <span id="reply_timeDiff${reply.rno}">${reply.timeDifference}</span> &nbsp;&nbsp;
+
+                    <c:set var="state" value="false"/>
+                    <c:forEach var="replyLikes" items="${replyLikesList}">
+                        <c:choose>
+                            <c:when test="${reply.rno eq replyLikes.replyId}">
+                                <c:set var="state" value="true"/>
+                            </c:when>
+                        </c:choose>
+                    </c:forEach>
+
+                    <!-- 위 forEach에서 댓글번호(rno) == 댓글 좋아요 목록의 댓글번호(replyId) 가 같은 게 있으면
+                    state = true -> data-like=1, 좋아요 취소
+                    state = false -> data-like=0, 좋아요
+                    의 형태로 보여준다
+                    -->
+                    <c:choose>
+                        <c:when test="${state eq true}">
+                            <a href="#" onclick="return false" class="reply_like" name="${reply.rno}" data-like="1">좋아요
+                                취소</a>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="#" onclick="return false" class="reply_like" name="${reply.rno}"
+                               data-like="0">좋아요</a>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+            </div>
+            <!-- DB는 엔터를 줄바꿈으로 인식X 따로 처리 -->
+            <div id="contents" class="panel-body">
+                    ${fn:replace(reply.contents,rn,br)}
+            </div>
+        </div>
+    </c:forEach>
+
+    <!-- 댓글 작성란 -->
+    <hr/>
+    <h5>
+        <span class="glyphicon glyphicon-tags"></span>
+        &nbsp;댓글 쓰기
+    </h5>
+    <!-- 댓글 작성란 -->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            ${board.userName}
+        </div>
+        <div class="panel-body">
+            <input type="text" class="form-control" id="reply_input" placeholder="댓글을 작성해주세요.">
+        </div>
+    </div>
+    <!-- 댓글 쓰기 버튼 -->
+    <button id="replyBtn" class="btn btn-info btn-xs right-button">댓글 저장</button>
+    <hr/>
 </div>
 
 <!-- Footer -->
@@ -135,6 +213,63 @@
         </div>
     </div>
 </footer>
+<script type="text/javascript">
+    list = [];
+    board = {};
+    reply = {};
+    i = 0;
+
+    onload = function () {
+        realTime();
+    };
+    setInterval("realTime()", 1000);
+
+    function realTime() {
+        list = [];
+
+        //read의 게시글 정보
+        board.bno =${board.bno};
+        board.dateTime = "${board.dateTime}";
+        board.timeDifference = "";
+        list.push(board);
+
+        //read의 댓글 정보
+        <c:forEach var="reply" items="${boardReplyList}">
+        reply = {};
+        reply.rno = ${reply.rno};
+        reply.dateTime = "${reply.dateTime}";
+        reply.timeDifference = "";
+        list.push(reply);
+        </c:forEach>
+
+        var data = {
+            "list": list
+        };
+
+        //Json 형태로 데이터 전달
+        $.ajax({
+            url: "/board/read/realTime",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function (response) {
+                //성공시 controller로 부터 전달받은 data로 text 변경
+                for (i = 0; i < response.length; i++) {
+                    if (i == 0) {
+                        //i==0 -> 게시글 1개의 timeDiff이니 그냥 아이디 구분 없이 변경!
+                        var timeDifference = response[i].timeDifference;
+                        $("#board_timeDiff").text(timeDifference);
+                    } else {
+                        //i!=0 -> 댓글 여러개의 timeDiff 갱신
+                        var rno = response[i].rno;
+                        var timeDifference = response[i].timeDifference;
+                        $("#reply_timeDiff" + rno).text(timeDifference);
+                    }
+                }//for
+            }//ajax
+        });
+    }
+</script>
 
 <!-- Bootstrap core JavaScript -->
 <script src="/vendor/jquery/jquery.min.js"></script>

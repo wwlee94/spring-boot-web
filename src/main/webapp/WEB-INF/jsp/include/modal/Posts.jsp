@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <!-- Modal -->
 <div class="modal fade" id="myModal" role="dialog">
@@ -12,10 +12,6 @@
             </div>
             <div class="modal-body">
                 <table class="table">
-                    <tr>
-                        <td>사용자명</td>
-                        <td><input class="form-control" id="userName" type="text"></td>
-                    </tr>
                     <tr>
                         <td>게시글 제목</td>
                         <td><textarea class="form-control" id="title" rows="1"></textarea></td>

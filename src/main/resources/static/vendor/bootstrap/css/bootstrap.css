@@ -10248,6 +10248,7 @@ a.text-dark:hover, a.text-dark:focus {
   font-family: "Glyphicons Halflings";
   font-style: normal;
   font-weight: 400;
+  font-size: smaller;
   line-height: 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
