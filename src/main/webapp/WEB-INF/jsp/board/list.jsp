@@ -165,7 +165,6 @@
 </footer>
 
 <!-- 실시간 시간 변화 출력 -->
-<!-- TODO: ajax는 언제 사용하는 것? 1초마다 값 가져와 바꾸는 경우엔 js로만으로도 가능하지만 다른 방법이 있나?-->
 <script type="text/javascript">
 
     boardList = [];
