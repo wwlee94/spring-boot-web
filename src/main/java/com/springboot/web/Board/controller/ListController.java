@@ -4,16 +4,19 @@ import com.springboot.web.Board.Date.CurrentTime;
 import com.springboot.web.Board.Date.TimeDifference;
 import com.springboot.web.Board.domain.Board;
 import com.springboot.web.Board.repository.BoardRepository;
+import com.springboot.web.login.SecurityMember;
+import com.springboot.web.login.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
 import java.text.ParseException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/board/*")
@@ -29,6 +32,21 @@ public class ListController {
     //list,GET 요청이 들어오면 보여주기
     @RequestMapping("/list")
     public ModelAndView list() throws ParseException {
+
+        Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String email;
+
+        if(object.getClass().getName().equals("com.springboot.web.login.user.User")){
+            email = ((User)object).getEmail();
+            System.out.println("User 입니다.");
+            System.out.println(email);
+        }
+        else if(object.getClass().getName().equals("com.springboot.web.login.SecurityMember")){
+            email = ((SecurityMember)object).getUsername();
+            System.out.println("Member 입니다.");
+            System.out.println(email);
+        }
+
         List<Board> boardList = repository.findAllOrderByAsc();
 
         //Board의 작성일자 구하는 메소드
@@ -52,7 +70,7 @@ public class ListController {
         String date = currentTime.getStringCurrentTime();
         board.setDateTime(date);
         //email or nickname으로 변경하면 OK
-        String userName = "wwlee94";
+        String userName = "";
         board.setUserName(userName);
         //좋아요 개수
         board.setLikeCount(0);

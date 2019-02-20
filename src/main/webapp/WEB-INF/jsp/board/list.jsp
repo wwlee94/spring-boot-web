@@ -219,7 +219,7 @@
         //Json 형태로 데이터 전달
         $.ajax({
             url: "/board/list/realTime",
-            type: "GET",
+            type: "POST",
             contentType: "application/json",
             data: JSON.stringify(data),
             success: function (response) {

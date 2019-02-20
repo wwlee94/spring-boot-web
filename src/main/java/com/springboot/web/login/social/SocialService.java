@@ -40,7 +40,8 @@ public class SocialService {
         }
     }
 
-    private UsernamePasswordAuthenticationToken setAuthenticationToken(Object user) {
+    //계정 세션 저장 해줍니다
+    private UsernamePasswordAuthenticationToken setAuthenticationToken(User user) {
         return new UsernamePasswordAuthenticationToken(user, null, getAuthorities("ROLE_USER"));
     }
 
