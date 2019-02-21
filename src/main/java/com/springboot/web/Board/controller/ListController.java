@@ -10,10 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.text.ParseException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 @Controller
 @RequestMapping("/board/*")
@@ -26,11 +24,13 @@ public class ListController {
     //작성일 구해주는 객체
     private TimeDifference timeDifference = new TimeDifference();
 
+    //로그인 정보
+    String userName;
+
     //list,GET 요청이 들어오면 보여주기
     @RequestMapping("/list")
     public ModelAndView list() throws ParseException {
         List<Board> boardList = repository.findAllOrderByAsc();
-
         //Board의 작성일자 구하는 메소드
         //객체 인스턴스라 반환값 안 받아도 적용됨
         timeDifference.getBoardListTimeDifference(boardList);
@@ -74,13 +74,6 @@ public class ListController {
         board.setLikeCount(getBoard.getLikeCount());
         board.setDateTime(getBoard.getDateTime());
 
-        /*
-        //TODO: 수정시간 컬럼을 따로 만든 후에 수정시간만 변경 -> 작성일은 그대로 적용
-        //수정했으니 dateTime 현재 시간으로 갱신
-        CurrentTime currentTime = new CurrentTime();
-        String dateTime = currentTime.getStringCurrentTime();
-        board.setDateTime(dateTime);
-        */
         repository.save(board);
     }
 
