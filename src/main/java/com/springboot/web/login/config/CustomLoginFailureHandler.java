@@ -1,5 +1,6 @@
 package com.springboot.web.login.config;
 
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
@@ -18,6 +19,10 @@ public class CustomLoginFailureHandler implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                         AuthenticationException exception) throws IOException, ServletException {
+
+        request.setAttribute("loginid", request.getParameter("username"));
+        System.out.println(request.getParameter("username"));
+        request.getRequestDispatcher("/security/login").forward(request, response);
     }
 
 }

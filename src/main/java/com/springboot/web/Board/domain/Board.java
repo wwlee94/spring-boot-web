@@ -7,7 +7,7 @@ public class Board {
 
     //TODO: generatedValue가 다른 테이블과 겹쳐서 증가되는 것 방지하려면??
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     //게시판 글 번호
     private int bno;
 

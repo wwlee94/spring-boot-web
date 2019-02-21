@@ -47,7 +47,7 @@
                     <a class="nav-link" href="/about.html">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/post.html">문제</a>
+                    <a class="nav-link" href="/problem/problemset">문제</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/board/list">게시판</a>
@@ -98,7 +98,7 @@
 <div class="container">
     <div class="page-header">
         <h2>
-            Board
+            문제
             <span id="dpTime" class="pull-right"></span>
         </h2>
     </div>
@@ -106,46 +106,26 @@
         <thead>
         <tr>
             <th>No.</th>
-            <th><span class="glyphicon glyphicon-list"></span>&nbsp;글 제목</th>
-            <th><span class="glyphicon glyphicon-user"></span>&nbsp;아이디</th>
-            <th><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;좋아요</th>
-            <th><span class="glyphicon glyphicon-time"></span>&nbsp;작성일</th>
-            <th>수정 / 삭제</th>
+            <th>&nbsp;글 제목</th>
+            <th>&nbsp;맞은 사람</th>
+            <th>&nbsp;제출</th>
+            <th>&nbsp;정답 비율</th>
         </tr>
         </thead>
         <tbody>
         <!-- boardList는 DomainController에서 보내준 변수임 -->
-        <c:forEach var="board" items="${boardList}">
+        <c:forEach var="problem" items="${problemList}">
             <tr>
-                <td>${board.bno}</td>
-                <td><a href="/board/read/${board.bno}">${board.title}</a></td>
-                <td>${board.userName}</td>
-                <td>${board.likeCount}</td>
+                <td>${problem.proNo}</td>
+                <td><a href="/board/read/${problem.proNo}">${problem.proName}</a></td>
+                <td>${problem.proSolveCount}</td>
+                <td>${problem.proSubmitCount}</td>
                 <td id="board_diff${board.bno}" data-timestamp="${board.diff}">${board.timeDifference}</td>
-                <td>
-                    <div class="btn-group">
-                        <button style="font-size: small" name="modify" value="${board.bno}"
-                                class="btn btn-sm btn-outline-success btn-padding">수정
-                        </button>
-
-                        <jsp:include page="../include/modal/checkDelete.jsp"/>
-                        <button style="font-size: small" name="delete" value="${board.bno}"
-                                class="btn btn-sm btn-outline-danger btn-padding">삭제
-                        </button>
-                    </div>
-                </td>
             </tr>
-            <input type="hidden" id="ti${board.bno}" value="${board.title}">
-            <input type="hidden" id="co${board.bno}" value="${board.contents}">
-            <input type="hidden" id="li${board.bno}" value="${board.likeCount}">
         </c:forEach>
         </tbody>
     </table>
 
-    <jsp:include page="../include/modal/Posts.jsp"/>
-    <button id="createBtn" class="btn btn-info btn-xs"
-            data-toggle="modal">새 글 쓰기
-    </button>
     <hr/>
 </div>
 
@@ -186,76 +166,6 @@
     </div>
 </footer>
 
-<!-- 실시간 시간 변화 출력 -->
-<script type="text/javascript">
-
-    boardList = [];
-    board = {};
-    i = 0;
-
-    onload = function () {
-        dpTime();
-    };
-    setInterval("dpTime()", 1000);
-
-    function dpTime() {
-        var now = new Date();
-        hours = now.getHours();
-        minutes = now.getMinutes();
-        seconds = now.getSeconds();
-        if (hours > 12) {
-            hours -= 12;
-            ampm = "오후 ";
-        } else {
-            ampm = "오전 ";
-        }
-        if (hours < 10) {
-            hours = "0" + hours;
-        }
-        if (minutes < 10) {
-            minutes = "0" + minutes;
-        }
-        if (seconds < 10) {
-            seconds = "0" + seconds;
-        }
-        document.getElementById("dpTime").innerHTML = ampm + hours + ":" + minutes + ":" + seconds;
-
-        realTime();
-    }
-
-    function realTime() {
-        boardList = [];
-
-        <c:forEach var="board" items="${boardList}">
-        board = {};
-        board.bno = ${board.bno};
-        board.dateTime = "${board.dateTime}";
-        board.timeDifference = "";
-        boardList.push(board);
-        </c:forEach>
-
-        var data = {
-            "boardList": boardList
-        };
-
-        //Json 형태로 데이터 전달
-        $.ajax({
-            url: "/board/list/realTime",
-            type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify(data),
-            success: function (response) {
-                //성공시 controller로 부터 전달받은 data로 text 변경
-                for (i = 0; i < response.length; i++) {
-                    var bno = response[i].bno;
-                    var timeDifference = response[i].timeDifference;
-
-                    $("#board_diff" + bno).text(timeDifference);
-                }
-            }
-        });
-    }
-</script>
 
 
 <!-- Bootstrap core JavaScript -->

@@ -45,7 +45,7 @@
                     <a class="nav-link" href="/about.html">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/post.html">Sample Post</a>
+                    <a class="nav-link" href="/problem/problemset">문제</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/board/list">게시판</a>

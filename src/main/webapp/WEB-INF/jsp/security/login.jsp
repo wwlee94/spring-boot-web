@@ -1,8 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
+<%@ page language="java" contentType="text/html; charset=utf-8"
          pageEncoding="EUC-KR"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
-<html lang="euc-kr" dir="ltr">
+<html lang="utf-8" dir="ltr">
 
 <head>
     <meta charset="utf-8">
@@ -143,6 +143,17 @@
     <script>location.href='/';</script>
 </sec:authorize>
 
+<%
+    request.setCharacterEncoding("utf-8");
+
+    String loginId = null;
+    if(request.getAttribute("loginid") != null){
+        loginId = (String)request.getAttribute("loginid");
+    }
+%>
+
+
+
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
     <div class="container">
@@ -217,11 +228,33 @@
                             <form id="login-form"  method="post" role="form" style="display: block;">
                                 <input type ="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                 <div class="form-group">
+                                    <%
+                                        if(loginId != null){
+                                    %>
+                                    <input type="email" name="username" id="userID" tabindex="1" class="form-control" placeholder="이메일" value="<%= loginId%>">
+                                    <%
+                                    }else{
+                                    %>
                                     <input type="email" name="username" id="userID" tabindex="1" class="form-control" placeholder="이메일" value="">
+                                    <%
+                                        }
+                                    %>
+
                                 </div>
                                 <div class="form-group">
                                     <input type="password" name="password" id="userPassword" tabindex="2" class="form-control" placeholder="비밀번호">
                                 </div>
+                                <%
+                                    if(loginId != null){
+                                %>
+                                <p style="color:#b21f2d";>아이디와 비밀번호가 일치하지 않습니다.</p>
+                                <%
+                                }else{
+                                %>
+                                <br>
+                                <%
+                                    }
+                                %>
                                 <div class="form-group text-center">
                                     <input type="checkbox" tabindex="3" class="" name="remember" id="remember">
                                     <label for="remember"> 아이디 기억하기</label>
@@ -267,7 +300,7 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-6 col-sm-offset-3">
-                                            <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="가입하기">
+                                            <input type="button" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="가입하기">
                                         </div>
                                     </div>
                                 </div>
@@ -354,6 +387,40 @@
         });
 
     });
+
+    $(document).ready(function(){
+        $("#register-submit").click(function(){
+            var result = txtFieldCheck() == true ? true : false;
+            console.log(result);
+            if(result != true){
+                document.getElementById('register-form').submit();
+            }
+        });
+    });
+
+    function txtFieldCheck(){
+        // form안의 모든 text type 조회
+        var txtEle = $("#register-form input[type=text]");
+
+        for(var i = 0; i < txtEle.length; i ++){
+            // console.log($(txtEle[i]).val());
+            if("" == $(txtEle[i]).val() || null == $(txtEle[i]).val()){
+                var ele_id = $(txtEle[i]).attr("id");
+                var label_txt = $("label[for='" + ele_id +"']").text();
+                console.log("id : " + ele_id + ", label : " + label_txt);
+                showAlert(ele_id, label_txt);
+
+                return true;
+            }
+        }
+    }
+
+    function showAlert(ele_id, label_txt){
+        alert(label_txt + " is null");
+        // 해당 id에 focus.
+        $("#" + ele_id).focus();
+    }
+
 </script>
 </body>
 

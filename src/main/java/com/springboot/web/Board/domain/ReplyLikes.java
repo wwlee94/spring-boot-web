@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 public class ReplyLikes {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(length = 20, nullable = false)
