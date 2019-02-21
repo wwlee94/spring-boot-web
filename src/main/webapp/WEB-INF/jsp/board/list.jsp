@@ -1,3 +1,4 @@
+<%@ page import="com.springboot.web.Board.paging.Paging" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
@@ -10,7 +11,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Clean Blog - Start Bootstrap Theme</title>
+    <title>Spring Online Judge</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -31,7 +32,7 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
     <div class="container">
-        <a class="navbar-brand" href="/">Start Bootstrap</a>
+        <a class="navbar-brand" href="/">Spring Online Judge</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                 data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -64,8 +65,8 @@
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto">
                 <div class="site-heading">
-                    <h1>Clean Blog</h1>
-                    <span class="subheading">A Blog Theme by Start Bootstrap</span>
+                    <h1>ONLINE JUDGE !</h1>
+                    <span class="subheading">프로그래밍 문제를 풀고 온라인으로 채점받을 수 있는 곳입니다.</span>
                 </div>
             </div>
         </div>
@@ -80,7 +81,7 @@
             <span id="dpTime" class="pull-right"></span>
         </h2>
     </div>
-    <table class="table table-hover">
+    <table class="table table-hover table-striped">
         <thead>
         <tr>
             <th>No.</th>
@@ -99,7 +100,7 @@
                 <td><a href="/board/read/${board.bno}">${board.title}</a></td>
                 <td>${board.userName}</td>
                 <td>${board.likeCount}</td>
-                <td id="board_diff${board.bno}" data-timestamp="${board.diff}">${board.timeDifference}</td>
+                <td id="board_diff${board.bno}">${board.timeDifference}</td>
                 <td>
                     <div class="btn-group">
                         <button style="font-size: small" name="modify" value="${board.bno}"
@@ -125,6 +126,83 @@
             data-toggle="modal">새 글 쓰기
     </button>
     <hr/>
+
+    <br/>
+    <!-- pagination -->
+    <nav aria-label="Search results pages">
+        <ul class="pagination justify-content-center">
+            <!-- page==1 이면 이전 페이지네이션 disable로 만듬 -->
+            <c:if test="${paging.page==1}">
+                <li class="page-item disabled">
+                    <a class="page-link" tabindex="-1">
+                        <span aria-hidden="true">처음</span>
+                    </a>
+                </li>
+                <li class="page-item disabled">
+                    <a class="page-link" tabindex="-1">&lt;</a>
+                </li>
+            </c:if>
+            <c:if test="${paging.page!=1}">
+                <li class="page-item">
+                    <a class="page-link" href="/board/list?page=1">
+                        <span aria-hidden="true">처음</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="/board/list?page=${paging.page-1}">&lt;</a>
+                </li>
+            </c:if>
+            <!-- 페이지 정보 가져와 화면에 출력 -->
+            <%
+                //JSP로 애트리뷰트 받는 법
+                Paging paging = (Paging) request.getAttribute("paging");
+                int count = 0;
+                //보여줄 페이지 목록은 시작페이지 ~ 마지막 페이지
+                for (int i = paging.getStartPage()-1; i < paging.getEndPage(); i++) {
+                    if (i == paging.getPage() - 1) {
+                        out.print("<li class='page-item active'>");
+                    } else {
+                        out.print("<li class='page-item'>");
+                    }
+                    out.print("<a class='page-link' href='/board/list?page=" + (paging.getStartPage() + count) + "'>");
+                    out.print((paging.getStartPage() + count));
+                    out.print("</a></li>");
+                    count++;
+                }
+            %>
+            <!-- page가 마지막페이지이면 다음 페이지네이션 disable로 만듬 -->
+            <c:if test="${paging.page==paging.totalPage}">
+                <li class="page-item disabled">
+                    <a class="page-link" tabindex="-1">&gt;</a>
+                </li>
+                <li class="page-item disabled">
+                    <a class="page-link" tabindex="-1">
+                        <span aria-hidden="true">&gt;&gt;</span>
+                    </a>
+                </li>
+            </c:if>
+            <c:if test="${paging.page!=paging.totalPage}">
+                <li class="page-item">
+                    <a class="page-link" href="/board/list?page=${paging.page+1}">&gt;</a>
+                </li>
+                <!-- 10칸씩 페이지 넘기는 기능에 대해 if문 분류 -->
+                <c:if test="${paging.endPage+1 <= paging.totalPage}">
+                    <li class="page-item">
+                        <a class="page-link" href="/board/list?page=${paging.endPage+1}">
+                            <span aria-hidden="true">&gt;&gt;</span>
+                        </a>
+                    </li>
+                </c:if>
+                <c:if test="${paging.endPage+1 > paging.totalPage}">
+                    <li class="page-item disabled">
+                        <a class="page-link" tabindex="-1">
+                            <span aria-hidden="true">&gt;&gt;</span>
+                        </a>
+                    </li>
+                </c:if>
+            </c:if>
+        </ul>
+    </nav>
 </div>
 
 <!-- Footer -->
@@ -170,11 +248,11 @@
     boardList = [];
     board = {};
     i = 0;
+    count = 0;
 
     onload = function () {
         dpTime();
     };
-    setInterval("dpTime()", 1000);
 
     function dpTime() {
         var now = new Date();
@@ -199,6 +277,13 @@
         document.getElementById("dpTime").innerHTML = ampm + hours + ":" + minutes + ":" + seconds;
 
         realTime();
+
+        setTimeout("dpTime()", 1000);
+        count++;
+        if (count > 120) {
+            count = 0;
+            location.reload();
+        }
     }
 
     function realTime() {
@@ -217,12 +302,14 @@
         };
 
         //Json 형태로 데이터 전달
+        //data -> 객체안에 배열 , 배열 안에 여러개의 객체로 이루어짐
         $.ajax({
             url: "/board/list/realTime",
             type: "POST",
+            cache: false,
             contentType: "application/json",
             data: JSON.stringify(data),
-            success: function (response) {
+            success: function (response) { // 성공했을 때의 처리 콜백함수
                 //성공시 controller로 부터 전달받은 data로 text 변경
                 for (i = 0; i < response.length; i++) {
                     var bno = response[i].bno;

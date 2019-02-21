@@ -51,7 +51,7 @@
                     <a class="nav-link" href="/board/list">게시판</a>
                 </li>
                 <sec:authorize access="isAnonymous()">
-                    <ul class="nav navbar-nav navbar-right">
+                    <ul style="font-size: 20px" class="nav navbar-nav navbar-right">
                         <li class="dropdown nav-item"><a style="text-decoration:none;" href="#" class="dropdown-toggle"
                                                          data-toggle="dropdown" role="button" aria-haspopup="true"
                                                          aria-expanded="false">회원 관리<span class="caret"></span></a>
@@ -62,7 +62,7 @@
                     </ul>
                 </sec:authorize>
                 <sec:authorize access="isAuthenticated()">
-                    <ul class="nav navbar-nav navbar-right">
+                    <ul style="font-size: 20px" class="nav navbar-nav navbar-right">
                         <li class="dropdown nav-item"><a style="text-decoration:none;" href="#" class="dropdown-toggle"
                                                          data-toggle="dropdown" role="button" aria-haspopup="true"
                                                          aria-expanded="false">회원 관리<span class="caret"></span></a>

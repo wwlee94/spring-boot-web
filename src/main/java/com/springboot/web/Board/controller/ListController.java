@@ -1,8 +1,9 @@
 package com.springboot.web.Board.controller;
 
-import com.springboot.web.Board.Date.CurrentTime;
+import com.springboot.web.Board.Date.ConverterTime;
 import com.springboot.web.Board.Date.TimeDifference;
 import com.springboot.web.Board.domain.Board;
+import com.springboot.web.Board.paging.Paging;
 import com.springboot.web.Board.repository.BoardRepository;
 import com.springboot.web.login.SecurityMember;
 import com.springboot.web.login.user.User;
@@ -12,11 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.security.Principal;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/board/*")
@@ -33,13 +32,27 @@ public class ListController {
     private Object object;
     private String email;
 
-    //list,GET 요청이 들어오면 보여주기
+    private Paging paging = new Paging();
+
+    //list,GET 요청이 들어오면 게시글 리스트 보여주기
+    //@RequestParam ->  ?index=1&page=2 이렇게 오는 값을 받을 수 있다.
     @RequestMapping("/list")
-    public ModelAndView list() throws ParseException {
+    public ModelAndView list(@RequestParam(value = "page", defaultValue = "1", required = false) int page) throws ParseException {
 
-        List<Board> boardList = repository.findAllOrderByAsc();
+        int totalCount = repository.findAllForCount();
 
-        //Board의 작성일자 구하는 메소드
+        paging.init(totalCount, page);
+        System.out.println("전체 게시글: " + totalCount);
+        System.out.println("총 페이지: " + paging.getTotalPage());
+        System.out.println("시작 페이지: " + paging.getStartPage() + " 마지막 페이지: " + paging.getEndPage() + " 현재 페이지: " + paging.getPage());
+
+        //페이지의 값에 따른 게시글 가져오기
+        int listCount = paging.getListCount();
+        System.out.println(listCount);
+        int pageNum = (page - 1) * listCount;
+        List<Board> boardList = repository.findAllOrderByAscAboutPage(pageNum, listCount);
+
+        //Board의 작성일자(게시글 등록한지 얼마나 지났는지) 구하는 메소드
         //객체 인스턴스라 반환값 안 받아도 적용됨
         timeDifference.getBoardListTimeDifference(boardList);
 
@@ -48,6 +61,7 @@ public class ListController {
         ModelAndView mv = new ModelAndView();
         mv.setViewName("board/list");
         mv.addObject("boardList", boardList);
+        mv.addObject("paging", paging);
         return mv;
     }
 
@@ -56,19 +70,17 @@ public class ListController {
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     public void create(Board board) {
 
-
         object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if(object.getClass().getName().equals("com.springboot.web.login.user.User")){
-            email = ((User)object).getEmail();
-        }
-        else if(object.getClass().getName().equals("com.springboot.web.login.SecurityMember")){
-            email = ((SecurityMember)object).getUsername();
+        if (object.getClass().getName().equals("com.springboot.web.login.user.User")) {
+            email = ((User) object).getEmail();
+        } else if (object.getClass().getName().equals("com.springboot.web.login.SecurityMember")) {
+            email = ((SecurityMember) object).getUsername();
         }
 
         //현재 시간 추가하기
-        CurrentTime currentTime = new CurrentTime();
-        String date = currentTime.getStringCurrentTime();
+        ConverterTime converterTime = new ConverterTime();
+        String date = converterTime.getStringDateTime();
         board.setDateTime(date);
         //email or nickname으로 변경하면 OK
         String userName = email;
@@ -93,13 +105,6 @@ public class ListController {
         board.setLikeCount(getBoard.getLikeCount());
         board.setDateTime(getBoard.getDateTime());
 
-        /*
-        //TODO: 수정시간 컬럼을 따로 만든 후에 수정시간만 변경 -> 작성일은 그대로 적용
-        //수정했으니 dateTime 현재 시간으로 갱신
-        CurrentTime currentTime = new CurrentTime();
-        String dateTime = currentTime.getStringCurrentTime();
-        board.setDateTime(dateTime);
-        */
         repository.save(board);
     }
 

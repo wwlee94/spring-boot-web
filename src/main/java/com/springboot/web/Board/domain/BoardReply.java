@@ -17,8 +17,8 @@ public class BoardReply {
     //댓글 작성자
     @Column(length = 20, nullable = false)
     private String userName;
-    //댓글 내용 50자
-    @Column(length = 50, nullable = false)
+    //댓글 내용 200자
+    @Column(length = 250, nullable = false)
     private String contents;
 
     //댓글 등록 시간
@@ -29,9 +29,14 @@ public class BoardReply {
     private int likeCount;
 
     //JPA 매핑 제외
-    //댓글 작성일
+    //댓글 작성일 -> ex) 1시간 전/10개월 전
     @Transient
     private String timeDifference;
+
+    //JPA 매핑 제외
+    //게시판 작성일 date -> 2017-10-28
+    @Transient
+    private String date;
 
     public int getRno() {
         return rno;
@@ -88,4 +93,8 @@ public class BoardReply {
     public void setTimeDifference(String timeDifference) {
         this.timeDifference = timeDifference;
     }
+
+    public String getDate() { return date; }
+
+    public void setDate(String date) { this.date = date; }
 }

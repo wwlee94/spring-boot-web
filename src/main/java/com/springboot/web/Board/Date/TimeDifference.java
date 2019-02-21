@@ -28,16 +28,11 @@ public class TimeDifference {
         for (int i = 0; i < boardList.size(); i++) {
             //현재시간
             Date EndDate = new Date();
-            System.out.println("현재시간: " + EndDate);
             //등록한 시간
             Date StartDate = format.parse(boardList.get(i).getDateTime());
-            System.out.println("각자 시간: " + StartDate);
 
             //밀리세컨즈 단위 시간 차
             Long diff = EndDate.getTime() - StartDate.getTime();
-            System.out.println("차이: " + diff);
-
-            boardList.get(i).setDiff(diff);
 
             setClassify(diff);
 
@@ -78,8 +73,6 @@ public class TimeDifference {
 
         //밀리세컨즈 단위 시간 차
         Long diff = EndDate.getTime() - StartDate.getTime();
-
-        board.setDiff(diff);
 
         setClassify(diff);
 

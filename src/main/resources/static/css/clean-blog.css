@@ -5,7 +5,7 @@
  */
 
 body {
-    font-size: 20px;
+    font-size: 18px;
     color: #212529;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
@@ -431,4 +431,15 @@ footer .copyright {
 .h-normal {
     font-weight: normal;
     font-style: normal;
+}
+a{
+    color:#0076C0;
+    text-decoration: none;
+    background-color: transparent;
+}
+.page-item.active .page-link {
+    z-index: 1;
+    color: #fff;
+    background-color: #0076C0;
+    border-color: #0076C0;
 }

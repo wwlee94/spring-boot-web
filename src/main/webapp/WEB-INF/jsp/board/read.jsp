@@ -14,7 +14,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Clean Blog - Start Bootstrap Theme</title>
+    <title>Spring Online Judge</title>
 
     <!-- Bootstrap core CSS-->
     <link href="/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -35,7 +35,7 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
     <div class="container">
-        <a class="navbar-brand" href="/">Start Bootstrap</a>
+        <a class="navbar-brand" href="/">Spring Online Judge</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                 data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -68,8 +68,8 @@
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto">
                 <div class="site-heading">
-                    <h1>Clean Blog</h1>
-                    <span class="subheading">A Blog Theme by Start Bootstrap</span>
+                    <h1>ONLINE JUDGE !</h1>
+                    <span class="subheading">프로그래밍 문제를 풀고 온라인으로 채점받을 수 있는 곳입니다.</span>
                 </div>
             </div>
         </div>
@@ -93,7 +93,8 @@
             <span id="post_likeCount">
                 ${board.likeCount}
             </span>
-                ${board.dateTime}
+            &nbsp;&nbsp;
+            ${board.date}
             <div style="font-size: medium" class="pull-right">
                 <span id="board_timeDiff">${board.timeDifference}</span> &nbsp;&nbsp;
                 <a href="#" onclick="return false" id="post_like" data-like="${isLike}"></a>
@@ -122,8 +123,8 @@
                 <span id="reply_likeCount${reply.rno}">
                         ${reply.likeCount}
                 </span>
-                        &nbsp;&nbsp;
-                        ${reply.dateTime}
+                &nbsp;&nbsp;
+                    ${reply.date}
                 <div style="font-size: medium" class="pull-right">
                     <span id="reply_timeDiff${reply.rno}">${reply.timeDifference}</span> &nbsp;&nbsp;
 
@@ -218,15 +219,16 @@
     </div>
 </footer>
 <script type="text/javascript">
+
     list = [];
     board = {};
     reply = {};
     i = 0;
+    count =0;
 
     onload = function () {
         realTime();
     };
-    setInterval("realTime()", 1000);
 
     function realTime() {
         list = [];
@@ -254,9 +256,10 @@
         $.ajax({
             url: "/board/read/realTime",
             type: "POST",
+            cache: false,
             contentType: "application/json",
             data: JSON.stringify(data),
-            success: function (response) {
+            success: function (response) { // 성공했을 때의 처리 콜백함수
                 //성공시 controller로 부터 전달받은 data로 text 변경
                 for (i = 0; i < response.length; i++) {
                     if (i == 0) {
@@ -271,6 +274,13 @@
                     }
                 }//for
             }//ajax
+        }).then(function(){
+            setTimeout("realTime()",1000);
+            count++;
+            if(count>120){
+                count=0;
+                location.reload();
+            }
         });
     }
 </script>

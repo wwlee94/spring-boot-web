@@ -1,6 +1,6 @@
 package com.springboot.web.Board.controller;
 
-import com.springboot.web.Board.Date.CurrentTime;
+import com.springboot.web.Board.Date.ConverterTime;
 import com.springboot.web.Board.Date.TimeDifference;
 import com.springboot.web.Board.domain.Board;
 import com.springboot.web.Board.domain.BoardReply;
@@ -45,6 +45,9 @@ public class ReadController {
     //작성일 구해주는 객체
     private TimeDifference timeDifference = new TimeDifference();
 
+    //시간 형 변환
+    private ConverterTime converterTime = new ConverterTime();
+
     //사용자 정보 가져오기 위한 변수
     private Object object;
     private String email;
@@ -59,13 +62,16 @@ public class ReadController {
         //Board 단일객체의 작성일자 구하는 메소드
         timeDifference.getBoardTimeDifference(board);
 
+        //DateTime -> Date형식 String으로 받아오는 함수
+        String boardDate = converterTime.getStringDateByBoard(board);
+        board.setDate(boardDate);
+
         object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if(object.getClass().getName().equals("com.springboot.web.login.user.User")){
-            email = ((User)object).getEmail();
-        }
-        else if(object.getClass().getName().equals("com.springboot.web.login.SecurityMember")){
-            email = ((SecurityMember)object).getUsername();
+        if (object.getClass().getName().equals("com.springboot.web.login.user.User")) {
+            email = ((User) object).getEmail();
+        } else if (object.getClass().getName().equals("com.springboot.web.login.SecurityMember")) {
+            email = ((SecurityMember) object).getUsername();
         }
 
         //좋아요인지 좋아요 취소인지
@@ -84,6 +90,9 @@ public class ReadController {
         List<BoardReply> boardReplyList = replyRepository.findAllByBno(bno);
         timeDifference.getReplyTimeDifference(boardReplyList);
 
+        //DateTime -> Date형식 String으로 받아오는 함수
+        converterTime.getStringDateByReply(boardReplyList);
+
         List<ReplyLikes> replyLikesList = replyLikesRepository.findAllByBoardIdAndUserId(bno, userId);
         for (int i = 0; i < replyLikesList.size(); i++) {
             //가져와진 데이터들은 모두 좋아요가 눌러진 상태인 데이터
@@ -100,7 +109,7 @@ public class ReadController {
         mv.addObject("isLike", isLike);
         mv.addObject("boardReplyList", boardReplyList);
         mv.addObject("replyLikesList", replyLikesList);
-        mv.addObject("email",email);
+        mv.addObject("email", email);
         return mv;
     }
 
@@ -118,11 +127,10 @@ public class ReadController {
 
         object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if(object.getClass().getName().equals("com.springboot.web.login.user.User")){
-            email = ((User)object).getEmail();
-        }
-        else if(object.getClass().getName().equals("com.springboot.web.login.SecurityMember")){
-            email = ((SecurityMember)object).getUsername();
+        if (object.getClass().getName().equals("com.springboot.web.login.user.User")) {
+            email = ((User) object).getEmail();
+        } else if (object.getClass().getName().equals("com.springboot.web.login.SecurityMember")) {
+            email = ((SecurityMember) object).getUsername();
         }
 
         String userId = email;
@@ -152,11 +160,10 @@ public class ReadController {
 
         object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if(object.getClass().getName().equals("com.springboot.web.login.user.User")){
-            email = ((User)object).getEmail();
-        }
-        else if(object.getClass().getName().equals("com.springboot.web.login.SecurityMember")){
-            email = ((SecurityMember)object).getUsername();
+        if (object.getClass().getName().equals("com.springboot.web.login.user.User")) {
+            email = ((User) object).getEmail();
+        } else if (object.getClass().getName().equals("com.springboot.web.login.SecurityMember")) {
+            email = ((SecurityMember) object).getUsername();
         }
 
         BoardReply boardReply = new BoardReply();
@@ -168,8 +175,8 @@ public class ReadController {
 
         //현재 시간 추가하기
         //현재 시간 추가하기
-        CurrentTime currentTime = new CurrentTime();
-        String date = currentTime.getStringCurrentTime();
+        ConverterTime converterTime = new ConverterTime();
+        String date = converterTime.getStringDateTime();
         boardReply.setDateTime(date);
 
         replyRepository.save(boardReply);
@@ -192,11 +199,10 @@ public class ReadController {
 
         object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if(object.getClass().getName().equals("com.springboot.web.login.user.User")){
-            email = ((User)object).getEmail();
-        }
-        else if(object.getClass().getName().equals("com.springboot.web.login.SecurityMember")){
-            email = ((SecurityMember)object).getUsername();
+        if (object.getClass().getName().equals("com.springboot.web.login.user.User")) {
+            email = ((User) object).getEmail();
+        } else if (object.getClass().getName().equals("com.springboot.web.login.SecurityMember")) {
+            email = ((SecurityMember) object).getUsername();
         }
 
         //게시판 댓글에 해당되는 likeCount 수정

@@ -20,7 +20,7 @@ public class Board {
     private String title;
 
     //게시판 글 내용
-    @Column(length = 100, nullable = false)
+    @Column(length = 250, nullable = false)
     private String contents;
 
     //게시판 등록 시간
@@ -30,15 +30,17 @@ public class Board {
     //좋아요 개수
     private int likeCount;
 
+    //TODO: 조회수 추가!?
+
     //JPA 매핑 제외
-    //게시판 작성일 (몇 시간 전에 등록했는지)
+    //게시판 작성일 -> ex) 1시간 전/10개월 전
     @Transient
     private String timeDifference;
 
     //JPA 매핑 제외
-    //게시판 작성일 (몇 시간 전에 등록했는지) -> 현재시간 - 작성일
+    //게시판 작성일 date -> 2017-10-28
     @Transient
-    private long diff;
+    private String date;
 
     public int getBno() {
         return bno;
@@ -96,11 +98,7 @@ public class Board {
         this.timeDifference = timeDifference;
     }
 
-    public long getDiff() {
-        return diff;
-    }
+    public String getDate() { return date; }
 
-    public void setDiff(long diff) {
-        this.diff = diff;
-    }
+    public void setDate(String date) { this.date = date; }
 }
