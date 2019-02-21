@@ -10,7 +10,10 @@ import com.springboot.web.Board.repository.BoardReplyRepository;
 import com.springboot.web.Board.repository.BoardRepository;
 import com.springboot.web.Board.repository.LikesRepository;
 import com.springboot.web.Board.repository.ReplyLikesRepository;
+import com.springboot.web.login.SecurityMember;
+import com.springboot.web.login.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -42,6 +45,10 @@ public class ReadController {
     //작성일 구해주는 객체
     private TimeDifference timeDifference = new TimeDifference();
 
+    //사용자 정보 가져오기 위한 변수
+    private Object object;
+    private String email;
+
     //게시글 하나를 클릭했을 때 처리
     //read,GET 요청이 들어오면 자세히 보여주기
     @RequestMapping(value = "/read/{bno}", method = RequestMethod.GET)
@@ -52,9 +59,18 @@ public class ReadController {
         //Board 단일객체의 작성일자 구하는 메소드
         timeDifference.getBoardTimeDifference(board);
 
+        object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if(object.getClass().getName().equals("com.springboot.web.login.user.User")){
+            email = ((User)object).getEmail();
+        }
+        else if(object.getClass().getName().equals("com.springboot.web.login.SecurityMember")){
+            email = ((SecurityMember)object).getUsername();
+        }
+
         //좋아요인지 좋아요 취소인지
         //임시 ID
-        String userId = "wwlee94";
+        String userId = email;
         Likes likes = likesRepository.findAllByBoardIdAndUserId(bno, userId);
         if (likes != null && !likes.equals("")) {
             System.out.println("게시글 좋아요 눌러진 상태 = 좋아요 취소");
@@ -65,7 +81,7 @@ public class ReadController {
         }
 
         //게시판 댓글 리스트를 구하는 과정
-        List<BoardReply> boardReplyList = replyRepository.findAllByBnoAndUserName(bno, userId);
+        List<BoardReply> boardReplyList = replyRepository.findAllByBno(bno);
         timeDifference.getReplyTimeDifference(boardReplyList);
 
         List<ReplyLikes> replyLikesList = replyLikesRepository.findAllByBoardIdAndUserId(bno, userId);
@@ -84,6 +100,7 @@ public class ReadController {
         mv.addObject("isLike", isLike);
         mv.addObject("boardReplyList", boardReplyList);
         mv.addObject("replyLikesList", replyLikesList);
+        mv.addObject("email",email);
         return mv;
     }
 
@@ -99,9 +116,19 @@ public class ReadController {
         board.setLikeCount(likeCount);
         repository.save(board);
 
+        object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if(object.getClass().getName().equals("com.springboot.web.login.user.User")){
+            email = ((User)object).getEmail();
+        }
+        else if(object.getClass().getName().equals("com.springboot.web.login.SecurityMember")){
+            email = ((SecurityMember)object).getUsername();
+        }
+
+        String userId = email;
+
         //좋아요 취소 버튼을 누르고 Controller에 요청 -> 삭제
         if (isLike.equals("0")) {
-            String userId = "wwlee94";
             likesRepository.deleteLikesByBoardIdAndUserId(bno, userId);
             System.out.println(bno);
             System.out.println("likes delete");
@@ -109,7 +136,6 @@ public class ReadController {
         //좋아요 버튼을 누르고 Controller에 요청 -> 추가
         else {
             //임시 ID
-            String userId = "wwlee94";
             Likes likes = new Likes();
             likes.setId(0);
             likes.setBoardId(bno);
@@ -124,10 +150,19 @@ public class ReadController {
     @RequestMapping(value = "/read/reply/{bno}", method = RequestMethod.GET)
     public String reply(@PathVariable("bno") int bno, @RequestParam("contents") String contents) {
 
+        object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if(object.getClass().getName().equals("com.springboot.web.login.user.User")){
+            email = ((User)object).getEmail();
+        }
+        else if(object.getClass().getName().equals("com.springboot.web.login.SecurityMember")){
+            email = ((SecurityMember)object).getUsername();
+        }
+
         BoardReply boardReply = new BoardReply();
         boardReply.setRno(0); // GeneratedValue
         boardReply.setBno(bno);
-        boardReply.setUserName("wwlee94");
+        boardReply.setUserName(email);
         boardReply.setContents(contents);
         boardReply.setLikeCount(0);
 
@@ -155,9 +190,18 @@ public class ReadController {
             , @RequestParam("likeCount") int likeCount
             , @RequestParam("isLike") String isLike) {
 
+        object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if(object.getClass().getName().equals("com.springboot.web.login.user.User")){
+            email = ((User)object).getEmail();
+        }
+        else if(object.getClass().getName().equals("com.springboot.web.login.SecurityMember")){
+            email = ((SecurityMember)object).getUsername();
+        }
+
         //게시판 댓글에 해당되는 likeCount 수정
         //임시 ID
-        String userId = "wwlee94";
+        String userId = email;
         //rno로 댓글 객체 가져옴
         BoardReply boardReply = replyRepository.findAllByRno(rno);
         boardReply.setLikeCount(likeCount);

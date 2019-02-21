@@ -12,6 +12,10 @@ import java.util.List;
 public interface BoardReplyRepository extends JpaRepository<BoardReply, Integer> {
 
     //댓글 리스트 보여주기 위한 쿼리문
+    @Query("select br from BoardReply br where br.bno=:bno order by br.rno asc")
+    List<BoardReply> findAllByBno(@Param("bno") int bno);
+
+
     //게시판 번호 + 사용자ID로 댓글 찾는 쿼리문
     @Query("select br from BoardReply br where br.bno=:bno and br.userName=:userName order by br.rno asc")
     List<BoardReply> findAllByBnoAndUserName(@Param("bno") int bno, @Param("userName") String userName);

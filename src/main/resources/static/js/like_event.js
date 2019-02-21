@@ -76,29 +76,30 @@ $(document).ready(function () {
     $(".reply_like").click(function () {
 
         var likeCount;
+
+        rno = $(this).attr("name");
         reply_isLike = $(this).attr("data-like");
 
         //좋아요 상태 눌렀을 때 그 이후 처리
         //reply_l;ikeCount 를 수정해야함 delete랑
         if (reply_isLike === '0') {
-            likeCount = $("#reply_likeCount").text();
+            likeCount = $("#reply_likeCount"+rno).text();
             likeCount++;
-            $("#reply_likeCount").text(likeCount);
+            $("#reply_likeCount"+rno).text(likeCount);
 
             $(this).text(clike);
             $(this).attr("data-like", "1");
         }
         //좋아요 취소 상태를 눌렀을 때 그 이후 처리
         else {
-            likeCount = $("#reply_likeCount").text();
+            likeCount = $("#reply_likeCount"+rno).text();
             likeCount--;
-            $("#reply_likeCount").text(likeCount);
+            $("#reply_likeCount"+rno).text(likeCount);
 
             $(this).text(like);
             $(this).attr("data-like", "0");
         }
 
-        rno = $(this).attr("name");
         type = "GET";
         url = "/board/read/replyLike/" + rno;
 

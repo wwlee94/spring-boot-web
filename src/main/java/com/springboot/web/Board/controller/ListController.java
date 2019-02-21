@@ -4,14 +4,19 @@ import com.springboot.web.Board.Date.CurrentTime;
 import com.springboot.web.Board.Date.TimeDifference;
 import com.springboot.web.Board.domain.Board;
 import com.springboot.web.Board.repository.BoardRepository;
+import com.springboot.web.login.SecurityMember;
+import com.springboot.web.login.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/board/*")
@@ -24,13 +29,16 @@ public class ListController {
     //작성일 구해주는 객체
     private TimeDifference timeDifference = new TimeDifference();
 
-    //로그인 정보
-    String userName;
+    //사용자 정보 가져오기 위한 변수
+    private Object object;
+    private String email;
 
     //list,GET 요청이 들어오면 보여주기
     @RequestMapping("/list")
     public ModelAndView list() throws ParseException {
+
         List<Board> boardList = repository.findAllOrderByAsc();
+
         //Board의 작성일자 구하는 메소드
         //객체 인스턴스라 반환값 안 받아도 적용됨
         timeDifference.getBoardListTimeDifference(boardList);
@@ -47,12 +55,23 @@ public class ListController {
     //@POSTMapping
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     public void create(Board board) {
+
+
+        object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if(object.getClass().getName().equals("com.springboot.web.login.user.User")){
+            email = ((User)object).getEmail();
+        }
+        else if(object.getClass().getName().equals("com.springboot.web.login.SecurityMember")){
+            email = ((SecurityMember)object).getUsername();
+        }
+
         //현재 시간 추가하기
         CurrentTime currentTime = new CurrentTime();
         String date = currentTime.getStringCurrentTime();
         board.setDateTime(date);
         //email or nickname으로 변경하면 OK
-        String userName = "wwlee94";
+        String userName = email;
         board.setUserName(userName);
         //좋아요 개수
         board.setLikeCount(0);
@@ -74,6 +93,13 @@ public class ListController {
         board.setLikeCount(getBoard.getLikeCount());
         board.setDateTime(getBoard.getDateTime());
 
+        /*
+        //TODO: 수정시간 컬럼을 따로 만든 후에 수정시간만 변경 -> 작성일은 그대로 적용
+        //수정했으니 dateTime 현재 시간으로 갱신
+        CurrentTime currentTime = new CurrentTime();
+        String dateTime = currentTime.getStringCurrentTime();
+        board.setDateTime(dateTime);
+        */
         repository.save(board);
     }
 

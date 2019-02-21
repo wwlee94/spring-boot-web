@@ -1,6 +1,5 @@
 package com.springboot.web.login.social.facebook;
 
-
 import com.springboot.web.login.social.SocialService;
 import com.springboot.web.login.social.userconnection.UserConnection;
 import org.codehaus.jackson.map.DeserializationConfig;
@@ -20,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -64,7 +62,6 @@ public class FacebookOAuth2ClientAuthenticationProcessingFilter extends OAuth2Cl
 
         }
         userDetails.setEmail(email);
-
 
         final UserConnection userConnection = UserConnection.valueOf(userDetails); // UserConnection를 userDetails 기반으로 생성
         final UsernamePasswordAuthenticationToken authenticationToken = socialService.doAuthentication(userConnection); // SocialService를 이용해서 인증 절차 진행

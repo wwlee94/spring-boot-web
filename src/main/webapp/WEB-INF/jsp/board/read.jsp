@@ -93,6 +93,7 @@
             <span id="post_likeCount">
                 ${board.likeCount}
             </span>
+                ${board.dateTime}
             <div style="font-size: medium" class="pull-right">
                 <span id="board_timeDiff">${board.timeDifference}</span> &nbsp;&nbsp;
                 <a href="#" onclick="return false" id="post_like" data-like="${isLike}"></a>
@@ -118,14 +119,17 @@
             <div class="panel-heading">
                     ${reply.userName}
                 &nbsp;&nbsp;<span class="glyphicon glyphicon-thumbs-up"></span>
-                <span id="reply_likeCount">
+                <span id="reply_likeCount${reply.rno}">
                         ${reply.likeCount}
                 </span>
+                        &nbsp;&nbsp;
+                        ${reply.dateTime}
                 <div style="font-size: medium" class="pull-right">
                     <span id="reply_timeDiff${reply.rno}">${reply.timeDifference}</span> &nbsp;&nbsp;
 
                     <c:set var="state" value="false"/>
                     <c:forEach var="replyLikes" items="${replyLikesList}">
+
                         <c:choose>
                             <c:when test="${reply.rno eq replyLikes.replyId}">
                                 <c:set var="state" value="true"/>
@@ -166,7 +170,7 @@
     <!-- 댓글 작성란 -->
     <div class="panel panel-default">
         <div class="panel-heading">
-            ${board.userName}
+            ${email}
         </div>
         <div class="panel-body">
             <input type="text" class="form-control" id="reply_input" placeholder="댓글을 작성해주세요.">
