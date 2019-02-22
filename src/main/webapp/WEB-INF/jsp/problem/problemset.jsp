@@ -58,8 +58,8 @@
                                                          data-toggle="dropdown" role="button" aria-haspopup="true"
                                                          aria-expanded="false">회원 관리<span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a style="color:black;text-decoration:none;" href="security/login"> 로그인</a></li>
-                                <li><a style="color:black;text-decoration:none;" href="security/signUp"> 회원가입</a></li>
+                                <li><a style="color:black;text-decoration:none;" href="/security/login"> 로그인</a></li>
+                                <li><a style="color:black;text-decoration:none;" href="/security/signUp"> 회원가입</a></li>
                             </ul></li>
                     </ul>
                 </sec:authorize>
@@ -69,7 +69,7 @@
                                                          data-toggle="dropdown" role="button" aria-haspopup="true"
                                                          aria-expanded="false">회원 관리<span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a style="color:black;text-decoration:none;" href="security/#"> 정보수정</a></li>
+                                <li><a style="color:black;text-decoration:none;" href="/security/#"> 정보수정</a></li>
                                 <li><a style="color:black;text-decoration:none;" href="/logout"> 로그아웃</a></li>
                             </ul></li>
                     </ul>
@@ -117,7 +117,7 @@
         <c:forEach var="problem" items="${problemList}">
             <tr>
                 <td>${problem.proNo}</td>
-                <td><a href="/board/read/${problem.proNo}">${problem.proName}</a></td>
+                <td><a href="/problem/proView/${problem.proNo}">${problem.proName}</a></td>
                 <td>${problem.proSolveCount}</td>
                 <td>${problem.proSubmitCount}</td>
                 <td id="board_diff${board.bno}" data-timestamp="${board.diff}">${board.timeDifference}</td>
