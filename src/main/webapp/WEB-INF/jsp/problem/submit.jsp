@@ -30,7 +30,8 @@
     <!-- Custom styles for this template -->
     <link href="/css/clean-blog.css" rel="stylesheet">
     <!-- 코드미러 -->
-    <link href="/css/codemirror.css" rel="stylesheet">
+    <link href="/css/codemirror/codemirror.css" rel="stylesheet">
+    <link href="/css/codemirror/Theme/mbo.css" rel="stylesheet">
 
 </head>
 <body>
@@ -123,6 +124,7 @@
 
 <!-- Main Content -->
 <div class="container">
+    <div class="row">
     <div class="page-header">
         <h2>문제</h2>
         <h5>
@@ -133,9 +135,9 @@
     </div>
 
     <div class = "col-md-12">
-        <form action="" method="post" class = "form-horizontal submit-form" id = "submit_form">
+        <form action="/problem/statusAction" method="post" class = "form-horizontal submit-form" id = "submit_form">
             <legend>A+B</legend>
-            <input type='hidden' value='1000' name="problem_id">
+            <input type='hidden' value='1000' name="proNo">
             <div class="form-group">
                 <label class="col-md-2 control-label" for="language">언어</label>
                 <div class="col-md-10" style="margin-top:7px;">
@@ -214,33 +216,32 @@
                 <div class = "radio">
                     <label>
                         <input type = "radio" name = "code_open" id="code_open_close" value="close" >비공개</label>
-                </div><div class = "radio"><label>
-                <input type = "radio" name = "code_open" id="code_open_accepted" value="onlyaccepted" >맞았을 때만 공개</label>
-            </div>
+                </div>
+                <div class = "radio"><label>
+                    <input type = "radio" name = "code_open" id="code_open_accepted" value="onlyaccepted" >맞았을 때만 공개</label>
+                </div>
             </div>
         </div>
             <div class="form-group">
                 <label class="col-md-2 control-label" for="source">소스 코드</label>
                 <div class="col-md-10">
-                    <div id="codeeditor"></div>
-                    <textarea id="source" class="codemirror-textarea" data-mime="text/x-c++src" name="source" autofocus="autofocus">
-
-                    </textarea>
+                    <textarea class="codemirror-textarea" name="source"></textarea>
+                    <%--<textarea id="source" class="codemirror-textarea" data-mime="text/x-c++src" name="source" autofocus="autofocus">--%>
+                    <%--</textarea>--%>
                 </div>
             </div>
             <input type="hidden" name="csrf_key" value="41c195b0d065fe330f8fe2c4f7b0c1b0">
             <div class = "form-group">
                 <div class = "col-md-offset-2 col-md-10">
-                    <strong id="submit_preview">버튼 로딩 중</strong>
-                    <button id="submit_button" type="submit" class="btn btn-primary" data-loading-text="제출 중..." style="display: none;">제출</button>
+                    <button id="submit_button" type="submit" class="btn btn-primary" data-loading-text="제출 중...">제출</button>
                 </div>
             </div>
         </form>
     </div>
+    </div>
 </div>
 
-
-
+<hr>
 <!-- Footer -->
 <footer>
     <div class="container">
@@ -278,22 +279,17 @@
     </div>
 </footer>
 
-<script>
-    var editor = CodeMirror(document.getElementById("codeeditor"));
-</script>
 <!-- Bootstrap core JavaScript -->
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
 
-<!--코드미러-->
-<script src="/js/codemirror.js"></script>
-<script src="/js/mode/javascript/javascript.js"></script>
-
 <!-- Custom scripts for this template -->
 <script src="/js/clean-blog.min.js"></script>
 
-<!-- Like Event -->
-<script type="text/javascript" src="/js/like_event.js"></script>
+<!--코드미러-->
+<script src="/js/codemirror/codemirror.js"></script>
+<script src="/js/codemirror/mode/clike/clike.js"></script>
+<script src="/js/codemirror/codemirror-edit.js"></script>
 
 </body>
 </html>

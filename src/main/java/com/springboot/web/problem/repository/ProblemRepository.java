@@ -13,10 +13,4 @@ public interface ProblemRepository extends JpaRepository<Problem,Long> {
     @Query("select p from Problem p order by p.proNo desc ")
     List<Problem> findAllOrderByDesc();
 
-
-//    //게시판 글 수정
-//    @Query("update Board b set b.title=:title, b.contents=:contents where b.bno = :bno")
-//    Board updateAllByBno(@Param("bno") int bno
-//            , @Param("title") String title
-//            , @Param("contents") String contents);
 }
