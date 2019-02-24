@@ -1,5 +1,6 @@
 package com.springboot.web.problem.controller;
 
+import com.springboot.web.problem.SubmitClient;
 import com.springboot.web.problem.domain.Problem;
 import com.springboot.web.problem.domain.ProblemStatus;
 import com.springboot.web.problem.repository.ProblemRepository;
@@ -22,6 +23,9 @@ public class problemController {
 
     @Autowired
     ProblemStatusRepository problemStatusRepository;
+
+    @Autowired
+    SubmitClient submitClient;
 
     @GetMapping("/problemset")
     public ModelAndView problemset(){
@@ -71,16 +75,33 @@ public class problemController {
 
     //사용자가 문제를 제출 했을 경우 데이터 베이스에 값을 저장 한후 , 소켓 통신으로 채점 서버에 알려준다.
     @RequestMapping(value = "/statusAction", method=RequestMethod.POST)
-    public void statusAction(ProblemStatus problemStatus){
+    public ModelAndView statusAction(ProblemStatus problemStatus){
 
         System.out.println(problemStatus.getLanguage());
         System.out.println(problemStatus.getProNo());
         System.out.println(problemStatus.getSource());
 
-        problemStatus.setEmail("tjddus1109");
+        //TODO : security 처리 후 사용자 아이디 받아와서 처리
+        problemStatus.setEmail("dndnjs123");
 
-        problemStatusRepository.save(problemStatus);
+        //DB에게 source 저장 후
+        ProblemStatus p =problemStatusRepository.save(problemStatus);
 
+        //cServer에게 알림
+        //채점 받은후 리턴 받은 채점 번호.
+        long sno = submitClient.sendAndReceive(""+p.getSNo()+"\n");
+
+        //TODO : security 처리 후 사용자 아이디 받아와서 처리
+        //사용자의 아이디와 같은 경우 모든 값을 결과view에 출력
+        List<ProblemStatus> psList = problemStatusRepository.findByEmail("dndnjs123");
+
+        //채점 번호의 결과를 view 에 출력 해줌 .
+
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("problem/status");
+        mv.addObject("psList", psList);
+
+        return mv;
 
     }
 }
