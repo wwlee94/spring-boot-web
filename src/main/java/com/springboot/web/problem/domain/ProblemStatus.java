@@ -25,7 +25,7 @@ public class ProblemStatus {
 
     //문제 채점 상태
     @Column(length = 20)
-    private String sContents = "Null";
+    private String sContents = "0";
 
     //문제 제출 ID
     @Column (length = 20, nullable = false)

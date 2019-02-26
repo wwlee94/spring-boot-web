@@ -89,7 +89,16 @@ public class problemController {
 
         //cServer에게 알림
         //채점 받은후 리턴 받은 채점 번호.
-        long sno = submitClient.sendAndReceive(""+p.getSNo()+"\n");
+        //long sno = submitClient.sendAndReceive(""+p.getSNo()+"\n");
+        while((problemStatusRepository.findBySNo(problemStatus.getSNo()).get().getSContents()).equals("Null")){
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(problemStatus.getSNo()+"채점 중 입니다."+problemStatusRepository.findBySNo(problemStatus.getSNo()).get().getSContents());
+
+        }
 
         //TODO : security 처리 후 사용자 아이디 받아와서 처리
         //사용자의 아이디와 같은 경우 모든 값을 결과view에 출력
