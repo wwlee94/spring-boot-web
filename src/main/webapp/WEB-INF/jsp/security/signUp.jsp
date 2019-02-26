@@ -13,7 +13,6 @@
     <title> Spring Online Judge </title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
 
 
@@ -184,7 +183,7 @@
 
 
 <!-- Page Header -->
-<header class="masthead" style="background-image: url('/img/home-bg.jpg')">
+<header class="masthead" style="background-color: #6c757d">
     <div class="overlay"></div>
     <div class="container">
         <div class="row">
@@ -197,6 +196,8 @@
         </div>
     </div>
 </header>
+
+<br/><br/>
 
 <div class="container">
     <div class="row">
@@ -274,6 +275,19 @@
                                     </div>
                                 </div>
                             </form>
+                            <hr>
+                            <div class="col-sm-6 col-sm-offset-3">
+                                <a href="/login/google">
+                                    <img class="btn-img" src="/img/btn_google.png"/>
+                                </a>
+                            </div>
+                            <br /><br />
+                            <div class="col-sm-6 col-sm-offset-3">
+                                <a href="/login/facebook">
+                                    <img class="btn-img" style="height: 42px" src="/img/btn_facebook.png"/>
+                                </a>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -281,25 +295,25 @@
         </div>
     </div>
 </div>
+<br/><br/>
 
-<footer style="background-color: #000000; color:#ffffff">
+<footer style="background-color: #6c757d; color:#ffffff">
     <div class="container">
         <br>
         <div class="row">
             <div class="col-sm-2" style="text-align:center;">
-                <h5>Copyright &copy; 2019</h5>
+                <h5>spring Online Judge</h5>
                 <h5>정성연(YeonBot)</h5>
             </div>
             <div class="col-sm-4">
-                <h4>대표자 소개</h4>
-                <p>저는 코딩 부스터의 대표 정성연입니다. 웹개발에 관심이 많습니다.</p>
+                <h4>소개</h4>
+                <p>프로그래밍 문제를 풀고 온라인으로 채점받을 수 있는 곳입니다.</p>
             </div>
             <div class="col-sm-2">
-                <h4 style="text-align:center;">내이게이션</h4>
+                <h4 style="text-align:center;">네비게이션</h4>
                 <div>
-                    <a href="/index" class="list-group-item">소개</a>
-                    <a href="/instructor" class="list-group-item">강사진</a>
-                    <a href="/lecture" class="list-group-item">강의</a>
+                    <a href="/index" class="list-group-item">코딩</a>
+                    <a href="/instructor" class="list-group-item">게시판</a>
                 </div>
             </div>
             <div class="col-sm-2">
@@ -311,6 +325,7 @@
             </div>
             <div class="col-sm-2">
                 <h4 style="text-align:center;"><span class="glyphicon glyphicon-ok"></span> &nbsp;by 정성연</h4>
+                <h4 style="text-align:center;"><span class="glyphicon glyphicon-ok"></span> &nbsp;by 이우원</h4>
             </div>
         </div>
     </div>

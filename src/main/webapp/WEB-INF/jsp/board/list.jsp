@@ -48,11 +48,33 @@
                     <a class="nav-link" href="/about.html">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/post.html">Sample Post</a>
+                    <a class="nav-link" href="/post.html">문제</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/board/list">Board</a>
+                    <a class="nav-link" href="/board/list">게시판</a>
                 </li>
+                <sec:authorize access="isAnonymous()">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown nav-item"><a style="text-decoration:none;" href="#" class="dropdown-toggle"
+                                                         data-toggle="dropdown" role="button" aria-haspopup="true"
+                                                         aria-expanded="false">회원 관리<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a style="color:black;text-decoration:none;" href="security/login"> 로그인</a></li>
+                                <li><a style="color:black;text-decoration:none;" href="security/signUp"> 회원가입</a></li>
+                            </ul></li>
+                    </ul>
+                </sec:authorize>
+                <sec:authorize access="isAuthenticated()">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown nav-item"><a style="text-decoration:none;" href="#" class="dropdown-toggle"
+                                                         data-toggle="dropdown" role="button" aria-haspopup="true"
+                                                         aria-expanded="false">회원 관리<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a style="color:black;text-decoration:none;" href="security/#"> 정보수정</a></li>
+                                <li><a style="color:black;text-decoration:none;" href="/logout"> 로그아웃</a></li>
+                            </ul></li>
+                    </ul>
+                </sec:authorize>
             </ul>
         </div>
     </div>

@@ -42,10 +42,10 @@
                     <a class="nav-link" href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/about.html">About</a>
+                    <a class="nav-link" href="/problem/compileList">채점 현황</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/post.html">Sample Post</a>
+                    <a class="nav-link" href="/problem/problemset">문제</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/board/list">게시판</a>

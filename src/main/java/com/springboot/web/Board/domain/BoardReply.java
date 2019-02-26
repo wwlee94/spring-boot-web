@@ -6,7 +6,7 @@ import javax.persistence.*;
 public class BoardReply {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     //댓글의 번호
     private int rno;
 

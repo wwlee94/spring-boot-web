@@ -1,6 +1,7 @@
-<%@ page import="com.springboot.web.Board.paging.Paging" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <html>
 <head>
@@ -9,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Spring Online Judge</title>
+    <title>Clean Blog - Start Bootstrap Theme</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -30,7 +31,7 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
     <div class="container">
-        <a class="navbar-brand" href="/">Spring Online Judge</a>
+        <a class="navbar-brand" href="/">Start Bootstrap</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                 data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -46,11 +47,33 @@
                     <a class="nav-link" href="/about.html">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/post.html">Sample Post</a>
+                    <a class="nav-link" href="/problem/problemset">문제</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/board/list">Board</a>
+                    <a class="nav-link" href="/board/list">게시판</a>
                 </li>
+                <sec:authorize access="isAnonymous()">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown nav-item"><a style="text-decoration:none;" href="#" class="dropdown-toggle"
+                                                         data-toggle="dropdown" role="button" aria-haspopup="true"
+                                                         aria-expanded="false">회원 관리<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a style="color:black;text-decoration:none;" href="/security/login"> 로그인</a></li>
+                                <li><a style="color:black;text-decoration:none;" href="/security/signUp"> 회원가입</a></li>
+                            </ul></li>
+                    </ul>
+                </sec:authorize>
+                <sec:authorize access="isAuthenticated()">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown nav-item"><a style="text-decoration:none;" href="#" class="dropdown-toggle"
+                                                         data-toggle="dropdown" role="button" aria-haspopup="true"
+                                                         aria-expanded="false">회원 관리<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a style="color:black;text-decoration:none;" href="/security/#"> 정보수정</a></li>
+                                <li><a style="color:black;text-decoration:none;" href="/logout"> 로그아웃</a></li>
+                            </ul></li>
+                    </ul>
+                </sec:authorize>
             </ul>
         </div>
     </div>
@@ -63,8 +86,8 @@
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto">
                 <div class="site-heading">
-                    <h1>ONLINE JUDGE !</h1>
-                    <span class="subheading">프로그래밍 문제를 풀고 온라인으로 채점받을 수 있는 곳입니다.</span>
+                    <h1>Clean Blog</h1>
+                    <span class="subheading">A Blog Theme by Start Bootstrap</span>
                 </div>
             </div>
         </div>
@@ -75,30 +98,35 @@
 <div class="container">
     <div class="page-header">
         <h2>
-            현재 알고리즘 채점 상황
+            문제
+            <span id="dpTime" class="pull-right"></span>
         </h2>
     </div>
-    <button class="btn btn-info btn-xs" onclick="location.href='/compile'">문제 제출하기</button>
-    <hr/>
-    <table class="table table-hover table-striped">
+    <table class="table table-hover">
         <thead>
         <tr>
-            <th>&nbsp;문제번호</th>
-            <th>&nbsp;유저번호</th>
-            <th>&nbsp;결과</th>
+            <th>No.</th>
+            <th>&nbsp;글 제목</th>
+            <th>&nbsp;맞은 사람</th>
+            <th>&nbsp;제출</th>
+            <th>&nbsp;정답 비율</th>
         </tr>
         </thead>
         <tbody>
         <!-- boardList는 DomainController에서 보내준 변수임 -->
-        <c:forEach var="list" items="${compileList}">
+        <c:forEach var="problem" items="${problemList}">
             <tr>
-                <td>1번 문제</td>
-                <td>${list.id}</td>
-                <td>${list.strResult}</td>
+                <td>${problem.proNo}</td>
+                <td><a href="/problem/proView/${problem.proNo}">${problem.proName}</a></td>
+                <td>${problem.proSolveCount}</td>
+                <td>${problem.proSubmitCount}</td>
+                <td id="board_diff${board.bno}" data-timestamp="${board.diff}">${board.timeDifference}</td>
             </tr>
         </c:forEach>
         </tbody>
     </table>
+
+    <hr/>
 </div>
 
 <!-- Footer -->
@@ -138,12 +166,17 @@
     </div>
 </footer>
 
+
+
 <!-- Bootstrap core JavaScript -->
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
 
 <!-- Custom scripts for this template -->
 <script src="/js/clean-blog.min.js"></script>
+
+<!-- Modal.js -->
+<script type="text/javascript" src="/js/modal_event.js"></script>
 
 </body>
 </html>

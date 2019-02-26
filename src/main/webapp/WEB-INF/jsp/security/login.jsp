@@ -1,8 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
+<%@ page language="java" contentType="text/html; charset=utf-8"
          pageEncoding="EUC-KR"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
-<html lang="euc-kr" dir="ltr">
+<html lang="utf-8" dir="ltr">
 
 <head>
     <meta charset="utf-8">
@@ -13,7 +13,6 @@
     <title> Spring Online Judge </title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
 
 
@@ -144,6 +143,17 @@
     <script>location.href='/';</script>
 </sec:authorize>
 
+<%
+    request.setCharacterEncoding("utf-8");
+
+    String loginId = null;
+    if(request.getAttribute("loginid") != null){
+        loginId = (String)request.getAttribute("loginid");
+    }
+%>
+
+
+
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
     <div class="container">
@@ -184,19 +194,18 @@
 
 
 <!-- Page Header -->
-<header class="masthead" style="background-image: url('/img/home-bg.jpg')">
+<header class="masthead" style="background-color: #6c757d">
+    <%--<header class="masthead" style="background-image: url('/img/home-bg.jpg')">--%>
     <div class="overlay"></div>
     <div class="container">
         <div class="row">
-            <%--<div class="col-lg-8 col-md-10 mx-auto">--%>
                 <div class="site-heading" style="padding: 50px">
-                    <%--<h1> ONLINE JUDGE ! </h1>--%>
-                    <%--<span class="subheading">프로그래밍 문제를 풀고 온라인으로 채점받을 수 있는 곳입니다.</span>--%>
                 </div>
-            <%--</div>--%>
         </div>
     </div>
 </header>
+
+<br/><br/>
 
 <div class="container">
     <div class="row">
@@ -219,11 +228,33 @@
                             <form id="login-form"  method="post" role="form" style="display: block;">
                                 <input type ="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                 <div class="form-group">
+                                    <%
+                                        if(loginId != null){
+                                    %>
+                                    <input type="email" name="username" id="userID" tabindex="1" class="form-control" placeholder="이메일" value="<%= loginId%>">
+                                    <%
+                                    }else{
+                                    %>
                                     <input type="email" name="username" id="userID" tabindex="1" class="form-control" placeholder="이메일" value="">
+                                    <%
+                                        }
+                                    %>
+
                                 </div>
                                 <div class="form-group">
                                     <input type="password" name="password" id="userPassword" tabindex="2" class="form-control" placeholder="비밀번호">
                                 </div>
+                                <%
+                                    if(loginId != null){
+                                %>
+                                <p style="color:#b21f2d";>아이디와 비밀번호가 일치하지 않습니다.</p>
+                                <%
+                                }else{
+                                %>
+                                <br>
+                                <%
+                                    }
+                                %>
                                 <div class="form-group text-center">
                                     <input type="checkbox" tabindex="3" class="" name="remember" id="remember">
                                     <label for="remember"> 아이디 기억하기</label>
@@ -269,12 +300,12 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-6 col-sm-offset-3">
-                                            <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="가입하기">
+                                            <input type="button" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="가입하기">
                                         </div>
                                     </div>
                                 </div>
                             </form>
-
+                            <hr>
                             <div class="col-sm-6 col-sm-offset-3">
                                 <a href="/login/google">
                                     <img class="btn-img" src="/img/btn_google.png"/>
@@ -294,25 +325,25 @@
         </div>
     </div>
 </div>
+<br/><br/>
 
-<footer style="background-color: #000000; color:#ffffff">
+<footer style="background-color: #6c757d; color:#ffffff">
     <div class="container">
         <br>
         <div class="row">
             <div class="col-sm-2" style="text-align:center;">
-                <h5>Copyright &copy; 2019</h5>
+                <h5>spring Online Judge</h5>
                 <h5>정성연(YeonBot)</h5>
             </div>
             <div class="col-sm-4">
-                <h4>대표자 소개</h4>
-                <p>저는 코딩 부스터의 대표 정성연입니다. 웹개발에 관심이 많습니다.</p>
+                <h4>소개</h4>
+                <p>프로그래밍 문제를 풀고 온라인으로 채점받을 수 있는 곳입니다.</p>
             </div>
             <div class="col-sm-2">
-                <h4 style="text-align:center;">내이게이션</h4>
+                <h4 style="text-align:center;">네비게이션</h4>
                 <div>
-                    <a href="index" class="list-group-item">소개</a>
-                    <a href="instructor" class="list-group-item">강사진</a>
-                    <a href="lecture" class="list-group-item">강의</a>
+                    <a href="/index" class="list-group-item">코딩</a>
+                    <a href="/instructor" class="list-group-item">게시판</a>
                 </div>
             </div>
             <div class="col-sm-2">
@@ -324,6 +355,7 @@
             </div>
             <div class="col-sm-2">
                 <h4 style="text-align:center;"><span class="glyphicon glyphicon-ok"></span> &nbsp;by 정성연</h4>
+                <h4 style="text-align:center;"><span class="glyphicon glyphicon-ok"></span> &nbsp;by 이우원</h4>
             </div>
         </div>
     </div>
@@ -355,6 +387,40 @@
         });
 
     });
+
+    $(document).ready(function(){
+        $("#register-submit").click(function(){
+            var result = txtFieldCheck() == true ? true : false;
+            console.log(result);
+            if(result != true){
+                document.getElementById('register-form').submit();
+            }
+        });
+    });
+
+    function txtFieldCheck(){
+        // form안의 모든 text type 조회
+        var txtEle = $("#register-form input[type=text]");
+
+        for(var i = 0; i < txtEle.length; i ++){
+            // console.log($(txtEle[i]).val());
+            if("" == $(txtEle[i]).val() || null == $(txtEle[i]).val()){
+                var ele_id = $(txtEle[i]).attr("id");
+                var label_txt = $("label[for='" + ele_id +"']").text();
+                console.log("id : " + ele_id + ", label : " + label_txt);
+                showAlert(ele_id, label_txt);
+
+                return true;
+            }
+        }
+    }
+
+    function showAlert(ele_id, label_txt){
+        alert(label_txt + " is null");
+        // 해당 id에 focus.
+        $("#" + ele_id).focus();
+    }
+
 </script>
 </body>
 

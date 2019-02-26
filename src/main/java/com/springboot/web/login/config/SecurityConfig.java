@@ -22,6 +22,7 @@ import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -63,7 +64,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/security/login")//로그인 처리 페이지
                 .defaultSuccessUrl("/")//로그인 성공시 이동 URL
                 .successHandler(successHandler())//로그인 성공시 successHandler() 호출
-                .failureUrl("/security/login") //로그인 실패시 이동 URL
+                .failureHandler(failureHandler())
+                //.failureUrl("/security/login") //로그인 실패시 이동 URL
                 //.failureUrl("/security/login?error"); // 로그인 실패시 페이지를 살짝 다르게 만들어 추가 해줍시다.
                 .and()
 
@@ -79,6 +81,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public AuthenticationSuccessHandler successHandler() {
         return new CustomLoginSuccessHandler("/");    //default로 이동할 url
+    }
+
+    @Bean
+    public AuthenticationFailureHandler failureHandler(){
+        return new CustomLoginFailureHandler();
     }
 
     //패스워드 인코더 (상속 받아서 커스텀도 가능. )

@@ -1,5 +1,6 @@
 <%@ page import="com.springboot.web.Board.paging.Paging" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html>
 <head>
@@ -74,14 +75,32 @@
 <div class="container">
     <div class="page-header">
         <h2>
-            문제 1 : 문자열를 입력받아 그대로 출력하시오.
+            현재 알고리즘 채점 상황
         </h2>
     </div>
-    <button class="btn btn-info btn-xs" onclick="location.href='/compile/list'">채점 현황 보기</button>
-    <hr/>
-    <textarea class="form-control" id="contents" rows="25"></textarea>
-    <hr/>
-    <button id="submit" class="btn btn-info btn-xs">제출</button>
+    <table class="table table-hover table-striped">
+        <thead>
+        <tr>
+            <th>&nbsp;채점번호</th>
+            <th>&nbsp;문제번호</th>
+            <th>&nbsp;ID</th>
+            <th>&nbsp;언어</th>
+            <th>&nbsp;결과</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- boardList는 DomainController에서 보내준 변수임 -->
+        <c:forEach var="list" items="${compileList}">
+            <tr>
+                <td>${list.sNo}</td>
+                <td>${list.proNo}</td>
+                <td>${list.email}</td>
+                <td>${list.language}</td>
+                <td>${list.strResult}</td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
 </div>
 
 <!-- Footer -->
@@ -127,36 +146,6 @@
 
 <!-- Custom scripts for this template -->
 <script src="/js/clean-blog.min.js"></script>
-
-<script type="text/javascript">
-
-    var url = "";
-    var type = "";
-    var data = "";
-
-    $("#submit").click(function () {
-
-        var contents = $("#contents").val();
-
-        url = "/compile";
-        type = "POST";
-
-        data = {
-            "contents": contents
-        };
-
-        $.ajax({
-            url: url,
-            type: type,
-            data: data,
-            //complete 되면 reload
-            complete: function (data) {
-                location.reload();
-            }
-        });
-    });
-
-</script>
 
 </body>
 </html>
