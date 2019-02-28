@@ -23,14 +23,6 @@ public class LoginController {
 
         return "security/login";
     }
-//
-//    @PostMapping("/UserSearch")
-//    public String UserSearch (HttpServletRequest req){
-//        req.get
-//
-//
-//        return null;
-//    }
 
 
 }

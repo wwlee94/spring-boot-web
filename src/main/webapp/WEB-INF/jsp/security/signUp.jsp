@@ -145,38 +145,41 @@
 
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-    <div class="container">
-        <a class="navbar-brand" href="/">Spring Online Judge</a>
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            Menu
-            <i class="fas fa-bars"></i>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="about">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="post">Sample Post</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/board/list">게시판</a>
-                </li>
-                <sec:authorize access="isAnonymous()">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="dropdown nav-item"><a style="text-decoration:none;" href="#" class="dropdown-toggle"
-                                                         data-toggle="dropdown" role="button" aria-haspopup="true"
-                                                         aria-expanded="false">회원 관리<span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a style="color:black;text-decoration:none;" href="/security/login"> 로그인</a></li>
-                                <li><a style="color:black;text-decoration:none;" href="/security/signUp"> 회원가입</a></li>
-                            </ul></li>
-                    </ul>
-                </sec:authorize>
-            </ul>
+    <div class="row" style="width: 100%">
+
+        <div class="container">
+            <a class="navbar-brand" href="/">Spring Online Judge</a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user/list">랭킹</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/problem/compileList">채점 현황</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/problem/problemset">문제</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/board/list">게시판</a>
+                    </li>
+                    <sec:authorize access="isAnonymous()">
+                        <ul style="font-size: 20px" class="nav navbar-nav navbar-right">
+                            <li class="dropdown nav-item"><a style="text-decoration:none;" href="#" class="dropdown-toggle"
+                                                             data-toggle="dropdown" role="button" aria-haspopup="true"
+                                                             aria-expanded="false">회원 관리<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a style="color:black;text-decoration:none;" href="security/login"> 로그인</a></li>
+                                    <li><a style="color:black;text-decoration:none;" href="security/signUp"> 회원가입</a></li>
+                                </ul></li>
+                        </ul>
+                    </sec:authorize>
+                </ul>
+            </div>
         </div>
     </div>
 </nav>
@@ -187,12 +190,8 @@
     <div class="overlay"></div>
     <div class="container">
         <div class="row">
-            <%--<div class="col-lg-8 col-md-10 mx-auto">--%>
             <div class="site-heading" style="padding: 50px">
-                <%--<h1> ONLINE JUDGE ! </h1>--%>
-                <%--<span class="subheading">프로그래밍 문제를 풀고 온라인으로 채점받을 수 있는 곳입니다.</span>--%>
             </div>
-            <%--</div>--%>
         </div>
     </div>
 </header>
@@ -276,15 +275,18 @@
                                 </div>
                             </form>
                             <hr>
-                            <div class="col-sm-6 col-sm-offset-3">
+                            <div class="form-group text-center">
+                                <label style="font-weight:bold;"> or </label>
+                            </div>
+                            <div class="col-sm-7 col-sm-offset-2">
                                 <a href="/login/google">
-                                    <img class="btn-img" src="/img/btn_google.png"/>
+                                    <img class="btn-img" style="width: 300px" src="/img/btn_google2.png"/>
                                 </a>
                             </div>
                             <br /><br />
-                            <div class="col-sm-6 col-sm-offset-3">
+                            <div class="col-sm-7 col-sm-offset-2">
                                 <a href="/login/facebook">
-                                    <img class="btn-img" style="height: 42px" src="/img/btn_facebook.png"/>
+                                    <img class="btn-img" style="width: 300px" src="/img/btn_facebook2.png"/>
                                 </a>
                             </div>
 
@@ -297,35 +299,39 @@
 </div>
 <br/><br/>
 
-<footer style="background-color: #6c757d; color:#ffffff">
+<!-- Footer -->
+<hr>
+<footer>
     <div class="container">
-        <br>
         <div class="row">
-            <div class="col-sm-2" style="text-align:center;">
-                <h5>spring Online Judge</h5>
-                <h5>정성연(YeonBot)</h5>
-            </div>
-            <div class="col-sm-4">
-                <h4>소개</h4>
-                <p>프로그래밍 문제를 풀고 온라인으로 채점받을 수 있는 곳입니다.</p>
-            </div>
-            <div class="col-sm-2">
-                <h4 style="text-align:center;">네비게이션</h4>
-                <div>
-                    <a href="/index" class="list-group-item">코딩</a>
-                    <a href="/instructor" class="list-group-item">게시판</a>
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <h4 style="text-align:center;">SNS</h4>
-                <div>
-                    <a href="#" class="list-group-item">페이스북</a>
-                    <a href="#" class="list-group-item">유튜브</a>
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <h4 style="text-align:center;"><span class="glyphicon glyphicon-ok"></span> &nbsp;by 정성연</h4>
-                <h4 style="text-align:center;"><span class="glyphicon glyphicon-ok"></span> &nbsp;by 이우원</h4>
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <ul class="list-inline text-center">
+                    <li class="list-inline-item">
+                        <a href="#">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                  </span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                  </span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                        </a>
+                    </li>
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; Your Website 2018</p>
             </div>
         </div>
     </div>
@@ -358,6 +364,7 @@
 
     });
 </script>
+
 </body>
 
 </html>
