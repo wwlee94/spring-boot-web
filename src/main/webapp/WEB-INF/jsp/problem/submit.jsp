@@ -66,8 +66,8 @@
                                                              data-toggle="dropdown" role="button" aria-haspopup="true"
                                                              aria-expanded="false">회원 관리<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a style="color:black;text-decoration:none;" href="security/login"> 로그인</a></li>
-                                    <li><a style="color:black;text-decoration:none;" href="security/signUp"> 회원가입</a></li>
+                                    <li><a style="color:black;text-decoration:none;" href="/security/login"> 로그인</a></li>
+                                    <li><a style="color:black;text-decoration:none;" href="/security/signUp"> 회원가입</a></li>
                                 </ul></li>
                         </ul>
                     </sec:authorize>

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
          pageEncoding="EUC-KR"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="utf-8" dir="ltr">
 
@@ -149,6 +150,8 @@
     String loginId = null;
     if(request.getAttribute("loginid") != null){
         loginId = (String)request.getAttribute("loginid");
+    }else if(request.getParameter("loginid") != null){
+        loginId = request.getParameter("loginid");
     }
 %>
 
@@ -184,8 +187,8 @@
                                                          data-toggle="dropdown" role="button" aria-haspopup="true"
                                                          aria-expanded="false">회원 관리<span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a style="color:black;text-decoration:none;" href="security/login"> 로그인</a></li>
-                                <li><a style="color:black;text-decoration:none;" href="security/signUp"> 회원가입</a></li>
+                                <li><a style="color:black;text-decoration:none;" href="/security/login"> 로그인</a></li>
+                                <li><a style="color:black;text-decoration:none;" href="/security/signUp"> 회원가입</a></li>
                             </ul></li>
                     </ul>
                 </sec:authorize>
@@ -248,9 +251,9 @@
                                     <input type="password" name="password" id="userPassword" tabindex="2" class="form-control" placeholder="비밀번호">
                                 </div>
                                 <%
-                                    if(loginId != null){
+                                    if(loginId != null && request.getAttribute("loginid") != null){
                                 %>
-                                <p style="color:#b21f2d";>아이디와 비밀번호가 일치하지 않습니다.</p>
+                                <p style="color:#c82333";>아이디와 비밀번호가 일치하지 않습니다.</p>
                                 <%
                                 }else{
                                 %>
@@ -265,7 +268,7 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-6 col-sm-offset-3">
-                                            <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="로그인">
+                                            <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="로그인" onclick="sendit()">
                                         </div>
                                     </div>
                                 </div>
@@ -273,22 +276,29 @@
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="text-center">
-                                                <a href="https://phpoll.com/recover" tabindex="5" class="forgot-password">비밀번호를 잊어버리셨나요?</a>
+                                                <a href="/member/recover" tabindex="5" class="forgot-password">비밀번호를 잊어버리셨나요?</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </form>
-                            <form id="register-form" action="/member" method="post" role="form" style="display: none;">
+                            <form id="register-form" action="/member" method="post" role="form" style="display: none;" onsubmit="return registerCheck()">
                                 <input type ="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                 <div class="form-group">
-                                    <input type="email" name="uemail" id="uid" tabindex="1" class="form-control" placeholder="아이디(이메일 형식)" value="">
+                                    <input type="email" name="uemail" id="uid" tabindex="1" class="form-control" placeholder="아이디(인증 받을 이메일)" value="" onchange="idcheck()">
+                                    <small id="uidCheck" style="color:#c82333";></small>
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" name="upw" id="password" tabindex="2" class="form-control" placeholder="비밀번호">
+                                    <input type="password" name="upw" id="password" tabindex="2" class="form-control" placeholder="비밀번호" onchange="pwcheck()">
+                                    <small id="passwordCheck" style="color:#c82333";></small>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="이름" name="uid" tabindex="1">
+                                    <input type="password" name="upw" id="password2" tabindex="3" class="form-control" placeholder="비밀번호 확인" onchange="pw2check()">
+                                    <small id="password2Check" style="color:#c82333";></small>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="이름" name="uid" id="name" tabindex="4">
+                                    <small id="nameCheck" style="color:#c82333";></small>
                                 </div>
                                 <div class="form-group" style="text-align:center;">
                                     <div class="btn-group" data-toggle="buttons">
@@ -303,7 +313,7 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-6 col-sm-offset-3">
-                                            <input type="button" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="가입하기">
+                                            <input type="submit" name="register-submit" id="register-submit" class="form-control btn btn-register" value="가입하기">
                                         </div>
                                     </div>
                                 </div>
@@ -378,10 +388,10 @@
 
 <!-- Custom scripts for this template -->
 <script src="/js/clean-blog.min.js"></script>
+<script src="/js/register.js"></script>
 
 <script type="text/javascript">
     $(function() {
-
         $('#login-form-link').click(function(e) {
             $("#login-form").delay(100).fadeIn(100);
             $("#register-form").fadeOut(100);
@@ -408,30 +418,6 @@
             }
         });
     });
-
-    function txtFieldCheck(){
-        // form안의 모든 text type 조회
-        var txtEle = $("#register-form input[type=text]");
-
-        for(var i = 0; i < txtEle.length; i ++){
-            // console.log($(txtEle[i]).val());
-            if("" == $(txtEle[i]).val() || null == $(txtEle[i]).val()){
-                var ele_id = $(txtEle[i]).attr("id");
-                var label_txt = $("label[for='" + ele_id +"']").text();
-                console.log("id : " + ele_id + ", label : " + label_txt);
-                showAlert(ele_id, label_txt);
-
-                return true;
-            }
-        }
-    }
-
-    function showAlert(ele_id, label_txt){
-        alert(label_txt + " is null");
-        // 해당 id에 focus.
-        $("#" + ele_id).focus();
-    }
-
 </script>
 </body>
 

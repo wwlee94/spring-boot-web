@@ -14,7 +14,7 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true, length=50)
+    @Column(nullable = false, length=50)
     private String uid;
 
     @Column(nullable = false, length=200)
@@ -22,6 +22,9 @@ public class Member {
 
     @Column(nullable = false, unique = true, length=50)
     private String uemail;
+
+    @Column(nullable = false)
+    private int eamilCheck;
 
     @CreationTimestamp
     private Date regdate;
@@ -89,5 +92,13 @@ public class Member {
 
     public void setRoles(List<MemberRole> roles) {
         this.roles = roles;
+    }
+
+    public int getEamilCheck() {
+        return eamilCheck;
+    }
+
+    public void setEamilCheck(int eamilCheck) {
+        this.eamilCheck = eamilCheck;
     }
 }

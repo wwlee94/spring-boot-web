@@ -1,9 +1,9 @@
-<%@ page import="com.springboot.web.Board.paging.Paging" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+         pageEncoding="EUC-KR"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<!DOCTYPE html>
+<html lang="euc-kr" dir="ltr">
 
-<html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -13,20 +13,25 @@
     <title> Spring Online Judge </title>
 
     <!-- Bootstrap core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link href="/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
+
 
     <!-- Custom fonts for this template -->
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet'
-          type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
-          rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
 
     <!-- Custom styles for this template -->
     <link href="/css/clean-blog.css" rel="stylesheet">
 
+
 </head>
+
 <body>
+<sec:authorize access="isAuthenticated()">
+    <script>location.href='/';</script>
+</sec:authorize>
 
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
@@ -41,48 +46,25 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/user/list">랭킹</a>
+                        <a class="nav-link" href="/user/list">��ŷ</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/problem/compileList">채점 현황</a>
+                        <a class="nav-link" href="/problem/compileList">ä�� ��Ȳ</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/problem/problemset">문제</a>
+                        <a class="nav-link" href="/problem/problemset">����</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/board/list">게시판</a>
+                        <a class="nav-link" href="/board/list">�Խ���</a>
                     </li>
                     <sec:authorize access="isAnonymous()">
                         <ul style="font-size: 20px" class="nav navbar-nav navbar-right">
                             <li class="dropdown nav-item"><a style="text-decoration:none;" href="#" class="dropdown-toggle"
                                                              data-toggle="dropdown" role="button" aria-haspopup="true"
-                                                             aria-expanded="false">회원 관리<span class="caret"></span></a>
+                                                             aria-expanded="false">ȸ�� ����<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a style="color:black;text-decoration:none;" href="/security/login"> 로그인</a></li>
-                                    <li><a style="color:black;text-decoration:none;" href="/security/signUp"> 회원가입</a></li>
-                                </ul></li>
-                        </ul>
-                    </sec:authorize>
-                    <sec:authorize access="isAuthenticated()">
-                        <ul style="font-size: 20px" class="nav navbar-nav navbar-right">
-                            <li class="dropdown nav-item"><a style="text-decoration:none;" href="#" class="dropdown-toggle"
-                                                             data-toggle="dropdown" role="button" aria-haspopup="true"
-                                                             aria-expanded="false">회원 관리<span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a style="color:black;text-decoration:none;" href="/security/#"> 정보수정</a></li>
-                                    <li><a style="color:black;text-decoration:none;" href="/logout"> 로그아웃</a></li>
-                                </ul></li>
-                        </ul>
-                    </sec:authorize>
-                    <sec:authorize access="hasRole('ROLE_ADMIN') and isAuthenticated()">
-                        <ul style="font-size: 20px" class="nav navbar-nav navbar-right">
-                            <li class="dropdown nav-item"><a style="text-decoration:none;" href="#" class="dropdown-toggle"
-                                                             data-toggle="dropdown" role="button" aria-haspopup="true"
-                                                             aria-expanded="false">회원 관리<span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a style="color:black;text-decoration:none;" href="/admin/list"> 관리자 페이지 </a></li>
-                                    <li><a style="color:black;text-decoration:none;" href="/security/#"> 정보수정 </a></li>
-                                    <li><a style="color:black;text-decoration:none;" href="/logout"> 로그아웃 </a></li>
+                                    <li><a style="color:black;text-decoration:none;" href="/security/login"> �α���</a></li>
+                                    <li><a style="color:black;text-decoration:none;" href="/security/signUp"> ȸ������</a></li>
                                 </ul></li>
                         </ul>
                     </sec:authorize>
@@ -91,6 +73,8 @@
         </div>
     </div>
 </nav>
+
+
 <!-- Page Header -->
 <header class="masthead" style="background-color: #6c757d">
     <div class="overlay"></div>
@@ -102,42 +86,48 @@
     </div>
 </header>
 
-<br/><br/>
+<br>
+<br>
 
-
-<!-- Main Content -->
+<div class="form-gap"></div>
 <div class="container">
-    <div class="page-header">
-        <h2>
-            현재 알고리즘 채점 상황
-        </h2>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="text-center">
+                        <h3><i class="fa fa-lock fa-4x"></i></h3>
+                        <h2 class="text-center">Forgot Password?</h2>
+                        <p>You can reset your password here.</p>
+                        <div class="panel-body">
+
+                            <form id="register-form" role="form" autocomplete="off" class="form" method="post">
+
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope color-blue"></i></span>
+                                        <input id="email" name="email" placeholder="email address" class="form-control"  type="email">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input name="recover-submit" class="btn btn-lg btn-primary btn-block" value="Reset Password" type="submit">
+                                </div>
+
+                                <input type="hidden" class="hide" name="token" id="token" value="">
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <table class="table table-hover table-striped">
-        <thead>
-        <tr>
-            <th>&nbsp;채점번호</th>
-            <th>&nbsp;문제번호</th>
-            <th>&nbsp;ID</th>
-            <th>&nbsp;언어</th>
-            <th>&nbsp;결과</th>
-        </tr>
-        </thead>
-        <tbody>
-        <!-- boardList는 DomainController에서 보내준 변수임 -->
-        <c:forEach var="list" items="${compileList}">
-            <tr>
-                <td>${list.sNo}</td>
-                <td>${list.proNo}</td>
-                <td>${list.email}</td>
-                <td>${list.language}</td>
-                <td>${list.strResult}</td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
 </div>
 
+<br>
+<br>
 <!-- Footer -->
+<hr>
 <footer>
     <div class="container">
         <div class="row">
@@ -181,5 +171,7 @@
 <!-- Custom scripts for this template -->
 <script src="/js/clean-blog.min.js"></script>
 
+
 </body>
+
 </html>

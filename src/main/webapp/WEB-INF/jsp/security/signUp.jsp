@@ -1,8 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-         pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+         pageEncoding="utf-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
-<html lang="euc-kr" dir="ltr">
+<html lang="utf-8" dir="ltr">
 
 <head>
     <meta charset="utf-8">
@@ -143,6 +143,17 @@
     <script>location.href='/';</script>
 </sec:authorize>
 
+<%
+    request.setCharacterEncoding("utf-8");
+
+    String loginId = null;
+    if(request.getAttribute("loginid") != null){
+        loginId = (String)request.getAttribute("loginid");
+    }else if(request.getParameter("loginid") != null){
+        loginId = request.getParameter("loginid");
+    }
+%>
+
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
     <div class="row" style="width: 100%">
@@ -156,25 +167,25 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/user/list">∑©≈∑</a>
+                        <a class="nav-link" href="/user/list">Îû≠ÌÇπ</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/problem/compileList">√§¡° «ˆ»≤</a>
+                        <a class="nav-link" href="/problem/compileList">Ï±ÑÏ†ê ÌòÑÌô©</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/problem/problemset">πÆ¡¶</a>
+                        <a class="nav-link" href="/problem/problemset">Î¨∏Ï†ú</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/board/list">∞‘Ω√∆«</a>
+                        <a class="nav-link" href="/board/list">Í≤åÏãúÌåê</a>
                     </li>
                     <sec:authorize access="isAnonymous()">
                         <ul style="font-size: 20px" class="nav navbar-nav navbar-right">
                             <li class="dropdown nav-item"><a style="text-decoration:none;" href="#" class="dropdown-toggle"
                                                              data-toggle="dropdown" role="button" aria-haspopup="true"
-                                                             aria-expanded="false">»∏ø¯ ∞¸∏Æ<span class="caret"></span></a>
+                                                             aria-expanded="false">ÌöåÏõê Í¥ÄÎ¶¨<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a style="color:black;text-decoration:none;" href="security/login"> ∑Œ±◊¿Œ</a></li>
-                                    <li><a style="color:black;text-decoration:none;" href="security/signUp"> »∏ø¯∞°¿‘</a></li>
+                                    <li><a style="color:black;text-decoration:none;" href="/security/login"> Î°úÍ∑∏Ïù∏</a></li>
+                                    <li><a style="color:black;text-decoration:none;" href="/security/signUp"> ÌöåÏõêÍ∞ÄÏûÖ</a></li>
                                 </ul></li>
                         </ul>
                     </sec:authorize>
@@ -205,10 +216,10 @@
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-6">
-                            <a href="#" id="login-form-link">∑Œ±◊¿Œ</a>
+                            <a href="#" id="login-form-link">Î°úÍ∑∏Ïù∏</a>
                         </div>
                         <div class="col-xs-6">
-                            <a href="#" class="active" id="register-form-link">»∏ø¯∞°¿‘</a>
+                            <a href="#" class="active" id="register-form-link">ÌöåÏõêÍ∞ÄÏûÖ</a>
                         </div>
                     </div>
                     <hr>
@@ -219,19 +230,41 @@
                             <form id="login-form"  method="post" role="form" style="display: none;">
                                 <input type ="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                 <div class="form-group">
-                                    <input type="email" name="username" id="userID" tabindex="1" class="form-control" placeholder="¿Ã∏ﬁ¿œ" value="">
+                                    <%
+                                        if(loginId != null){
+                                    %>
+                                    <input type="email" name="username" id="userID" tabindex="1" class="form-control" placeholder="Ïù¥Î©îÏùº" value="<%= loginId%>">
+                                    <%
+                                    }else{
+                                    %>
+                                    <input type="email" name="username" id="userID" tabindex="1" class="form-control" placeholder="Ïù¥Î©îÏùº" value="">
+                                    <%
+                                        }
+                                    %>
+
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" name="password" id="userPassword" tabindex="2" class="form-control" placeholder="∫Òπ–π¯»£">
+                                    <input type="password" name="password" id="userPassword" tabindex="2" class="form-control" placeholder="ÎπÑÎ∞ÄÎ≤àÌò∏">
                                 </div>
+                                <%
+                                    if(loginId != null && request.getAttribute("loginid") != null){
+                                %>
+                                <p style="color:#c82333";>ÏïÑÏù¥ÎîîÏôÄ ÎπÑÎ∞ÄÎ≤àÌò∏Í∞Ä ÏùºÏπòÌïòÏßÄ ÏïäÏäµÎãàÎã§.</p>
+                                <%
+                                }else{
+                                %>
+                                <br>
+                                <%
+                                    }
+                                %>
                                 <div class="form-group text-center">
                                     <input type="checkbox" tabindex="3" class="" name="remember" id="remember">
-                                    <label for="remember"> æ∆¿Ãµ ±‚æÔ«œ±‚</label>
+                                    <label for="remember"> ÏïÑÏù¥Îîî Í∏∞ÏñµÌïòÍ∏∞</label>
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-6 col-sm-offset-3">
-                                            <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="∑Œ±◊¿Œ">
+                                            <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Î°úÍ∑∏Ïù∏" onclick="sendit()">
                                         </div>
                                     </div>
                                 </div>
@@ -239,37 +272,44 @@
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="text-center">
-                                                <a href="https://phpoll.com/recover" tabindex="5" class="forgot-password">∫Òπ–π¯»£∏¶ ¿ÿæÓπˆ∏ÆºÃ≥™ø‰?</a>
+                                                <a href="/member/recover" tabindex="5" class="forgot-password">ÎπÑÎ∞ÄÎ≤àÌò∏Î•º ÏûäÏñ¥Î≤ÑÎ¶¨ÏÖ®ÎÇòÏöî?</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </form>
-                            <form id="register-form" action="/member" method="post" role="form" style="display: block;">
+                            <form id="register-form" action="/member" method="post" role="form" style="display: block;" onsubmit="return registerCheck()">
                                 <input type ="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                 <div class="form-group">
-                                    <input type="email" name="uemail" id="uid" tabindex="1" class="form-control" placeholder="æ∆¿Ãµ(¿Ã∏ﬁ¿œ «¸Ωƒ)" value="">
+                                    <input type="email" name="uemail" id="uid" tabindex="1" class="form-control" placeholder="ÏïÑÏù¥Îîî(Ïù∏Ï¶ù Î∞õÏùÑ Ïù¥Î©îÏùº)" value="" onchange="idcheck()">
+                                    <small id="uidCheck" style="color:#c82333";></small>
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" name="upw" id="password" tabindex="2" class="form-control" placeholder="∫Òπ–π¯»£">
+                                    <input type="password" name="upw" id="password" tabindex="2" class="form-control" placeholder="ÎπÑÎ∞ÄÎ≤àÌò∏" onchange="pwcheck()">
+                                    <small id="passwordCheck" style="color:#c82333";></small>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="¿Ã∏ß" name="uid" tabindex="1">
+                                    <input type="password" name="upw" id="password2" tabindex="3" class="form-control" placeholder="ÎπÑÎ∞ÄÎ≤àÌò∏ ÌôïÏù∏" onchange="pw2check()">
+                                    <small id="password2Check" style="color:#c82333";></small>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Ïù¥Î¶Ñ" name="uid" id="name" tabindex="4">
+                                    <small id="nameCheck" style="color:#c82333";></small>
                                 </div>
                                 <div class="form-group" style="text-align:center;">
                                     <div class="btn-group" data-toggle="buttons">
                                         <label class="btn btn-primary active">
-                                            <input type="radio" name="userGender" autocomplete="off" value="≥≤¿⁄" checked>≥≤¿⁄
+                                            <input type="radio" name="userGender" autocomplete="off" value="ÎÇ®Ïûê" checked>ÎÇ®Ïûê
                                         </label>
                                         <label class="btn btn-primary">
-                                            <input type="radio" name="userGender" autocomplete="off" value="ø©¿⁄">ø©¿⁄
+                                            <input type="radio" name="userGender" autocomplete="off" value="Ïó¨Ïûê">Ïó¨Ïûê
                                         </label>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-6 col-sm-offset-3">
-                                            <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="∞°¿‘«œ±‚">
+                                            <input type="submit" name="register-submit" id="register-submit" class="form-control btn btn-register" value="Í∞ÄÏûÖÌïòÍ∏∞">
                                         </div>
                                     </div>
                                 </div>
@@ -341,8 +381,10 @@
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
 
+
 <!-- Custom scripts for this template -->
 <script src="/js/clean-blog.min.js"></script>
+<script src="/js/register.js"></script>
 
 <script type="text/javascript">
     $(function() {
@@ -362,6 +404,16 @@
             e.preventDefault();
         });
 
+    });
+
+    $(document).ready(function(){
+        $("#register-submit").click(function(){
+            var result = txtFieldCheck() == true ? true : false;
+            console.log(result);
+            if(result != true){
+                document.getElementById('register-form').submit();
+            }
+        });
     });
 </script>
 
