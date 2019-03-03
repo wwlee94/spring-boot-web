@@ -13,6 +13,7 @@ public class MemberRole {
 
     private String roleName;
 
+
     public Long getRno() {
         return rno;
     }

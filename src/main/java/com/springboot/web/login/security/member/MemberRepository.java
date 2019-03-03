@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
     Member findByUemail(String email);
@@ -14,4 +16,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Transactional
     @Query("update Member m set m.eamilCheck = 1 where m.uemail = :uemail")
     void updateEmailCheck(@Param("uemail")String uemail);
+
+
+    List<Member> findByUemailLike(String str);
 }

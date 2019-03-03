@@ -1,15 +1,13 @@
 package com.springboot.web.login.controller;
 
 import com.springboot.web.login.register.EmailService;
-import com.springboot.web.login.security.member.MemberRole;
 import com.springboot.web.login.security.member.Member;
 import com.springboot.web.login.security.member.MemberRepository;
+import com.springboot.web.login.security.member.MemberRole;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +35,9 @@ public class MemberController {
         emailService.sendMail(member.getUemail());
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        System.out.println(member.getUpw());
         member.setUpw(passwordEncoder.encode(member.getUpw()));
+        System.out.println(member.getUpw());
         member.setEamilCheck(0);
 
         MemberRole role = new MemberRole();
@@ -115,6 +115,5 @@ public class MemberController {
 
         return "/security/recover";
     }
-
 
 }

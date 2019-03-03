@@ -42,9 +42,9 @@ public class ListController {
         int totalCount = repository.findAllForCount();
 
         paging.init(totalCount, page);
-        System.out.println("전체 게시글: " + totalCount);
-        System.out.println("총 페이지: " + paging.getTotalPage());
-        System.out.println("시작 페이지: " + paging.getStartPage() + " 마지막 페이지: " + paging.getEndPage() + " 현재 페이지: " + paging.getPage());
+//        System.out.println("전체 게시글: " + totalCount);
+//        System.out.println("총 페이지: " + paging.getTotalPage());
+//        System.out.println("시작 페이지: " + paging.getStartPage() + " 마지막 페이지: " + paging.getEndPage() + " 현재 페이지: " + paging.getPage());
 
         //페이지의 값에 따른 게시글 가져오기
         int listCount = paging.getListCount();

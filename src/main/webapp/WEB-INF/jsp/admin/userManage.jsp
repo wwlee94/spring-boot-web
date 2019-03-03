@@ -1,7 +1,8 @@
-<%@ page import="com.springboot.web.Board.paging.Paging" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <html>
 <head>
@@ -10,7 +11,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title> Spring Online Judge </title>
+    <title>Clean Blog - Start Bootstrap Theme</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -69,7 +70,7 @@
                                                              data-toggle="dropdown" role="button" aria-haspopup="true"
                                                              aria-expanded="false">회원 관리<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a style="color:black;text-decoration:none;" href="/security/#"> 정보수정</a></li>
+                                    <li><a style="color:black;text-decoration:none;" href="security/#"> 정보수정</a></li>
                                     <li><a style="color:black;text-decoration:none;" href="/logout"> 로그아웃</a></li>
                                 </ul></li>
                         </ul>
@@ -109,32 +110,124 @@
 <div class="container">
     <div class="page-header">
         <h2>
-            현재 알고리즘 채점 상황
+            관리자 페이지
+            <span id="dpTime" class="pull-right"></span>
         </h2>
     </div>
-    <table class="table table-hover table-striped">
-        <thead>
-        <tr>
-            <th>&nbsp;채점번호</th>
-            <th>&nbsp;문제번호</th>
-            <th>&nbsp;ID</th>
-            <th>&nbsp;언어</th>
-            <th>&nbsp;결과</th>
-        </tr>
-        </thead>
-        <tbody>
-        <!-- boardList는 DomainController에서 보내준 변수임 -->
-        <c:forEach var="list" items="${compileList}">
-            <tr>
-                <td>${list.sNo}</td>
-                <td>${list.proNo}</td>
-                <td>${list.email}</td>
-                <td>${list.language}</td>
-                <td>${list.strResult}</td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
+</div>
+<div class="container content">
+    <div class="row">
+        <div class = "col-md-3">
+            <ul class="list-group sidebar-nav-v1">
+                <li class = "list-group-item"><a href = "/admin/user">유저 정보</a></li>
+                <li class = "list-group-item active"><a href = "/admin/userManage">유저 권한 부여</a></li>
+            </ul>
+            <br>
+            <ul class="list-group sidebar-nav-v1">
+                <li class = "list-group-item"><a href = "/admin/problem">문제 만들기</a></li>
+                <li class = "list-group-item"><a href = "/admin/problemExam">문제별 예시 만들기</a></li>
+            </ul>
+        </div>
+        <div class = "col-md-9">
+            <div class = "row">
+                <div class = "col-md-12">
+                    <div class="container">
+                        <form action="/admin/user" method="get">
+                            <input type="text" name="email" tabindex="1"  placeholder="이메일" style="display: inline;">
+                            <input type="submit" value="검색하기" style="display: inline;">
+                        </form>
+                    </div>
+                    <table class="table table-hover">
+                        <thead>
+                        <h3>온라인 저지 회원</h3>
+                        <tr>
+                            <th>No.</th>
+                            <th>&nbsp;이메일</th>
+                            <th>&nbsp;이름</th>
+                            <th>&nbsp;권한</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach var="member" items="${memberList}">
+                            <tr>
+                                <td>${member.id}</td>
+                                <td>${member.uemail}</td>
+                                <td>${member.uid}</td>
+                                <td>
+                                    <c:if test="${member.level1 eq true}">
+                                        <button style="font-size: small" value="${member.id}"
+                                                class="btn btn-sm btn-outline-success btn-padding active level1">
+                                            개발자
+                                        </button>
+                                    </c:if>
+                                    <c:if test="${member.level1 eq false}">
+                                        <button style="font-size: small" value="${member.id}"
+                                                class="btn btn-sm btn-outline-success btn-padding level1">
+                                            개발자
+                                        </button>
+                                    </c:if>
+                                    <c:if test="${member.level2 eq true}">
+                                        <button style="font-size: small" value="${member.id}"
+                                                class="btn btn-sm btn-outline-success btn-padding active level2">
+                                            매니저
+                                        </button>
+                                    </c:if>
+                                    <c:if test="${member.level2 eq false}">
+                                        <button style="font-size: small" value="${member.id}"
+                                                class="btn btn-sm btn-outline-success btn-padding level2">
+                                            매니저
+                                        </button>
+                                    </c:if>
+                                    <c:if test="${member.level3 eq true}">
+                                        <button style="font-size: small" value="${member.id}"
+                                                class="btn btn-sm btn-outline-success btn-padding active level3">
+                                            회원
+                                        </button>
+                                    </c:if>
+                                    <c:if test="${member.level3 eq false}">
+                                        <button style="font-size: small" value="${member.id}"
+                                                class="btn btn-sm btn-outline-success btn-padding level3">
+                                            회원
+                                        </button>
+                                    </c:if>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                    <table class="table table-hover">
+                        <thead>
+                        <h3>소셜 로그인 회원</h3>
+                        <tr>
+                            <th>No.</th>
+                            <th>&nbsp;이메일</th>
+                            <th>&nbsp;이름</th>
+                            <th>&nbsp;소셜 정보</th>
+                            <th>&nbsp;삭제</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach var="user" items="${userList}">
+                            <tr>
+                                <td>${user.id}</td>
+                                <td>${user.email}</td>
+                                <td>${user.nickname}</td>
+                                <td>${user.social.provider}</td>
+                                <td>
+                                    <button style="font-size: small" value="${member.id}"
+                                            class="btn btn-sm btn-outline-success btn-padding active">
+                                        회원
+                                    </button>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr/>
 </div>
 
 <!-- Footer -->
@@ -174,12 +267,18 @@
     </div>
 </footer>
 
+
+
 <!-- Bootstrap core JavaScript -->
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
 
 <!-- Custom scripts for this template -->
 <script src="/js/clean-blog.min.js"></script>
+
+<!-- Modal.js -->
+<script type="text/javascript" src="/js/modal_event.js"></script>
+
 
 </body>
 </html>

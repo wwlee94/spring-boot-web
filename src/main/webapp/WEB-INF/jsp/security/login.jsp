@@ -232,7 +232,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <form id="login-form"  method="post" role="form" style="display: block;">
-                                <input type ="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                <%--<input type ="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>--%>
                                 <div class="form-group">
                                     <%
                                         if(loginId != null){

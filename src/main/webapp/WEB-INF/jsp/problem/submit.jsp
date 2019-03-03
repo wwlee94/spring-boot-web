@@ -88,7 +88,7 @@
                                                              data-toggle="dropdown" role="button" aria-haspopup="true"
                                                              aria-expanded="false">회원 관리<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a style="color:black;text-decoration:none;" href="/admin/list"> 관리자 페이지 </a></li>
+                                    <li><a style="color:black;text-decoration:none;" href="/admin/user"> 관리자 페이지 </a></li>
                                     <li><a style="color:black;text-decoration:none;" href="/security/#"> 정보수정 </a></li>
                                     <li><a style="color:black;text-decoration:none;" href="/logout"> 로그아웃 </a></li>
                                 </ul></li>

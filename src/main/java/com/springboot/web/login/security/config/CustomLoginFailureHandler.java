@@ -20,7 +20,8 @@ public class CustomLoginFailureHandler implements AuthenticationFailureHandler {
                                         AuthenticationException exception) throws IOException, ServletException {
 
         request.setAttribute("loginid", request.getParameter("username"));
-        System.out.println(request.getParameter("username"));
+        System.out.println("login Fail !! "+exception.getLocalizedMessage());
+
         request.getRequestDispatcher("/security/login").forward(request, response);
     }
 

@@ -1,10 +1,7 @@
 package com.springboot.web.login.OAuth.user;
 
 import com.springboot.web.login.OAuth.social.userconnection.UserConnection;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -13,10 +10,11 @@ import java.io.Serializable;
 @Table(name = "user")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Setter
 public class User implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "email", nullable = false, unique = true)
@@ -25,7 +23,7 @@ public class User implements Serializable {
     @Column(name = "nickname", nullable = false)
     private String nickname;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE})
     @JoinColumn(name = "provider_id", referencedColumnName = "provider_id", nullable = false, updatable = false, unique = true)
     private UserConnection social;
 

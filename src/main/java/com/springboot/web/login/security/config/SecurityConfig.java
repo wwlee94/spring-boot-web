@@ -16,6 +16,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
@@ -65,8 +66,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/")//로그인 성공시 이동 URL
                 .successHandler(successHandler())//로그인 성공시 successHandler() 호출
                 .failureHandler(failureHandler())
-                //.failureUrl("/security/login") //로그인 실패시 이동 URL
-                //.failureUrl("/security/login?error"); // 로그인 실패시 페이지를 살짝 다르게 만들어 추가 해줍시다.
                 .and()
 
                 .logout()
@@ -75,6 +74,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/") // 로그아웃이 성공했을 경우 이동할 페이지
                 .and()
                 .addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);
+
 
     }
 
@@ -94,10 +94,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        // TODO Auto-generated method stub
         auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
     }
+
+//    @Autowired
+//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
+//    }
 
     //스프링 부트 어플리케이션에서 올바른 순서로 호출할 수 있도록 필터를 연결해야하는데, OAuth2ClientContextFilter를 받아서
     //Spring Security보다 낮은 순서로 필터를 등록하고, 이를 이용해 인증 요청의 예외에 의해 리다이렉션을 처리하는데 사용할 수 있다.

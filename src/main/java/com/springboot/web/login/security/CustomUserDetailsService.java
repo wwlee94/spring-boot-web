@@ -1,7 +1,9 @@
 package com.springboot.web.login.security;
 
+import com.springboot.web.login.security.member.Member;
 import com.springboot.web.login.security.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,9 +24,12 @@ public class CustomUserDetailsService implements UserDetailsService {
     //login 으로 받은 email 값으로 memberRepository 를 이용 DB 에서 memberUser 를 불러온다.
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return  Optional.ofNullable(memberRepository.findByUemail(email))   //email값을 이용해 불러온 member가 null임을 대비한다.
-                        .filter(m -> m!= null)  //member 가 널이 아닐 경우.
-                        .map(m -> new SecurityMember(m)).get(); //security user의 형식으로 변환 후 값 리턴 .
+
+        SecurityMember securityMember = Optional.ofNullable(memberRepository.findByUemail(email))   //email값을 이용해 불러온 member가 null임을 대비한다.
+                                  .filter(m -> m != null)  //member 가 널이 아닐 경우.
+                                  .map(m -> new SecurityMember(m)).get();
+
+        return securityMember; //security user의 형식으로 변환 후 값 리턴 .
     }
     /*
     Optional는 “존재할 수도 있지만 안 할 수도 있는 객체”, 즉, “null이 될 수도 있는 객체”을 감싸고 있는 일종의 래퍼 클래스입니다.
