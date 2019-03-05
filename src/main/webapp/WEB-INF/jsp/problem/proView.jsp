@@ -206,8 +206,5 @@
 <!-- Custom scripts for this template -->
 <script src="/js/clean-blog.min.js"></script>
 
-<!-- Like Event -->
-<script type="text/javascript" src="/js/like_event.js"></script>
-
 </body>
 </html>

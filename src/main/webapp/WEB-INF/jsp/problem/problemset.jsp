@@ -175,8 +175,5 @@
 <!-- Custom scripts for this template -->
 <script src="/js/clean-blog.min.js"></script>
 
-<!-- Modal.js -->
-<script type="text/javascript" src="/js/modal_event.js"></script>
-
 </body>
 </html>

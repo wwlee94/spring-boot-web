@@ -17,4 +17,5 @@ public interface ProblemStatusRepository extends JpaRepository<ProblemStatus,Lon
 
     @Query("select ps from ProblemStatus ps where ps.email=:email and ps.proNo=:proNo")
     List<ProblemStatus> findByEmailAndProNo(String email, long proNo);
+
 }

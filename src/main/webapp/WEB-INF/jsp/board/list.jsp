@@ -174,7 +174,9 @@
                     <a class="page-link" href="/board/list?page=${paging.page-1}">&lt;</a>
                 </li>
             </c:if>
-            <!-- 페이지 정보 가져와 화면에 출력 -->
+            <!-- 페이지 정보 가져와 화면에 출력
+                여기가 NullPointerException 뜨긴 하는 데 별 이상은 X
+            -->
             <%
                 //JSP로 애트리뷰트 받는 법
                 Paging paging = (Paging) request.getAttribute("paging");

@@ -85,6 +85,7 @@
             <th>&nbsp;문제번호</th>
             <th>&nbsp;ID</th>
             <th>&nbsp;언어</th>
+            <th>&nbsp;작성일</th>
             <th>&nbsp;결과</th>
         </tr>
         </thead>
@@ -95,8 +96,11 @@
                 <td>${list.sNo}</td>
                 <td>${list.proNo}</td>
                 <td>${list.email}</td>
-                <td>${list.language}</td>
-                <td>${list.strResult}</td>
+                <c:if test="${list.language == 88}">
+                    <td>C++14</td>
+                </c:if>
+                <td id="compile_diff${list.sNo}">${list.timeDifference}</td>
+                <td id="compile_strRe${list.sNo}">${list.strResult}</td>
             </tr>
         </c:forEach>
         </tbody>
@@ -146,6 +150,61 @@
 
 <!-- Custom scripts for this template -->
 <script src="/js/clean-blog.min.js"></script>
+
+<script type="text/javascript">
+
+    i = 0;
+    count = 0;
+
+    onload = function () {
+        realTime();
+    };
+
+    function realTime() {
+        psList = [];
+
+        <c:forEach var="ps" items="${compileList}">
+        ps = {};
+        ps.sNo = ${ps.sNo};
+        ps.dateTime = "${ps.dateTime}";
+        ps.timeDifference = "";
+        ps.result = ${ps.result};
+        psList.push(ps);
+        </c:forEach>
+
+        var data = {
+            "psList": psList
+        };
+
+        //Json 형태로 데이터 전달
+        //data -> 객체안에 배열 , 배열 안에 여러개의 객체로 이루어짐
+        $.ajax({
+            url: "/problem/compileList/realTime",
+            type: "POST",
+            cache: false,
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function (response) { // 성공했을 때의 처리 콜백함수
+                //성공시 controller로 부터 전달받은 data로 text 변경
+                for (i = 0; i < response.length; i++) {
+                    var sNo = response[i].sNo;
+                    var timeDifference = response[i].timeDifference;
+                    var strResult = response[i].strResult;
+
+                    $("#compile_diff" + sNo).text(timeDifference);
+                    $("#compile_strRe" + sNo).text(strResult);
+                }
+            }
+        });
+
+        setTimeout("realTime()",1000);
+        count++;
+        if (count > 60) {
+            count = 0;
+            location.reload();
+        }
+    }
+</script>
 
 </body>
 </html>

@@ -5,7 +5,6 @@ import javax.persistence.*;
 @Entity
 public class Board {
 
-    //TODO: generatedValue가 다른 테이블과 겹쳐서 증가되는 것 방지하려면??
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     //게시판 글 번호
@@ -16,7 +15,7 @@ public class Board {
     private String userName;
 
     //게시판 글 제목
-    @Column(length = 20, nullable = false)
+    @Column(length = 50, nullable = false)
     private String title;
 
     //게시판 글 내용
@@ -28,6 +27,7 @@ public class Board {
     private String dateTime;
 
     //좋아요 개수
+    @Column(nullable = false)
     private int likeCount;
 
     //TODO: 조회수 추가!?

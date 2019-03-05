@@ -46,9 +46,8 @@ public class ListController {
         System.out.println("총 페이지: " + paging.getTotalPage());
         System.out.println("시작 페이지: " + paging.getStartPage() + " 마지막 페이지: " + paging.getEndPage() + " 현재 페이지: " + paging.getPage());
 
-        //페이지의 값에 따른 게시글 가져오기
         int listCount = paging.getListCount();
-        System.out.println(listCount);
+        //페이지의 값에 따른(몇 개를 읽을건지) 게시글 가져오기
         int pageNum = (page - 1) * listCount;
         List<Board> boardList = repository.findAllOrderByAscAboutPage(pageNum, listCount);
 

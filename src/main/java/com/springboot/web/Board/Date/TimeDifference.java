@@ -2,6 +2,7 @@ package com.springboot.web.Board.Date;
 
 import com.springboot.web.Board.domain.Board;
 import com.springboot.web.Board.domain.BoardReply;
+import com.springboot.web.problem.domain.ProblemStatus;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -224,6 +225,49 @@ public class TimeDifference {
             } else {
                 //continue 덕에 위에 조건 성립하면 이 아래 코드는 실행 안함
                 tempMap.put("timeDifference", year + "년 " + year % 12 + "개월 전");
+            }
+        }//for
+    }
+
+    //realTime -> Ajax 1초단위 시간 갱신을 위한 함수
+    public void compileRealTimeDifference(List<ProblemStatus> list) throws ParseException {
+        ProblemStatus ps;
+
+        for (int i = 0; i < list.size(); i++) {
+
+            ps = list.get(i);
+            //현재시간
+            Date EndDate = new Date();
+
+            //등록한 시간
+            Date StartDate = format.parse(ps.getDateTime());
+
+            //밀리세컨즈 단위 시간 차
+            Long diff = EndDate.getTime() - StartDate.getTime();
+
+            setClassify(diff);
+
+            if (year <= 0) {
+                if (month <= 0) {
+                    if (days <= 0) {
+                        if (hours <= 0) {
+                            if (minutes <= 0) {
+                                ps.setTimeDifference(seconds + "초 전");
+                            } else {
+                                ps.setTimeDifference(minutes + "분 " + seconds + "초 전");
+                            }
+                        } else {
+                            ps.setTimeDifference(hours + "시간 " + minutes + "분 전");
+                        }
+                    } else {
+                        ps.setTimeDifference(days + "일 " + hours + "시간 전");
+                    }
+                } else {
+                    ps.setTimeDifference(month + "개월 " + days % 30 + "일 전");
+                }
+            } else {
+                //continue 덕에 위에 조건 성립하면 이 아래 코드는 실행 안함
+                ps.setTimeDifference(year + "년 " + year % 12 + "개월 전");
             }
         }//for
     }

@@ -207,6 +207,8 @@
                         <option value="82" data-mime="text/plain" >LOLCODE</option>
                         <option value="83" data-mime="text/plain" >아희</option>
                     </select></div></div><div class="form-group">
+            <br/><br/>
+
             <label class="col-md-2 control-label" >소스 코드 공개</label>
             <div class="col-md-10">
                 <div class = "radio">
@@ -219,6 +221,7 @@
                 </div>
                 <div class = "radio"><label>
                     <input type = "radio" name = "code_open" id="code_open_accepted" value="onlyaccepted" >맞았을 때만 공개</label>
+                    <br/><br/>
                 </div>
             </div>
         </div>
@@ -233,6 +236,7 @@
             <input type="hidden" name="csrf_key" value="41c195b0d065fe330f8fe2c4f7b0c1b0">
             <div class = "form-group">
                 <div class = "col-md-offset-2 col-md-10">
+                    <hr/>
                     <button id="submit" type="submit" class="btn btn-primary" data-loading-text="제출 중...">제출</button>
                 </div>
             </div>

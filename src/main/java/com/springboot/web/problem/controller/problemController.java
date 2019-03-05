@@ -1,5 +1,7 @@
 package com.springboot.web.problem.controller;
 
+import com.springboot.web.Board.Date.ConverterTime;
+import com.springboot.web.Board.Date.TimeDifference;
 import com.springboot.web.problem.SubmitClient;
 import com.springboot.web.problem.domain.Problem;
 import com.springboot.web.problem.domain.ProblemStatus;
@@ -12,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -26,6 +29,8 @@ public class problemController {
 
     @Autowired
     SubmitClient submitClient;
+
+    TimeDifference timeDifference = new TimeDifference();
 
     @GetMapping("/problemset")
     public ModelAndView problemset() {
@@ -75,28 +80,27 @@ public class problemController {
 
     //사용자가 문제를 제출 했을 경우 데이터 베이스에 값을 저장 한후 , 소켓 통신으로 채점 서버에 알려준다.
     @RequestMapping(value = "/problem/compile", method = RequestMethod.POST)
-    public ModelAndView statusAction(ProblemStatus problemStatus) {
+    public ModelAndView compile(ProblemStatus problemStatus) throws ParseException {
 
         //TODO : security 처리 후 사용자 아이디 받아와서 처리
-        problemStatus.setEmail("dndnjs123");
+        problemStatus.setEmail("wwlee94");
+        //현재 시간 추가하기
+        ConverterTime converterTime = new ConverterTime();
+        String date = converterTime.getStringDateTime();
+        problemStatus.setDateTime(date);
 
         //DB에게 source 저장 후
         problemStatusRepository.save(problemStatus);
 
         List<ProblemStatus> psList = problemStatusRepository.findByEmailAndProNo(problemStatus.getEmail(),problemStatus.getProNo());
-        for (int i = 0; i < psList.size(); i++) {
 
+        for (int i = 0; i < psList.size(); i++) {
             int result = psList.get(i).getResult();
-            if (result == -1) {
-                psList.get(i).setStrResult("틀렸습니다.");
-            } else if (result == -2) {
-                psList.get(i).setStrResult("컴파일 에러입니다.");
-            } else if (result == 0) {
-                psList.get(i).setStrResult("채점 대기 중입니다.");
-            } else if (result == 1) {
-                psList.get(i).setStrResult("정답입니다.");
-            }
+            //setResult,setStrResult
+            psList.get(i).setResult(result);
         }
+
+        timeDifference.compileRealTimeDifference(psList);
 
         ModelAndView mv = new ModelAndView();
         mv.setViewName("problem/compileList");
@@ -105,27 +109,40 @@ public class problemController {
         return mv;
     }
 
-    @RequestMapping(value = "/problem/compileList", method = RequestMethod.GET)
-    public ModelAndView compileList() {
+    @RequestMapping(value = "/compileList", method = RequestMethod.GET)
+    public ModelAndView compileList() throws ParseException {
         List<ProblemStatus> psList = problemStatusRepository.findAll();
+
         for (int i = 0; i < psList.size(); i++) {
 
             int result = psList.get(i).getResult();
-            if (result == -1) {
-                psList.get(i).setStrResult("틀렸습니다.");
-            } else if (result == -2) {
-                psList.get(i).setStrResult("컴파일 에러입니다.");
-            } else if (result == 0) {
-                psList.get(i).setStrResult("채점 대기 중입니다.");
-            } else if (result == 1) {
-                psList.get(i).setStrResult("정답입니다.");
-            }
+            //setResult,setStrResult
+            psList.get(i).setResult(result);
         }
+
+        timeDifference.compileRealTimeDifference(psList);
 
         ModelAndView mv = new ModelAndView();
         mv.setViewName("problem/compileList");
         mv.addObject("compileList", psList);
 
         return mv;
+    }
+
+    //compile/list/realTime -> list 화면의 실시간 시간변경
+    //GET으로 하면 안가져와짐 POST로만
+    //RequestParam -> 안가져와짐 // ->RequestBody OK
+    //int bno = Integer.valueOf(String.valueOf(list.get(i).bno)) 변수 가져다 쓰려면 이렇게해야 오류 안남
+    @RequestMapping(value = "/compileList/realTime", method = RequestMethod.POST)
+    @ResponseBody
+    public List<Map> listRealTime(@RequestBody Map<String, Object> map) throws ParseException {
+        List<Map> list = (List) map.get("psList");
+
+        timeDifference.listRealTimeDifference(list);
+
+        ///TODO:result 실시간 업데이트 효율적으로 어케..?
+
+        //list 안의 값을 바꾸고 map을 넘겨줘도 바꿔서 넘겨짐
+        return list;
     }
 }
