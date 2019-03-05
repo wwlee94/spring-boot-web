@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/security")
 public class LoginController {
 
-    @RequestMapping("signUp") 
+    @RequestMapping("signUp")
     public String signUp(){
         return "security/signUp";
     }
