@@ -2,12 +2,14 @@ package com.springboot.web.problem.controller;
 
 import com.springboot.web.Board.Date.ConverterTime;
 import com.springboot.web.Board.Date.TimeDifference;
-import com.springboot.web.problem.SubmitClient;
+import com.springboot.web.login.OAuth.user.User;
+import com.springboot.web.login.security.SecurityMember;
 import com.springboot.web.problem.domain.Problem;
 import com.springboot.web.problem.domain.ProblemStatus;
 import com.springboot.web.problem.repository.ProblemRepository;
 import com.springboot.web.problem.repository.ProblemStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,8 +29,9 @@ public class problemController {
     @Autowired
     ProblemStatusRepository problemStatusRepository;
 
-    @Autowired
-    SubmitClient submitClient;
+    //사용자 정보 가져오기 위한 변수
+    private Object object;
+    private String email;
 
     TimeDifference timeDifference = new TimeDifference();
 
@@ -81,6 +84,14 @@ public class problemController {
     //사용자가 문제를 제출 했을 경우 데이터 베이스에 값을 저장 한후 , 소켓 통신으로 채점 서버에 알려준다.
     @RequestMapping(value = "/problem/compile", method = RequestMethod.POST)
     public ModelAndView compile(ProblemStatus problemStatus) throws ParseException {
+
+        object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (object.getClass().getName().equals("com.springboot.web.login.OAuth.user.User")) {
+            email = ((User) object).getEmail();
+        } else if (object.getClass().getName().equals("com.springboot.web.login.security.SecurityMember")) {
+            email = ((SecurityMember) object).getUsername();
+        }
 
         //TODO : security 처리 후 사용자 아이디 받아와서 처리
         problemStatus.setEmail("wwlee94");

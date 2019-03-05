@@ -48,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception
     {
         //인증할 것들을 풀어준다.(리소스 css, js ... ).
-        //web.ignoring().antMatchers("/static/**");
+        web.ignoring().antMatchers("/static/**");
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception
@@ -57,6 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")//ADMIN 권한을 가진 사람만  "/admin/**" 으로 접근 가능.
                 .antMatchers("/board/**").authenticated() ///board 는 권한을 가진 회원만 접근 가능
+                .antMatchers("/problem/**").authenticated()
                 .antMatchers("/**").permitAll()//나머지는 모드 접근 가능
                 .and()
 
