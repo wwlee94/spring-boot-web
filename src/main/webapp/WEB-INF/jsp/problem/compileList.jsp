@@ -1,6 +1,7 @@
 <%@ page import="com.springboot.web.Board.paging.Paging" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <html>
 <head>
@@ -9,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Spring Online Judge</title>
+    <title> Spring Online Judge </title>
 
     <!-- Bootstrap core CSS -->
     <link href="/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -29,47 +30,80 @@
 
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-    <div class="container">
-        <a class="navbar-brand" href="/">Spring Online Judge</a>
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-                data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
-                aria-label="Toggle navigation">
-            Menu
-            <i class="fas fa-bars"></i>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/about.html">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/post.html">Sample Post</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/board/list">Board</a>
-                </li>
-            </ul>
+    <div class="row" style="width: 100%">
+
+        <div class="container">
+            <a class="navbar-brand" href="/">Spring Online Judge</a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user/list">랭킹</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/problem/compileList">채점 현황</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/problem/problemset">문제</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/board/list">게시판</a>
+                    </li>
+                    <sec:authorize access="isAnonymous()">
+                        <ul style="font-size: 20px" class="nav navbar-nav navbar-right">
+                            <li class="dropdown nav-item"><a style="text-decoration:none;" href="#" class="dropdown-toggle"
+                                                             data-toggle="dropdown" role="button" aria-haspopup="true"
+                                                             aria-expanded="false">회원 관리<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a style="color:black;text-decoration:none;" href="/security/login"> 로그인</a></li>
+                                    <li><a style="color:black;text-decoration:none;" href="/security/signUp"> 회원가입</a></li>
+                                </ul></li>
+                        </ul>
+                    </sec:authorize>
+                    <sec:authorize access="isAuthenticated()">
+                        <ul style="font-size: 20px" class="nav navbar-nav navbar-right">
+                            <li class="dropdown nav-item"><a style="text-decoration:none;" href="#" class="dropdown-toggle"
+                                                             data-toggle="dropdown" role="button" aria-haspopup="true"
+                                                             aria-expanded="false">회원 관리<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a style="color:black;text-decoration:none;" href="/security/#"> 정보수정</a></li>
+                                    <li><a style="color:black;text-decoration:none;" href="/logout"> 로그아웃</a></li>
+                                </ul></li>
+                        </ul>
+                    </sec:authorize>
+                    <sec:authorize access="hasRole('ROLE_ADMIN') and isAuthenticated()">
+                        <ul style="font-size: 20px" class="nav navbar-nav navbar-right">
+                            <li class="dropdown nav-item"><a style="text-decoration:none;" href="#" class="dropdown-toggle"
+                                                             data-toggle="dropdown" role="button" aria-haspopup="true"
+                                                             aria-expanded="false">회원 관리<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a style="color:black;text-decoration:none;" href="/admin/user"> 관리자 페이지 </a></li>
+                                    <li><a style="color:black;text-decoration:none;" href="/security/#"> 정보수정 </a></li>
+                                    <li><a style="color:black;text-decoration:none;" href="/logout"> 로그아웃 </a></li>
+                                </ul></li>
+                        </ul>
+                    </sec:authorize>
+                </ul>
+            </div>
         </div>
     </div>
 </nav>
-
 <!-- Page Header -->
-<header class="masthead" style="background-image: url('/img/home-bg.jpg'); background-size: cover">
+<header class="masthead" style="background-color: #6c757d">
     <div class="overlay"></div>
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-md-10 mx-auto">
-                <div class="site-heading">
-                    <h1>ONLINE JUDGE !</h1>
-                    <span class="subheading">프로그래밍 문제를 풀고 온라인으로 채점받을 수 있는 곳입니다.</span>
-                </div>
+            <div class="site-heading" style="padding: 50px">
             </div>
         </div>
     </div>
 </header>
+
+<br/><br/>
+
 
 <!-- Main Content -->
 <div class="container">

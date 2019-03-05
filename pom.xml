@@ -18,6 +18,8 @@
         <java.version>1.8</java.version>
     </properties>
 
+    <packaging>war</packaging>
+
     <dependencies>
 
         <!-- 스타터 : 데이터 JPA -->
@@ -87,6 +89,12 @@
             <scope>compile</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+            <version>1.4.3.RELEASE</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -97,5 +105,6 @@
             </plugin>
         </plugins>
     </build>
+
 
 </project>

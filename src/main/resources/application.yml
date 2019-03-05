@@ -24,11 +24,16 @@ google :
   resource:
     userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
 
-#server:
-#  ssl:
-#    enabled: true
-#    key-store: keystore.p12
-#    key-store-password: tjddus
-#    key-store-type: PKCS12
-#    key-alias: bns-ssl
-#  port: 8443
+spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: tjddus1109@gmail.com
+    password: aiwvghqpbgemiebx
+    properties:
+      mail :
+        smtp:
+          auth : true
+          starttls:
+            enable : true
+

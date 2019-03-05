@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <html>
 <head>
@@ -109,34 +110,70 @@
 <div class="container">
     <div class="page-header">
         <h2>
-            문제
+            관리자 페이지
             <span id="dpTime" class="pull-right"></span>
         </h2>
     </div>
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th>No.</th>
-            <th>&nbsp;글 제목</th>
-            <th>&nbsp;맞은 사람</th>
-            <th>&nbsp;제출</th>
-            <th>&nbsp;정답 비율</th>
-        </tr>
-        </thead>
-        <tbody>
-        <!-- boardList는 DomainController에서 보내준 변수임 -->
-        <c:forEach var="problem" items="${problemList}">
-            <tr>
-                <td>${problem.proNo}</td>
-                <td><a href="/problem/proView/${problem.proNo}">${problem.proName}</a></td>
-                <td>${problem.proSolveCount}</td>
-                <td>${problem.proSubmitCount}</td>
-                <td id="board_diff${board.bno}" data-timestamp="${board.diff}">${board.timeDifference}</td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
+</div>
+<div class="container content">
+    <div class="row">
+        <div class = "col-md-3">
+            <ul class="list-group sidebar-nav-v1">
+                <li class = "list-group-item"><a href = "/admin/user">유저 정보</a></li>
+                <li class = "list-group-item"><a href = "/admin/userManage">유저 권한 부여</a></li>
+            </ul>
+            <br>
+            <ul class="list-group sidebar-nav-v1">
+                <li class = "list-group-item active"><a href = "/admin/problem">문제 만들기</a></li>
+                <li class = "list-group-item"><a href = "/admin/problemExam">문제별 예시 만들기</a></li>
+            </ul>
+        </div>
+        <div class = "col-md-9">
+            <div class = "row">
+                <div class = "col-md-12">
+                    <div class="container">
+                        <%--<form action="/admin/user" method="get">--%>
+                            <%--<input type="text" name="email" tabindex="1"  placeholder="이메일" style="display: inline;">--%>
+                            <%--<input type="submit" value="검색하기" style="display: inline;">--%>
+                        <%--</form>--%>
+                            <form action="/admin/problem" method="POST">
+                            <!-- Modal Content -->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 id="modal-title"></h4>
+                                    <button class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="table">
+                                        <tr>
+                                            <td>문제 제목</td>
+                                            <td><textarea class="form-control" name="proName" rows="1" placeholder="A/B"></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>문제 내용</td>
+                                            <td><textarea class="form-control" name="proContents" rows="10" placeholder="두 정수 A와 B를 입력받은 다음, A/B를 출력하는 프로그램을 작성하시오."></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>문제 입력 설명</td>
+                                            <td><textarea class="form-control" name="proInput" rows="10" placeholder="첫째 줄에 A와 B가 주어진다. (0 < A, B < 10)"></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>문제 출력 설명</td>
+                                            <td><textarea class="form-control" name="proOutput" rows="10" placeholder="첫째 줄에 A/B를 출력한다. 절대/상대 오차는 10-9 까지 허용한다."></textarea></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-success">만들기</button>
+                                </div>
+                            </div>
+                            </form>
 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <hr/>
 </div>
 
@@ -185,6 +222,10 @@
 
 <!-- Custom scripts for this template -->
 <script src="/js/clean-blog.min.js"></script>
+
+<!-- Modal.js -->
+<script type="text/javascript" src="/js/modal_event.js"></script>
+
 
 </body>
 </html>

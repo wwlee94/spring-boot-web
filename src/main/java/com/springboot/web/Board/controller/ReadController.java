@@ -10,8 +10,8 @@ import com.springboot.web.Board.repository.BoardReplyRepository;
 import com.springboot.web.Board.repository.BoardRepository;
 import com.springboot.web.Board.repository.LikesRepository;
 import com.springboot.web.Board.repository.ReplyLikesRepository;
-import com.springboot.web.login.SecurityMember;
-import com.springboot.web.login.user.User;
+import com.springboot.web.login.security.SecurityMember;
+import com.springboot.web.login.OAuth.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -68,9 +68,9 @@ public class ReadController {
 
         object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if (object.getClass().getName().equals("com.springboot.web.login.user.User")) {
+        if (object.getClass().getName().equals("com.springboot.web.login.OAuth.user.User")) {
             email = ((User) object).getEmail();
-        } else if (object.getClass().getName().equals("com.springboot.web.login.SecurityMember")) {
+        } else if (object.getClass().getName().equals("com.springboot.web.login.security.SecurityMember")) {
             email = ((SecurityMember) object).getUsername();
         }
 
@@ -127,9 +127,9 @@ public class ReadController {
 
         object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if (object.getClass().getName().equals("com.springboot.web.login.user.User")) {
+        if (object.getClass().getName().equals("com.springboot.web.login.OAuth.user.User")) {
             email = ((User) object).getEmail();
-        } else if (object.getClass().getName().equals("com.springboot.web.login.SecurityMember")) {
+        } else if (object.getClass().getName().equals("com.springboot.web.login.security.SecurityMember")) {
             email = ((SecurityMember) object).getUsername();
         }
 
@@ -160,9 +160,9 @@ public class ReadController {
 
         object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if (object.getClass().getName().equals("com.springboot.web.login.user.User")) {
+        if (object.getClass().getName().equals("com.springboot.web.login.OAuth.user.User")) {
             email = ((User) object).getEmail();
-        } else if (object.getClass().getName().equals("com.springboot.web.login.SecurityMember")) {
+        } else if (object.getClass().getName().equals("com.springboot.web.login.security.SecurityMember")) {
             email = ((SecurityMember) object).getUsername();
         }
 
@@ -199,9 +199,9 @@ public class ReadController {
 
         object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if (object.getClass().getName().equals("com.springboot.web.login.user.User")) {
+        if (object.getClass().getName().equals("com.springboot.web.login.OAuth.user.User")) {
             email = ((User) object).getEmail();
-        } else if (object.getClass().getName().equals("com.springboot.web.login.SecurityMember")) {
+        } else if (object.getClass().getName().equals("com.springboot.web.login.security.SecurityMember")) {
             email = ((SecurityMember) object).getUsername();
         }
 

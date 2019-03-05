@@ -1,8 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-         pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+         pageEncoding="utf-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
-<html lang="euc-kr" dir="ltr">
+<html lang="utf-8" dir="ltr">
 
 <head>
     <meta charset="utf-8">
@@ -143,40 +143,54 @@
     <script>location.href='/';</script>
 </sec:authorize>
 
+<%
+    request.setCharacterEncoding("utf-8");
+
+    String loginId = null;
+    if(request.getAttribute("loginid") != null){
+        loginId = (String)request.getAttribute("loginid");
+    }else if(request.getParameter("loginid") != null){
+        loginId = request.getParameter("loginid");
+    }
+%>
+
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-    <div class="container">
-        <a class="navbar-brand" href="/">Spring Online Judge</a>
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            Menu
-            <i class="fas fa-bars"></i>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="about">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="post">Sample Post</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/board/list">∞‘Ω√∆«</a>
-                </li>
-                <sec:authorize access="isAnonymous()">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="dropdown nav-item"><a style="text-decoration:none;" href="#" class="dropdown-toggle"
-                                                         data-toggle="dropdown" role="button" aria-haspopup="true"
-                                                         aria-expanded="false">»∏ø¯ ∞¸∏Æ<span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a style="color:black;text-decoration:none;" href="/security/login"> ∑Œ±◊¿Œ</a></li>
-                                <li><a style="color:black;text-decoration:none;" href="/security/signUp"> »∏ø¯∞°¿‘</a></li>
-                            </ul></li>
-                    </ul>
-                </sec:authorize>
-            </ul>
+    <div class="row" style="width: 100%">
+
+        <div class="container">
+            <a class="navbar-brand" href="/">Spring Online Judge</a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user/list">Îû≠ÌÇπ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/problem/compileList">Ï±ÑÏ†ê ÌòÑÌô©</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/problem/problemset">Î¨∏Ï†ú</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/board/list">Í≤åÏãúÌåê</a>
+                    </li>
+                    <sec:authorize access="isAnonymous()">
+                        <ul style="font-size: 20px" class="nav navbar-nav navbar-right">
+                            <li class="dropdown nav-item"><a style="text-decoration:none;" href="#" class="dropdown-toggle"
+                                                             data-toggle="dropdown" role="button" aria-haspopup="true"
+                                                             aria-expanded="false">ÌöåÏõê Í¥ÄÎ¶¨<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a style="color:black;text-decoration:none;" href="/security/login"> Î°úÍ∑∏Ïù∏</a></li>
+                                    <li><a style="color:black;text-decoration:none;" href="/security/signUp"> ÌöåÏõêÍ∞ÄÏûÖ</a></li>
+                                </ul></li>
+                        </ul>
+                    </sec:authorize>
+                </ul>
+            </div>
         </div>
     </div>
 </nav>
@@ -187,12 +201,8 @@
     <div class="overlay"></div>
     <div class="container">
         <div class="row">
-            <%--<div class="col-lg-8 col-md-10 mx-auto">--%>
             <div class="site-heading" style="padding: 50px">
-                <%--<h1> ONLINE JUDGE ! </h1>--%>
-                <%--<span class="subheading">«¡∑Œ±◊∑°π÷ πÆ¡¶∏¶ «Æ∞Ì ø¬∂Û¿Œ¿∏∑Œ √§¡°πﬁ¿ª ºˆ ¿÷¥¬ ∞˜¿‘¥œ¥Ÿ.</span>--%>
             </div>
-            <%--</div>--%>
         </div>
     </div>
 </header>
@@ -206,10 +216,10 @@
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-6">
-                            <a href="#" id="login-form-link">∑Œ±◊¿Œ</a>
+                            <a href="#" id="login-form-link">Î°úÍ∑∏Ïù∏</a>
                         </div>
                         <div class="col-xs-6">
-                            <a href="#" class="active" id="register-form-link">»∏ø¯∞°¿‘</a>
+                            <a href="#" class="active" id="register-form-link">ÌöåÏõêÍ∞ÄÏûÖ</a>
                         </div>
                     </div>
                     <hr>
@@ -220,19 +230,41 @@
                             <form id="login-form"  method="post" role="form" style="display: none;">
                                 <input type ="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                 <div class="form-group">
-                                    <input type="email" name="username" id="userID" tabindex="1" class="form-control" placeholder="¿Ã∏ﬁ¿œ" value="">
+                                    <%
+                                        if(loginId != null){
+                                    %>
+                                    <input type="email" name="username" id="userID" tabindex="1" class="form-control" placeholder="Ïù¥Î©îÏùº" value="<%= loginId%>">
+                                    <%
+                                    }else{
+                                    %>
+                                    <input type="email" name="username" id="userID" tabindex="1" class="form-control" placeholder="Ïù¥Î©îÏùº" value="">
+                                    <%
+                                        }
+                                    %>
+
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" name="password" id="userPassword" tabindex="2" class="form-control" placeholder="∫Òπ–π¯»£">
+                                    <input type="password" name="password" id="userPassword" tabindex="2" class="form-control" placeholder="ÎπÑÎ∞ÄÎ≤àÌò∏">
                                 </div>
+                                <%
+                                    if(loginId != null && request.getAttribute("loginid") != null){
+                                %>
+                                <p style="color:#c82333";>ÏïÑÏù¥ÎîîÏôÄ ÎπÑÎ∞ÄÎ≤àÌò∏Í∞Ä ÏùºÏπòÌïòÏßÄ ÏïäÏäµÎãàÎã§.</p>
+                                <%
+                                }else{
+                                %>
+                                <br>
+                                <%
+                                    }
+                                %>
                                 <div class="form-group text-center">
                                     <input type="checkbox" tabindex="3" class="" name="remember" id="remember">
-                                    <label for="remember"> æ∆¿Ãµ ±‚æÔ«œ±‚</label>
+                                    <label for="remember"> ÏïÑÏù¥Îîî Í∏∞ÏñµÌïòÍ∏∞</label>
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-6 col-sm-offset-3">
-                                            <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="∑Œ±◊¿Œ">
+                                            <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Î°úÍ∑∏Ïù∏" onclick="sendit()">
                                         </div>
                                     </div>
                                 </div>
@@ -240,51 +272,61 @@
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="text-center">
-                                                <a href="https://phpoll.com/recover" tabindex="5" class="forgot-password">∫Òπ–π¯»£∏¶ ¿ÿæÓπˆ∏ÆºÃ≥™ø‰?</a>
+                                                <a href="/member/recover" tabindex="5" class="forgot-password">ÎπÑÎ∞ÄÎ≤àÌò∏Î•º ÏûäÏñ¥Î≤ÑÎ¶¨ÏÖ®ÎÇòÏöî?</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </form>
-                            <form id="register-form" action="/member" method="post" role="form" style="display: block;">
+                            <form id="register-form" action="/member" method="post" role="form" style="display: block;" onsubmit="return registerCheck()">
                                 <input type ="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                 <div class="form-group">
-                                    <input type="email" name="uemail" id="uid" tabindex="1" class="form-control" placeholder="æ∆¿Ãµ(¿Ã∏ﬁ¿œ «¸Ωƒ)" value="">
+                                    <input type="email" name="uemail" id="uid" tabindex="1" class="form-control" placeholder="ÏïÑÏù¥Îîî(Ïù∏Ï¶ù Î∞õÏùÑ Ïù¥Î©îÏùº)" value="" onchange="idcheck()">
+                                    <small id="uidCheck" style="color:#c82333";></small>
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" name="upw" id="password" tabindex="2" class="form-control" placeholder="∫Òπ–π¯»£">
+                                    <input type="password" name="upw" id="password" tabindex="2" class="form-control" placeholder="ÎπÑÎ∞ÄÎ≤àÌò∏" onchange="pwcheck()">
+                                    <small id="passwordCheck" style="color:#c82333";></small>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="¿Ã∏ß" name="uid" tabindex="1">
+                                    <input type="password" id="password2" tabindex="3" class="form-control" placeholder="ÎπÑÎ∞ÄÎ≤àÌò∏ ÌôïÏù∏" onchange="pw2check()">
+                                    <small id="password2Check" style="color:#c82333";></small>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Ïù¥Î¶Ñ" name="uid" id="name" tabindex="4">
+                                    <small id="nameCheck" style="color:#c82333";></small>
                                 </div>
                                 <div class="form-group" style="text-align:center;">
                                     <div class="btn-group" data-toggle="buttons">
                                         <label class="btn btn-primary active">
-                                            <input type="radio" name="userGender" autocomplete="off" value="≥≤¿⁄" checked>≥≤¿⁄
+                                            <input type="radio" name="userGender" autocomplete="off" value="ÎÇ®Ïûê" checked>ÎÇ®Ïûê
                                         </label>
                                         <label class="btn btn-primary">
-                                            <input type="radio" name="userGender" autocomplete="off" value="ø©¿⁄">ø©¿⁄
+                                            <input type="radio" name="userGender" autocomplete="off" value="Ïó¨Ïûê">Ïó¨Ïûê
                                         </label>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-6 col-sm-offset-3">
-                                            <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="∞°¿‘«œ±‚">
+                                            <input type="submit" name="register-submit" id="register-submit" class="form-control btn btn-register" value="Í∞ÄÏûÖÌïòÍ∏∞">
                                         </div>
                                     </div>
                                 </div>
                             </form>
                             <hr>
-                            <div class="col-sm-6 col-sm-offset-3">
+                            <div class="form-group text-center">
+                                <label style="font-weight:bold;"> or </label>
+                            </div>
+                            <div class="col-sm-7 col-sm-offset-2">
                                 <a href="/login/google">
-                                    <img class="btn-img" src="/img/btn_google.png"/>
+                                    <img class="btn-img" style="width: 300px" src="/img/btn_google2.png"/>
                                 </a>
                             </div>
                             <br /><br />
-                            <div class="col-sm-6 col-sm-offset-3">
+                            <div class="col-sm-7 col-sm-offset-2">
                                 <a href="/login/facebook">
-                                    <img class="btn-img" style="height: 42px" src="/img/btn_facebook.png"/>
+                                    <img class="btn-img" style="width: 300px" src="/img/btn_facebook2.png"/>
                                 </a>
                             </div>
 
@@ -297,35 +339,39 @@
 </div>
 <br/><br/>
 
-<footer style="background-color: #6c757d; color:#ffffff">
+<!-- Footer -->
+<hr>
+<footer>
     <div class="container">
-        <br>
         <div class="row">
-            <div class="col-sm-2" style="text-align:center;">
-                <h5>spring Online Judge</h5>
-                <h5>¡§º∫ø¨(YeonBot)</h5>
-            </div>
-            <div class="col-sm-4">
-                <h4>º“∞≥</h4>
-                <p>«¡∑Œ±◊∑°π÷ πÆ¡¶∏¶ «Æ∞Ì ø¬∂Û¿Œ¿∏∑Œ √§¡°πﬁ¿ª ºˆ ¿÷¥¬ ∞˜¿‘¥œ¥Ÿ.</p>
-            </div>
-            <div class="col-sm-2">
-                <h4 style="text-align:center;">≥◊∫Ò∞‘¿Ãº«</h4>
-                <div>
-                    <a href="/index" class="list-group-item">ƒ⁄µ˘</a>
-                    <a href="/instructor" class="list-group-item">∞‘Ω√∆«</a>
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <h4 style="text-align:center;">SNS</h4>
-                <div>
-                    <a href="#" class="list-group-item">∆‰¿ÃΩ∫∫œ</a>
-                    <a href="#" class="list-group-item">¿Ø∆©∫Í</a>
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <h4 style="text-align:center;"><span class="glyphicon glyphicon-ok"></span> &nbsp;by ¡§º∫ø¨</h4>
-                <h4 style="text-align:center;"><span class="glyphicon glyphicon-ok"></span> &nbsp;by ¿ÃøÏø¯</h4>
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <ul class="list-inline text-center">
+                    <li class="list-inline-item">
+                        <a href="#">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                  </span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                  </span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                        </a>
+                    </li>
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; Your Website 2018</p>
             </div>
         </div>
     </div>
@@ -335,8 +381,10 @@
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
 
+
 <!-- Custom scripts for this template -->
 <script src="/js/clean-blog.min.js"></script>
+<script src="/js/register.js"></script>
 
 <script type="text/javascript">
     $(function() {
@@ -357,7 +405,18 @@
         });
 
     });
+
+    $(document).ready(function(){
+        $("#register-submit").click(function(){
+            var result = txtFieldCheck() == true ? true : false;
+            console.log(result);
+            if(result != true){
+                document.getElementById('register-form').submit();
+            }
+        });
+    });
 </script>
+
 </body>
 
 </html>

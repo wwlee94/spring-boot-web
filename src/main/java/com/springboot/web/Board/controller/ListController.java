@@ -5,8 +5,8 @@ import com.springboot.web.Board.Date.TimeDifference;
 import com.springboot.web.Board.domain.Board;
 import com.springboot.web.Board.paging.Paging;
 import com.springboot.web.Board.repository.BoardRepository;
-import com.springboot.web.login.SecurityMember;
-import com.springboot.web.login.user.User;
+import com.springboot.web.login.security.SecurityMember;
+import com.springboot.web.login.OAuth.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -42,9 +42,9 @@ public class ListController {
         int totalCount = repository.findAllForCount();
 
         paging.init(totalCount, page);
-        System.out.println("전체 게시글: " + totalCount);
-        System.out.println("총 페이지: " + paging.getTotalPage());
-        System.out.println("시작 페이지: " + paging.getStartPage() + " 마지막 페이지: " + paging.getEndPage() + " 현재 페이지: " + paging.getPage());
+//        System.out.println("전체 게시글: " + totalCount);
+//        System.out.println("총 페이지: " + paging.getTotalPage());
+//        System.out.println("시작 페이지: " + paging.getStartPage() + " 마지막 페이지: " + paging.getEndPage() + " 현재 페이지: " + paging.getPage());
 
         int listCount = paging.getListCount();
         //페이지의 값에 따른(몇 개를 읽을건지) 게시글 가져오기
@@ -71,9 +71,9 @@ public class ListController {
 
         object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if (object.getClass().getName().equals("com.springboot.web.login.user.User")) {
+        if (object.getClass().getName().equals("com.springboot.web.login.OAuth.user.User")) {
             email = ((User) object).getEmail();
-        } else if (object.getClass().getName().equals("com.springboot.web.login.SecurityMember")) {
+        } else if (object.getClass().getName().equals("com.springboot.web.login.security.SecurityMember")) {
             email = ((SecurityMember) object).getUsername();
         }
 

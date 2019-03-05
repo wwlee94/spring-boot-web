@@ -1,6 +1,5 @@
 package com.springboot.web.problem.domain;
 
-
 import javax.persistence.*;
 
 @Entity

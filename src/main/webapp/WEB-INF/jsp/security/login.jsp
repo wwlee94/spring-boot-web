@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
          pageEncoding="EUC-KR"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="utf-8" dir="ltr">
 
@@ -149,6 +150,8 @@
     String loginId = null;
     if(request.getAttribute("loginid") != null){
         loginId = (String)request.getAttribute("loginid");
+    }else if(request.getParameter("loginid") != null){
+        loginId = request.getParameter("loginid");
     }
 %>
 
@@ -156,6 +159,8 @@
 
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <div class="row" style="width: 100%">
+
     <div class="container">
         <a class="navbar-brand" href="/">Spring Online Judge</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -165,19 +170,19 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/">Home</a>
+                    <a class="nav-link" href="/user/list">랭킹</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="about">About</a>
+                    <a class="nav-link" href="/problem/compileList">채점 현황</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="post">Sample Post</a>
+                    <a class="nav-link" href="/problem/problemset">문제</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/board/list">게시판</a>
                 </li>
                 <sec:authorize access="isAnonymous()">
-                    <ul class="nav navbar-nav navbar-right">
+                    <ul style="font-size: 20px" class="nav navbar-nav navbar-right">
                         <li class="dropdown nav-item"><a style="text-decoration:none;" href="#" class="dropdown-toggle"
                                                          data-toggle="dropdown" role="button" aria-haspopup="true"
                                                          aria-expanded="false">회원 관리<span class="caret"></span></a>
@@ -189,6 +194,7 @@
                 </sec:authorize>
             </ul>
         </div>
+    </div>
     </div>
 </nav>
 
@@ -226,7 +232,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <form id="login-form"  method="post" role="form" style="display: block;">
-                                <input type ="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                <%--<input type ="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>--%>
                                 <div class="form-group">
                                     <%
                                         if(loginId != null){
@@ -245,9 +251,9 @@
                                     <input type="password" name="password" id="userPassword" tabindex="2" class="form-control" placeholder="비밀번호">
                                 </div>
                                 <%
-                                    if(loginId != null){
+                                    if(loginId != null && request.getAttribute("loginid") != null){
                                 %>
-                                <p style="color:#b21f2d";>아이디와 비밀번호가 일치하지 않습니다.</p>
+                                <p style="color:#c82333";>아이디와 비밀번호가 일치하지 않습니다.</p>
                                 <%
                                 }else{
                                 %>
@@ -262,7 +268,7 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-6 col-sm-offset-3">
-                                            <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="로그인">
+                                            <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="로그인" onclick="sendit()">
                                         </div>
                                     </div>
                                 </div>
@@ -270,22 +276,29 @@
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="text-center">
-                                                <a href="https://phpoll.com/recover" tabindex="5" class="forgot-password">비밀번호를 잊어버리셨나요?</a>
+                                                <a href="/member/recover" tabindex="5" class="forgot-password">비밀번호를 잊어버리셨나요?</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </form>
-                            <form id="register-form" action="/member" method="post" role="form" style="display: none;">
+                            <form id="register-form" action="/member" method="post" role="form" style="display: none;" onsubmit="return registerCheck()">
                                 <input type ="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                 <div class="form-group">
-                                    <input type="email" name="uemail" id="uid" tabindex="1" class="form-control" placeholder="아이디(이메일 형식)" value="">
+                                    <input type="email" name="uemail" id="uid" tabindex="1" class="form-control" placeholder="아이디(인증 받을 이메일)" value="" onchange="idcheck()">
+                                    <small id="uidCheck" style="color:#c82333";></small>
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" name="upw" id="password" tabindex="2" class="form-control" placeholder="비밀번호">
+                                    <input type="password" name="upw" id="password" tabindex="2" class="form-control" placeholder="비밀번호" onchange="pwcheck()">
+                                    <small id="passwordCheck" style="color:#c82333";></small>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="이름" name="uid" tabindex="1">
+                                    <input type="password" name="upw" id="password2" tabindex="3" class="form-control" placeholder="비밀번호 확인" onchange="pw2check()">
+                                    <small id="password2Check" style="color:#c82333";></small>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="이름" name="uid" id="name" tabindex="4">
+                                    <small id="nameCheck" style="color:#c82333";></small>
                                 </div>
                                 <div class="form-group" style="text-align:center;">
                                     <div class="btn-group" data-toggle="buttons">
@@ -300,21 +313,25 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-6 col-sm-offset-3">
-                                            <input type="button" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="가입하기">
+                                            <input type="submit" name="register-submit" id="register-submit" class="form-control btn btn-register" value="가입하기">
                                         </div>
                                     </div>
                                 </div>
                             </form>
+
                             <hr>
-                            <div class="col-sm-6 col-sm-offset-3">
+                            <div class="form-group text-center">
+                                <label style="font-weight:bold;"> or </label>
+                            </div>
+                            <div class="col-sm-7 col-sm-offset-2">
                                 <a href="/login/google">
-                                    <img class="btn-img" src="/img/btn_google.png"/>
+                                    <img class="btn-img" style="width: 300px" src="/img/btn_google2.png"/>
                                 </a>
                             </div>
                             <br /><br />
-                            <div class="col-sm-6 col-sm-offset-3">
+                            <div class="col-sm-7 col-sm-offset-2">
                                 <a href="/login/facebook">
-                                    <img class="btn-img" style="height: 42px" src="/img/btn_facebook.png"/>
+                                    <img class="btn-img" style="width: 300px" src="/img/btn_facebook2.png"/>
                                 </a>
                             </div>
 
@@ -327,35 +344,39 @@
 </div>
 <br/><br/>
 
-<footer style="background-color: #6c757d; color:#ffffff">
+<!-- Footer -->
+<hr>
+<footer>
     <div class="container">
-        <br>
         <div class="row">
-            <div class="col-sm-2" style="text-align:center;">
-                <h5>spring Online Judge</h5>
-                <h5>정성연(YeonBot)</h5>
-            </div>
-            <div class="col-sm-4">
-                <h4>소개</h4>
-                <p>프로그래밍 문제를 풀고 온라인으로 채점받을 수 있는 곳입니다.</p>
-            </div>
-            <div class="col-sm-2">
-                <h4 style="text-align:center;">네비게이션</h4>
-                <div>
-                    <a href="/index" class="list-group-item">코딩</a>
-                    <a href="/instructor" class="list-group-item">게시판</a>
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <h4 style="text-align:center;">SNS</h4>
-                <div>
-                    <a href="#" class="list-group-item">페이스북</a>
-                    <a href="#" class="list-group-item">유튜브</a>
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <h4 style="text-align:center;"><span class="glyphicon glyphicon-ok"></span> &nbsp;by 정성연</h4>
-                <h4 style="text-align:center;"><span class="glyphicon glyphicon-ok"></span> &nbsp;by 이우원</h4>
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <ul class="list-inline text-center">
+                    <li class="list-inline-item">
+                        <a href="#">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                  </span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                  </span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                        </a>
+                    </li>
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; Your Website 2018</p>
             </div>
         </div>
     </div>
@@ -367,10 +388,10 @@
 
 <!-- Custom scripts for this template -->
 <script src="/js/clean-blog.min.js"></script>
+<script src="/js/register.js"></script>
 
 <script type="text/javascript">
     $(function() {
-
         $('#login-form-link').click(function(e) {
             $("#login-form").delay(100).fadeIn(100);
             $("#register-form").fadeOut(100);
@@ -397,30 +418,6 @@
             }
         });
     });
-
-    function txtFieldCheck(){
-        // form안의 모든 text type 조회
-        var txtEle = $("#register-form input[type=text]");
-
-        for(var i = 0; i < txtEle.length; i ++){
-            // console.log($(txtEle[i]).val());
-            if("" == $(txtEle[i]).val() || null == $(txtEle[i]).val()){
-                var ele_id = $(txtEle[i]).attr("id");
-                var label_txt = $("label[for='" + ele_id +"']").text();
-                console.log("id : " + ele_id + ", label : " + label_txt);
-                showAlert(ele_id, label_txt);
-
-                return true;
-            }
-        }
-    }
-
-    function showAlert(ele_id, label_txt){
-        alert(label_txt + " is null");
-        // 해당 id에 focus.
-        $("#" + ele_id).focus();
-    }
-
 </script>
 </body>
 
