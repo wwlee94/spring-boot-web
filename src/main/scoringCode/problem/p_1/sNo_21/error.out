@@ -1,0 +1,10 @@
+../problem/p_1/sNo_21/21.c: In function ‘main’:
+../problem/p_1/sNo_21/21.c:5:13: warning: format ‘%[^
+   ’ expects argument of type ‘char *’, but argument 2 has type ‘int *’ [-Wformat=]
+   scanf("%[^\n]s",a);
+          ~~~^~    ~
+          %l[
+../problem/p_1/sNo_21/21.c:6:12: warning: format ‘%s’ expects argument of type ‘char *’, but argument 2 has type ‘int *’ [-Wformat=]
+   printf("%s",a);
+           ~^  ~
+           %ls

@@ -1,0 +1,39 @@
+../problem/p_1/sNo_8/8.c:1:1: error: stray ‘\354’ in program
+ 성연짜응!!!!
+ ^
+../problem/p_1/sNo_8/8.c:1:2: error: stray ‘\204’ in program
+ 성연짜응!!!!
+  ^
+../problem/p_1/sNo_8/8.c:1:3: error: stray ‘\261’ in program
+ 성연짜응!!!!
+   ^
+../problem/p_1/sNo_8/8.c:1:4: error: stray ‘\354’ in program
+ 성연짜응!!!!
+    ^
+../problem/p_1/sNo_8/8.c:1:5: error: stray ‘\227’ in program
+ 성연짜응!!!!
+     ^
+../problem/p_1/sNo_8/8.c:1:6: error: stray ‘\260’ in program
+ 성연짜응!!!!
+      ^
+../problem/p_1/sNo_8/8.c:1:7: error: stray ‘\354’ in program
+ 성연짜응!!!!
+       ^
+../problem/p_1/sNo_8/8.c:1:8: error: stray ‘\247’ in program
+ 성연짜응!!!!
+        ^
+../problem/p_1/sNo_8/8.c:1:9: error: stray ‘\234’ in program
+ 성연짜응!!!!
+         ^
+../problem/p_1/sNo_8/8.c:1:10: error: stray ‘\354’ in program
+ 성연짜응!!!!
+          ^
+../problem/p_1/sNo_8/8.c:1:11: error: stray ‘\235’ in program
+ 성연짜응!!!!
+           ^
+../problem/p_1/sNo_8/8.c:1:12: error: stray ‘\221’ in program
+ 성연짜응!!!!
+            ^
+../problem/p_1/sNo_8/8.c:1:13: error: expected identifier or ‘(’ before ‘!’ token
+ 성연짜응!!!!
+             ^

@@ -1,0 +1,4 @@
+../problem/p_1/sNo_14/14.c:1:10: fatal error: stdio.hㅗㅗ: No such file or directory
+ #include <stdio.hㅗㅗ>
+          ^~~~~~~~~~~~~~~
+compilation terminated.

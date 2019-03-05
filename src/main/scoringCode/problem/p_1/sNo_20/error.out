@@ -1,0 +1,10 @@
+../problem/p_1/sNo_20/20.c: In function ‘main’:
+../problem/p_1/sNo_20/20.c:5:19: error: ‘sa’ undeclared (first use in this function); did you mean ‘a’?
+   scanf("%[^\n]s",sa);
+                   ^~
+                   a
+../problem/p_1/sNo_20/20.c:5:19: note: each undeclared identifier is reported only once for each function it appears in
+../problem/p_1/sNo_20/20.c:6:12: warning: format ‘%s’ expects argument of type ‘char *’, but argument 2 has type ‘int *’ [-Wformat=]
+   printf("%s",a);
+           ~^  ~
+           %ls
