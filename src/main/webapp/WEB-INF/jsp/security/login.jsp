@@ -293,7 +293,7 @@
                                     <small id="passwordCheck" style="color:#c82333";></small>
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" name="upw" id="password2" tabindex="3" class="form-control" placeholder="비밀번호 확인" onchange="pw2check()">
+                                    <input type="password" id="password2" tabindex="3" class="form-control" placeholder="비밀번호 확인" onchange="pw2check()">
                                     <small id="password2Check" style="color:#c82333";></small>
                                 </div>
                                 <div class="form-group">
