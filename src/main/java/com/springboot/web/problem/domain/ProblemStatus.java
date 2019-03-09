@@ -87,13 +87,13 @@ public class ProblemStatus {
         this.result = result;
 
         if (result == -1) {
-            this.setStrResult("틀렸습니다.");
+            this.setStrResult("틀렸습니다!");
         } else if (result == -2) {
-            this.setStrResult("컴파일 에러입니다.");
+            this.setStrResult("컴파일 에러");
         } else if (result == 0) {
-            this.setStrResult("채점 대기 중입니다.");
+            this.setStrResult("채점 대기중");
         } else if (result == 1) {
-            this.setStrResult("정답입니다.");
+            this.setStrResult("정답입니다!!");
         }
     }
 

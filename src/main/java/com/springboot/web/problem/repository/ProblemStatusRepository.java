@@ -10,10 +10,11 @@ import java.util.Optional;
 
 public interface ProblemStatusRepository extends JpaRepository<ProblemStatus,Long> {
 
-    List<ProblemStatus> findByEmail(String email);
+    @Query("select ps from ProblemStatus ps order by ps.sNo desc")
+    List<ProblemStatus> findAllByDesc();
 
     @Query("select ps from ProblemStatus ps where ps.sNo=:id")
-    Optional<ProblemStatus> findBySNo(Long id);
+    ProblemStatus findBySNo(Long id);
 
     @Query("select ps from ProblemStatus ps where ps.email=:email and ps.proNo=:proNo")
     List<ProblemStatus> findByEmailAndProNo(String email, long proNo);

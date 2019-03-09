@@ -34,14 +34,16 @@
 
         <div class="container">
             <a class="navbar-brand" href="/">Spring Online Judge</a>
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                    data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+                    aria-label="Toggle navigation">
                 Menu
                 <i class="fas fa-bars"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/user/list">랭킹</a>
+                        <a class="nav-link" href="/">랭킹</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/problem/compileList">채점 현황</a>
@@ -63,13 +65,13 @@
                                 </ul></li>
                         </ul>
                     </sec:authorize>
-                    <sec:authorize access="isAuthenticated()">
+                    <sec:authorize access="hasRole('ROLE_BASIC') and isAuthenticated()">
                         <ul style="font-size: 20px" class="nav navbar-nav navbar-right">
                             <li class="dropdown nav-item"><a style="text-decoration:none;" href="#" class="dropdown-toggle"
                                                              data-toggle="dropdown" role="button" aria-haspopup="true"
                                                              aria-expanded="false">회원 관리<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a style="color:black;text-decoration:none;" href="/security/#"> 정보수정</a></li>
+                                    <li><a style="color:black;text-decoration:none;" href="security/#"> 정보수정</a></li>
                                     <li><a style="color:black;text-decoration:none;" href="/logout"> 로그아웃</a></li>
                                 </ul></li>
                         </ul>
@@ -190,21 +192,23 @@
     i = 0;
     count = 0;
 
+    psList = [];
+
+    <c:forEach var="ps" items="${compileList}">
+    ps = {};
+    ps.sNo = ${ps.sNo};
+    ps.dateTime = "${ps.dateTime}";
+    ps.timeDifference = "";
+    ps.result = ${ps.result};
+    ps.strResult = "${ps.strResult}";
+    psList.push(ps);
+    </c:forEach>
+
     onload = function () {
         realTime();
     };
 
     function realTime() {
-        psList = [];
-
-        <c:forEach var="ps" items="${compileList}">
-        ps = {};
-        ps.sNo = ${ps.sNo};
-        ps.dateTime = "${ps.dateTime}";
-        ps.timeDifference = "";
-        ps.result = ${ps.result};
-        psList.push(ps);
-        </c:forEach>
 
         var data = {
             "psList": psList
@@ -225,15 +229,35 @@
                     var timeDifference = response[i].timeDifference;
                     var strResult = response[i].strResult;
 
+                    if(response[i].result === 0){
+                        if(count%4===0) {
+                            strResult = "채점 대기중";
+                        }
+                        else if(count%4===1){
+                            strResult = "채점 대기중.";
+                        }
+                        else if(count%4===2){
+                            strResult = "채점 대기중..";
+                        }
+                        else if(count%4===3){
+                            strResult = "채점 대기중...";
+                        }
+                    }
+
                     $("#compile_diff" + sNo).text(timeDifference);
                     $("#compile_strRe" + sNo).text(strResult);
+
+                    //ps의 result,strResult 값 또한 변경 (problemController에서 계속 쿼리문 날리는거 방지하기 위함 + psList 갱신)
+                    psList[i].result = response[i].result;
+                    psList[i].strResult = response[i].strResult;
+
                 }
             }
         });
 
-        setTimeout("realTime()",1000);
+        setTimeout("realTime()", 1000);
         count++;
-        if (count > 60) {
+        if (count > 120) {
             count = 0;
             location.reload();
         }

@@ -42,7 +42,7 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/user/list">랭킹</a>
+                        <a class="nav-link" href="/">랭킹</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/problem/compileList">채점 현황</a>
@@ -64,7 +64,7 @@
                                 </ul></li>
                         </ul>
                     </sec:authorize>
-                    <sec:authorize access="isAuthenticated()">
+                    <sec:authorize access="hasRole('ROLE_BASIC') and isAuthenticated()">
                         <ul style="font-size: 20px" class="nav navbar-nav navbar-right">
                             <li class="dropdown nav-item"><a style="text-decoration:none;" href="#" class="dropdown-toggle"
                                                              data-toggle="dropdown" role="button" aria-haspopup="true"

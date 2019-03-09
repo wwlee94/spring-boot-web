@@ -42,36 +42,48 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/">Home</a>
+                    <a class="nav-link" href="/">랭킹</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/about.html">About</a>
+                    <a class="nav-link" href="/problem/compileList">채점 현황</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/post.html">문제</a>
+                    <a class="nav-link" href="/problem/problemset">문제</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/board/list">게시판</a>
                 </li>
                 <sec:authorize access="isAnonymous()">
-                    <ul class="nav navbar-nav navbar-right">
+                    <ul style="font-size: 20px" class="nav navbar-nav navbar-right">
                         <li class="dropdown nav-item"><a style="text-decoration:none;" href="#" class="dropdown-toggle"
                                                          data-toggle="dropdown" role="button" aria-haspopup="true"
                                                          aria-expanded="false">회원 관리<span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a style="color:black;text-decoration:none;" href="security/login"> 로그인</a></li>
-                                <li><a style="color:black;text-decoration:none;" href="security/signUp"> 회원가입</a></li>
+                                <li><a style="color:black;text-decoration:none;" href="/security/login"> 로그인</a></li>
+                                <li><a style="color:black;text-decoration:none;" href="/security/signUp"> 회원가입</a></li>
                             </ul></li>
                     </ul>
                 </sec:authorize>
-                <sec:authorize access="isAuthenticated()">
-                    <ul class="nav navbar-nav navbar-right">
+                <sec:authorize access="hasRole('ROLE_BASIC') and isAuthenticated()">
+                    <ul style="font-size: 20px" class="nav navbar-nav navbar-right">
                         <li class="dropdown nav-item"><a style="text-decoration:none;" href="#" class="dropdown-toggle"
                                                          data-toggle="dropdown" role="button" aria-haspopup="true"
                                                          aria-expanded="false">회원 관리<span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a style="color:black;text-decoration:none;" href="security/#"> 정보수정</a></li>
                                 <li><a style="color:black;text-decoration:none;" href="/logout"> 로그아웃</a></li>
+                            </ul></li>
+                    </ul>
+                </sec:authorize>
+                <sec:authorize access="hasRole('ROLE_ADMIN') and isAuthenticated()">
+                    <ul style="font-size: 20px" class="nav navbar-nav navbar-right">
+                        <li class="dropdown nav-item"><a style="text-decoration:none;" href="#" class="dropdown-toggle"
+                                                         data-toggle="dropdown" role="button" aria-haspopup="true"
+                                                         aria-expanded="false">회원 관리<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a style="color:black;text-decoration:none;" href="/admin/user"> 관리자 페이지 </a></li>
+                                <li><a style="color:black;text-decoration:none;" href="/security/#"> 정보수정 </a></li>
+                                <li><a style="color:black;text-decoration:none;" href="/logout"> 로그아웃 </a></li>
                             </ul></li>
                     </ul>
                 </sec:authorize>
@@ -106,10 +118,9 @@
     <table class="table table-hover table-striped">
         <thead>
         <tr>
-            <th>No.</th>
-            <th><span class="glyphicon glyphicon-list"></span>&nbsp;글 제목</th>
+            <th><span class="glyphicon glyphicon-list"></span>&nbsp;제목</th>
             <th><span class="glyphicon glyphicon-user"></span>&nbsp;아이디</th>
-            <th><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;좋아요</th>
+            <th><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;</th>
             <th><span class="glyphicon glyphicon-time"></span>&nbsp;작성일</th>
             <th>수정 / 삭제</th>
         </tr>
@@ -118,7 +129,6 @@
         <!-- boardList는 DomainController에서 보내준 변수임 -->
         <c:forEach var="board" items="${boardList}">
             <tr>
-                <td>${board.bno}</td>
                 <td><a href="/board/read/${board.bno}">${board.title}</a></td>
                 <td>${board.userName}</td>
                 <td>${board.likeCount}</td>

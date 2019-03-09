@@ -81,9 +81,9 @@ public class problemController {
         return mv;
     }
 
-    //사용자가 문제를 제출 했을 경우 데이터 베이스에 값을 저장 한후 , 소켓 통신으로 채점 서버에 알려준다.
+    //사용자가 문제를 제출 했을 경우 데이터 베이스에 값을 저장 한후 , 채점 서버에 알려준다.
     @RequestMapping(value = "/problem/compile", method = RequestMethod.POST)
-    public ModelAndView compile(ProblemStatus problemStatus) throws ParseException {
+    public String compile(ProblemStatus problemStatus) throws ParseException {
 
         object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -94,7 +94,7 @@ public class problemController {
         }
 
         //TODO : security 처리 후 사용자 아이디 받아와서 처리
-        problemStatus.setEmail("wwlee94");
+        problemStatus.setEmail(email);
         //현재 시간 추가하기
         ConverterTime converterTime = new ConverterTime();
         String date = converterTime.getStringDateTime();
@@ -103,26 +103,18 @@ public class problemController {
         //DB에게 source 저장 후
         problemStatusRepository.save(problemStatus);
 
-        List<ProblemStatus> psList = problemStatusRepository.findByEmailAndProNo(problemStatus.getEmail(),problemStatus.getProNo());
+        //List<ProblemStatus> psList = problemStatusRepository.findByEmailAndProNo(problemStatus.getEmail(),problemStatus.getProNo());
+        //timeDifference.compileRealTimeDifference(psList);
+        //ModelAndView mv = new ModelAndView();
+        //mv.setViewName("problem/compileList");
+        //mv.addObject("compileList", psList);
 
-        for (int i = 0; i < psList.size(); i++) {
-            int result = psList.get(i).getResult();
-            //setResult,setStrResult
-            psList.get(i).setResult(result);
-        }
-
-        timeDifference.compileRealTimeDifference(psList);
-
-        ModelAndView mv = new ModelAndView();
-        mv.setViewName("problem/compileList");
-        mv.addObject("compileList", psList);
-
-        return mv;
+        return "redirect:/problem/compileList";
     }
 
     @RequestMapping(value = "/compileList", method = RequestMethod.GET)
     public ModelAndView compileList() throws ParseException {
-        List<ProblemStatus> psList = problemStatusRepository.findAll();
+        List<ProblemStatus> psList = problemStatusRepository.findAllByDesc();
 
         for (int i = 0; i < psList.size(); i++) {
 
@@ -151,6 +143,28 @@ public class problemController {
 
         timeDifference.listRealTimeDifference(list);
 
+        for(int i=0;i<list.size();i++){
+            int liResult = (int) list.get(i).get("result");
+            if(liResult == 0){
+                long sNo = (int) list.get(i).get("sNo");
+                System.out.println("sNo = "+sNo);
+                //TODO: 처리할 작업이 있으면 1초마다 실행됨..
+                ProblemStatus ps = problemStatusRepository.findBySNo(sNo);
+                int psResult = ps.getResult();
+                if(psResult==-2){
+                    list.get(i).put("result",-2);
+                    list.get(i).put("strResult","컴파일 에러");
+                }
+                else if(psResult == -1){
+                    list.get(i).put("result",-1);
+                    list.get(i).put("strResult","틀렸습니다!");
+                }
+                else if(psResult == 1){
+                    list.get(i).put("result",1);
+                    list.get(i).put("strResult","정답입니다!!");
+                }
+            }
+        }
         ///TODO:result 실시간 업데이트 효율적으로 어케..?
 
         //list 안의 값을 바꾸고 map을 넘겨줘도 바꿔서 넘겨짐
