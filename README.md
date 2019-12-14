@@ -1,6 +1,7 @@
 # TimeManager
 
-![웹 사이트 로고](images/main/onlinejudge_1.png)
+<!-- 웹 사이트 로고 -->
+<img src="images/main/onlinejudge_1.png" width="70%" height="70%"> 
 
 ## Spring 온라인 저지 사이트
 
@@ -11,7 +12,8 @@
 백준 온라인 저지 사이트 (https://www.acmicpc.net) 를 접하면서 유저가 제출한 코드가 어떻게 돌아가고 컴파일 되어 채점되는지 궁금하고 도전해보고 싶어서 만든 카피 프로젝트
 
 ## 서비스 구성도
-(추가 예정)
+<!-- 서비스 구성도 -->
+<img src="images/main/online_judge_diagram_2.png" width="80%" height="80%"> 
 
 ## 서비스 주요 기능 설명
 * 문제를 보고 C언어로 코드를 작성하여 컴파일 결과를 얻을 수 있다.
@@ -84,7 +86,7 @@
 
 ## 서버 정보 ( AWS EC2 인스턴스 )
 
-### 1. 채점 서버
+### 1. 채점 서버 ( C로 구현 )
 * C언어 코드 컴파일 제공 - g++ (GCC) 8.3.0 버전
 * 채점 완료 후 DB서버에 정보 저장 후 웹에서 저장된 데이터 받아옴
 
@@ -102,10 +104,10 @@
 * Memory : 1GB
 * OS : Ubuntu 서버
 
-<!-- ## 참고 문헌
-* https://startlink.blog/2015/12/21/boj%EB%8A%94-%EC%96%B4%EB%96%BB%EA%B2%8C-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%A1%8C%EC%9D%84%EA%B9%8C/
+## 참고 문헌 및 웹 사이트
+* [백준 채점 도움말](https://www.acmicpc.net/help/judge) : 컴파일러 정보와 채점 서버 정보
 
-* https://www.acmicpc.net/help/judge
+* [코드패드](http://codepad.org) : 컴파일 동작 디자인 및 방식 참고
 
-* https://github.com/hahnlee/ipytracer -->
+* [개발자 부엉](https://bubobubo003.tistory.com/26) : 컴파일러 구현 언어는 다르지만 내부 동작 이해하는데 큰 도움
 
