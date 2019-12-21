@@ -1,7 +1,7 @@
 # Online Judge ! 
 
 <!-- 웹 사이트 로고 -->
-<img src="images/main/onlinejudge_1.png" width="70%" height="70%"> 
+<img src="images/main/onlinejudge_1.png" width="70%" height="70%">
 
 ## Spring 온라인 저지 사이트
 
@@ -28,55 +28,75 @@
 <!-- 관리자 페이지 -->
 <img src="images/functions/문제출제_관리자_페이지_2.png" width="70%" height="70%"> 
 
-#### - 알고리즘 입력 값, 출력 값 저장
-![컴파일 입출력파일](images/functions/컴파일_입력_출력_3.png)
-
-관리자가 알고리즘 문제를 생성해 등록 한 후 채점 서버에 해당 문제의 예시 입력 및 출력값을 저장합니다.  
-(sNo: 문제를 제출한 사용자 ID번호)
+관리자가 알고리즘 문제를 생성해 등록할 수 있습니다.
 
 #### - 저장된 문제 확인
 <!-- atm기기 문제 -->
-<img src="images/functions/ATM_문제_4.png" width="70%" height="70%">
+<img src="images/functions/ATM_문제_3.png" width="70%" height="70%">
+
+#### - 알고리즘 입력 값, 출력 값 저장
+![컴파일 입출력파일](images/functions/컴파일_입력_출력_4.png)
+
+채점 서버에 해당 문제의 예시 입력 및 출력값을 저장합니다.  
+> answer.in: 문제의 입력값  
+> answer.out: 문제의 출력값  
+> sNo_{number}: 문제를 제출한 사용자 ID번호
 
 최종적으로 생성된 문제는 코드를 작성해 문제를 풀 수 있습니다.
 
 ### 2. 알고리즘 채점 기능
-#### - 코드미러를 이용한 코드 작성
+#### - 코드미러를 이용한 코드 작성 가능
 <!-- 코드 작성 -->
-<img src="images/functions/5번문제 풀이--.png" width="70%" height="70%">
+<img src="images/functions/코드작성_5.png" width="90%" height="90%">
 
 원하는 문제를 선택 후 C언어로 코드를 작성해 제출 할 수 있습니다.
 
-#### - 코드 제출 후엔 채점 서버로 보내져 실시간으로 채점
-#### 1. 정답 코드인 경우 (A+B 문제)
+#### - 코드 제출 후엔 채점 서버로 보내져 실시간으로 채점 ( 배열의 합 문제 )
+#### 1. 정답 코드인 경우
 <!-- 정답 코드 -->
-<img src="images/functions/A+B.png" width="70%" height="70%">
+<img src="images/functions/정답코드.png" width="70%" height="70%">
 
-![정답 코드 컴파일](images/functions/콘솔_성공.png)
+![정답 코드 컴파일](images/functions/정답코드_로그.png)
 
 정답 코드 작성 후 제출 하면 Correct 결과 반환
 
-#### 2. 오답 코드인 경우 (A+B 문제)
+#### 2. 오답 코드인 경우
 <!-- 오답 코드 -->
-<img src="images/functions/A+B틀림.png" width="70%" height="70%">
+<img src="images/functions/오답코드.png" width="70%" height="70%">
 
-![오답 코드 컴파일](images/functions/콘솔_틀림.png)
+![오답 코드 컴파일](images/functions/오답코드_로그.png)
 
 오답 코드 작성 후 제출 하면 Not Correct 결과 반환
 
-#### 3. 컴파일 오류 코드인 경우 (A+B 문제)
+#### 3. 컴파일 오류 코드인 경우
 <!-- 컴파일 오류 코드 -->
-<img src="images/functions/A+B컴파일 에러.png" width="70%" height="70%">
+<img src="images/functions/컴파일에러코드.png" width="70%" height="70%">
 
-![오답 코드 컴파일](images/functions/콘솔_컴파일에러.png)
+![오답 코드 컴파일](images/functions/컴파일에러코드_로그.png)
 
 컴파일 에러 코드 작성 후 제출 하면 Compile Error 결과 반환
 
-### 3. 온라인 저지 채점 현황 조회
-<!-- 컴파일 최종 결과 -->
-<img src="images/functions/채점 현황.png" width="70%" height="70%">
+### 3. 서버에 저장되는 파일 정보
+```
+.c 파일: 사용자가 제출한 C 코드
+.exe 파일: c 코드를 컴파일 후 실행파일로 만든 것
+data.out: .exe파일을 실행 시킨 후 나온 표준 출력 파일
+error.out: .exe파일을 실행 시킨 후 나온 표준 에러 파일
+```
+#### 1. 정답 코드
+<!-- 정답코드 컴파일 정보 -->
+<img src="images/functions/정답코드_파일.png" width="70%" height="70%">
 
-### 4. 질의 응답 가능한 게시판
+#### 2. 컴파일 에러 코드
+
+<!-- 컴파일에러코드 컴파일 정보 -->
+<img src="images/functions/컴파일에러코드_파일.png" width="70%" height="70%">
+
+### 4. 온라인 저지 채점 현황 조회
+<!-- 컴파일 최종 결과 -->
+<img src="images/functions/채점현황.png" width="70%" height="70%">
+
+### 5. 질의 응답 가능한 게시판
 <!-- 게시판 -->
 <img src="images/functions/게시판 화면.png" width="70%" height="70%">
 
