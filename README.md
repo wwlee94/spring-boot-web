@@ -35,7 +35,7 @@
 <img src="images/functions/ATM_문제_3.png" width="70%" height="70%">
 
 #### - 알고리즘 입력 값, 출력 값 저장
-![컴파일 입출력파일](images/functions/컴파일_입력_출력_4.png)
+![컴파일 입출력파일](images/functions/컴파일_입출력_4.png)
 
 채점 서버에 해당 문제의 예시 입력 및 출력값을 저장합니다.  
 > answer.in: 문제의 입력값  
