@@ -28,7 +28,7 @@ public class SecurityMember extends User {
     }
 
     //Role_ 를 권한 앞에 붙여서 값 리턴. 하나의 member 당 여러 권한을 가질 수 있음으로 list 형식으로 반환.
-    private static List<GrantedAuthority> makeGrantedAuthority(List<MemberRole> roles){
+    private static List<GrantedAuthority> makeGrantedAuthority(List<MemberRole> roles) {
         List<GrantedAuthority> list = new ArrayList<>();
         roles.forEach(role -> list.add(new SimpleGrantedAuthority(ROLE_PREFIX + role.getRoleName())));
         return list;

@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 
-public interface ProblemRepository extends JpaRepository<Problem,Long> {
+public interface ProblemRepository extends JpaRepository<Problem, Long> {
 
     //문제 번호 순서대로 내림차순 출력
     @Query("select p from Problem p order by p.proNo desc ")

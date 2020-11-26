@@ -26,8 +26,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         SecurityMember securityMember = Optional.ofNullable(memberRepository.findByUemail(email))   //email값을 이용해 불러온 member가 null임을 대비한다.
-                                  .filter(m -> m != null)  //member 가 널이 아닐 경우.
-                                  .map(m -> new SecurityMember(m)).get();
+                .filter(m -> m != null)  //member 가 널이 아닐 경우.
+                .map(m -> new SecurityMember(m)).get();
 
         return securityMember; //security user의 형식으로 변환 후 값 리턴 .
     }

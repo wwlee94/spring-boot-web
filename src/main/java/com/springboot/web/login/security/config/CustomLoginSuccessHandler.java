@@ -26,7 +26,7 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
 
         System.out.println("login Success !! ");
 
-        ((SecurityMember)authentication.getPrincipal()).setIp(getClientIp(request));
+        ((SecurityMember) authentication.getPrincipal()).setIp(getClientIp(request));
 
         HttpSession session = request.getSession();
         if (session != null) {

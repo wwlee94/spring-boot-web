@@ -16,19 +16,19 @@ public class EmailService {
     JavaMailSenderImpl sender;
 
     //TODO: 메일 이름 바꾸기
-    public void sendMail(String email){
+    public void sendMail(String email) {
 
-        String host ="http://localhost:8080/member/";
-        String content = "다음 링크에 접속 하여 이메일 인증을 진행 하세요."+
-                "<a href='"+host+"emailCheck/"+email+"'>메일 인증</a>";
+        String host = "http://localhost:8080/member/";
+        String content = "다음 링크에 접속 하여 이메일 인증을 진행 하세요." +
+                "<a href='" + host + "emailCheck/" + email + "'>메일 인증</a>";
 
         MimeMessage message = sender.createMimeMessage();
         try {
-            MimeMessageHelper helper = new MimeMessageHelper(message,true);
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
             helper.setFrom("test@gmail.com");
             helper.setTo(email);
             helper.setSubject("Send mail from Spring Online Judge");
-            helper.setText("<h1>메일 인증</h1>"+content,true);
+            helper.setText("<h1>메일 인증</h1>" + content, true);
         } catch (MessagingException e) {
             e.printStackTrace();
         }

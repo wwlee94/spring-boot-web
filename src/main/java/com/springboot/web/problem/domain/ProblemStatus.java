@@ -81,7 +81,9 @@ public class ProblemStatus {
         this.source = source;
     }
 
-    public int getResult() { return result; }
+    public int getResult() {
+        return result;
+    }
 
     public void setResult(int result) {
         this.result = result;

@@ -1,9 +1,9 @@
 package com.springboot.web.login.security.config;
 
 import com.springboot.web.login.security.CustomUserDetailsService;
-import com.springboot.web.login.OAuth.social.SocialService;
-import com.springboot.web.login.OAuth.social.facebook.FacebookOAuth2ClientAuthenticationProcessingFilter;
-import com.springboot.web.login.OAuth.social.google.GoogleOAuth2ClientAuthenticationProcessingFilter;
+import com.springboot.web.login.oauth.social.SocialService;
+import com.springboot.web.login.oauth.social.facebook.FacebookOAuth2ClientAuthenticationProcessingFilter;
+import com.springboot.web.login.oauth.social.google.GoogleOAuth2ClientAuthenticationProcessingFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
@@ -16,7 +16,6 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
@@ -45,14 +44,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     CustomUserDetailsService customUserDetailsService;
 
     @Override
-    public void configure(WebSecurity web) throws Exception
-    {
+    public void configure(WebSecurity web) throws Exception {
         //인증할 것들을 풀어준다.(리소스 css, js ... ).
         web.ignoring().antMatchers("/static/**");
     }
+
     @Override
-    protected void configure(HttpSecurity http) throws Exception
-    {
+    protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")//ADMIN 권한을 가진 사람만  "/admin/**" 으로 접근 가능.
@@ -85,7 +83,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public AuthenticationFailureHandler failureHandler(){
+    public AuthenticationFailureHandler failureHandler() {
         return new CustomLoginFailureHandler();
     }
 
@@ -122,6 +120,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public ClientResources facebook() {
         return new ClientResources();
     }
+
     @Bean
     @ConfigurationProperties("google")
     public ClientResources google() {
@@ -145,7 +144,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         tokenServices.setRestTemplate(restTemplate);
         return filter;
     }
-
 
 
 }

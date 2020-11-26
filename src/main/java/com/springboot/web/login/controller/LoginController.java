@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 public class LoginController {
 
     @RequestMapping("signUp")
-    public String signUp(){
+    public String signUp() {
         return "security/signUp";
     }
 
@@ -23,6 +23,4 @@ public class LoginController {
 
         return "security/login";
     }
-
-
 }

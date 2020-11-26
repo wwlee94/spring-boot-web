@@ -48,13 +48,13 @@ public class MemberController {
 
         ModelAndView mv = new ModelAndView();
         mv.setViewName("/security/sendMail");
-        mv.addObject("uemail",member.getUemail());
+        mv.addObject("uemail", member.getUemail());
 
         return mv;
     }
 
     @RequestMapping("sendMail")
-    public String sendMail(){
+    public String sendMail() {
 
 
         return "/security/sendMail";
@@ -62,14 +62,14 @@ public class MemberController {
 
     //메일 다시보내기
     @RequestMapping("reSendMail")
-    public ModelAndView reSendMail(HttpServletRequest request){
+    public ModelAndView reSendMail(HttpServletRequest request) {
 
         String uemail = request.getParameter("uemail");
         emailService.sendMail(uemail);
 
         ModelAndView mv = new ModelAndView();
         mv.setViewName("/security/sendMail");
-        mv.addObject("uemail",uemail);
+        mv.addObject("uemail", uemail);
 
         return mv;
     }
@@ -79,18 +79,18 @@ public class MemberController {
     //사용자의 아이디값을 확인해 emailCheck 값을 변경 해준다.
     @Transactional
     @RequestMapping("emailCheck/{uemail}")
-    public ModelAndView emailCheck(@PathVariable("uemail") String uemail){
+    public ModelAndView emailCheck(@PathVariable("uemail") String uemail) {
         memberRepository.updateEmailCheck(uemail);
 
         ModelAndView mv = new ModelAndView();
         mv.setViewName("/security/emailCheck");
-        mv.addObject("uemail",uemail);
+        mv.addObject("uemail", uemail);
 
         return mv;
     }
 
     @RequestMapping("check")
-    public ModelAndView check(HttpServletRequest request){
+    public ModelAndView check(HttpServletRequest request) {
 
         String uemail = request.getParameter("uemail");
         Member member = memberRepository.findByUemail(uemail);
@@ -98,19 +98,19 @@ public class MemberController {
 
         //0 이라면 이메일 확인 시키기
         //1 이라면 확인 된 경우.
-        if(member.getEamilCheck() == 0){
+        if (member.getEamilCheck() == 0) {
             mv.setViewName("/security/sendMail");
-            mv.addObject("uemail",uemail);
-            mv.addObject("error","메일 확인 후 사용 가능 합니다.");
-        }else if (member.getEamilCheck() == 1){
+            mv.addObject("uemail", uemail);
+            mv.addObject("error", "메일 확인 후 사용 가능 합니다.");
+        } else if (member.getEamilCheck() == 1) {
             mv.setViewName("/security/login");
-            mv.addObject("uemail",uemail);
+            mv.addObject("uemail", uemail);
         }
         return mv;
     }
 
     @RequestMapping("recover")
-    public String recover(){
+    public String recover() {
 
 
         return "/security/recover";

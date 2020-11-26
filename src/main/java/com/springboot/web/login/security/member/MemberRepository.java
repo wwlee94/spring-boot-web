@@ -15,7 +15,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Modifying
     @Transactional
     @Query("update Member m set m.eamilCheck = 1 where m.uemail = :uemail")
-    void updateEmailCheck(@Param("uemail")String uemail);
+    void updateEmailCheck(@Param("uemail") String uemail);
 
 
     List<Member> findByUemailLike(String str);
